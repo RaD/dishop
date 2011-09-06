@@ -17,7 +17,10 @@ from shop.forms_search import SearchForm, get_search_form as factory
 from snippets import columns, paginate_by
 
 def home(request):
-    return direct_to_template(request, 'shop/home.html')
+    context = {
+        'manufacturers': models.Producer.objects.all(),
+        }
+    return direct_to_template(request, 'shop/home.html', context)
 
 def contact(request):
     return direct_to_template(request, 'shop/base.html')

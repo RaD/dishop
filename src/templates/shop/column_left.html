@@ -14,13 +14,10 @@
                           title="{% trans "Manufacturers" %}" />{% trans "Manufacturers" %}</div>
     <div class="middle" style="text-align: center;">
       <select onchange="location = this.value">
-        <option value=""> --- Выберите --- </option>
-        <option value="http://demo.myopencart.ru/index.php?route=product/manufacturer&amp;manufacturer_id=8">Apple</option>
-        <option value="http://demo.myopencart.ru/index.php?route=product/manufacturer&amp;manufacturer_id=9">Canon</option>
-        <option value="http://demo.myopencart.ru/index.php?route=product/manufacturer&amp;manufacturer_id=7">Hewlett-Packard</option>
-        <option value="http://demo.myopencart.ru/index.php?route=product/manufacturer&amp;manufacturer_id=5">HTC</option>
-        <option value="http://demo.myopencart.ru/index.php?route=product/manufacturer&amp;manufacturer_id=6">Palm</option>
-        <option value="http://demo.myopencart.ru/index.php?route=product/manufacturer&amp;manufacturer_id=10">Sony</option>
+        <option value=""> --- {% trans "Choose" %} --- </option>
+        {% for item in manufacturers %}
+        <option value="{{ item.get_absolute_url }}">{{ item.title }}</option>
+        {% endfor %}
       </select>
     </div>
   <div class="bottom">&nbsp;</div>
