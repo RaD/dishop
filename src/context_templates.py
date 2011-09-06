@@ -16,6 +16,6 @@ def common_vars(request):
         'user': request.user,
         'django_version': get_version(),
         'site': Site.objects.get_current(),
-        'site_title': _(u'Radio Stuff'),
+        'site_title': _(u'CB and GSM devices'),
         'lang_code': request.LANGUAGE_CODE,
         }

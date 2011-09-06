@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from django.utils.translation import ugettext as _
+
 import os, sys
 
 def rel(*x):
@@ -148,7 +150,7 @@ INSTALLED_APPS = (
     'shop',
 )
 
-CLIENT_GROUP_ID = 1
+SHOP_ITEMS_PER_PAGE = 20
 
 ###
 # google-analytics

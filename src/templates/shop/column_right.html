@@ -1,0 +1,10 @@
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+<div id="column_right">
+  <div id="module_cart" class="box">
+    <div class="top"><img src="{{ STATIC_PREFIX }}pics/basket.png" alt="" />{% trans "Cart" %}</div>
+    <div class="middle">
+      <div style="text-align: center;">{% trans "No items yet" %}</div>
+    </div>
+    <div class="bottom">&nbsp;</div>
+  </div>
+</div>
