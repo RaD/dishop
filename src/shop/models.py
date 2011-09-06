@@ -12,8 +12,6 @@ from sorl.thumbnail.shortcuts import get_thumbnail
 from tagging.fields import TagField
 from tagging.utils import parse_tag_input
 
-from snippets import translit
-
 class Category(models.Model):
     """
     Definition of categories. May link on itself to make some kind of hierarchy.
@@ -32,10 +30,6 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return u'/category/%s/' % self.slug
-
-    def save(self):
-        self.slug = translit(escape(self.title))
-        super(Category, self).save()
 
 class Color(models.Model):
     """
