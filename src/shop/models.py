@@ -118,6 +118,16 @@ class Item(models.Model):
     get_thumbnail_html.short_description = _(u'Thumbnail')
     get_thumbnail_html.allow_tags = True
 
+    def get_color_squares(self):
+        squares = []
+        style = 'border: 1px solid #5B80B2; width: 10px; height: 10px; margin-right: 4px; float: left;'
+        div = '<div style="%s background-color: %s">&nbsp;</div>'
+        for item in self.color.all():
+            squares.append( div % (style, item.color) )
+        return u''.join(squares)
+    get_color_squares.short_description = _(u'Color')
+    get_color_squares.allow_tags = True
+
     def get_tag_list(self):
         return parse_tag_input(self.tags)
 
