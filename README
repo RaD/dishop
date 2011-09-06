@@ -1,0 +1,17 @@
+===== To developer =====
+
+Initialize an environment:
+
+  ant init
+
+Activate the environment:
+
+  . env/bin/activate
+
+Fill the schema of a database:
+
+  python manage.py syncdb
+
+==== External dependency ====
+
+yuicompressor-2.4.2.jar - http://yuilibrary.com/downloads/#yuicompressor

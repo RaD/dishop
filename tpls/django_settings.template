@@ -1,0 +1,228 @@
+# -*- coding: utf-8 -*-
+
+import os, sys
+
+def rel(*x):
+    return os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
+
+gettext_noop = lambda s: s
+
+# Django settings for ${project_name} project.
+
+DEBUG = ${debug_mode}
+TEMPLATE_DEBUG = DEBUG
+
+ADMINS = (
+    (${web_admin_name}, ${web_admin_email}),
+)
+
+MANAGERS = ADMINS
+
+AUTH_USER_EMAIL_UNIQUE = True
+EMAIL_HOST = ${email_host}
+EMAIL_PORT = ${email_port}
+EMAIL_HOST_USER = ${email_host_user}
+EMAIL_HOST_PASSWORD = ${email_host_password}
+EMAIL_USE_TLS = ${email_use_tls}
+
+DATABASES = {
+    'default': {
+        'ENGINE': '${db_engine}',
+        'NAME': '${db_name}',
+        'USER': '${db_user}',
+        'PASSWORD': '${db_pass}',
+        'HOST': '${db_host}',
+        'PORT': '${db_port}',
+    }
+}
+
+FIRST_DAY_OF_WEEK = 1
+
+TIME_ZONE = 'Europe/Moscow'
+
+
+LANGUAGE_CODE = 'ru'
+LANGUAGES = (
+          ('en', gettext_noop('English')),
+          ('ru', gettext_noop('Russian')),
+    )
+
+SITE_ID = 1
+
+USE_I18N = True
+USE_L10N = True
+
+MEDIA_ROOT = rel('media')
+MEDIA_URL = '/media/'
+STATIC_ROOT = rel(${static_root})
+STATIC_URL = '/static/'
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+
+STATICFILES_DIRS = DEBUG and (rel('static'),) or None
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = '${django_secretkey}'
+SESSION_COOKIE_NAME = '${project_name}_sessionid'
+
+if DEBUG:
+    TEMPLATE_LOADERS = (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )
+else:
+    TEMPLATE_LOADERS = (
+        ('django.template.loaders.cached.Loader', (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        )),
+    )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    #'django.core.context_processors.static',
+    'django.contrib.auth.context_processors.auth',
+    'context_templates.common_vars',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+)
+
+ROOT_URLCONF = 'urls'
+
+FIXTURE_DIRS = ( rel('fixtures'), )
+
+TEMPLATE_DIRS = ( rel('templates'), )
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
+
+INSTALLED_APPS = (
+    # base
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admindocs',
+    'django.contrib.admin',
+    'django.contrib.markup',
+    'django.contrib.flatpages',
+    'django.contrib.staticfiles',
+
+    # applications
+    'shop',
+)
+
+CLIENT_GROUP_ID = 1
+
+###
+# google-analytics
+###
+
+INSTALLED_APPS += ('google_analytics',)
+GOOGLE_ANALYTICS_MODEL = True
+GOOGLE_ANALYTICS_TRACK_PAGE_LOAD_TIME = True
+
+###
+# robots
+###
+
+INSTALLED_APPS += ('robots',)
+ROBOTS_USE_SITEMAP = True
+ROBOTS_SITEMAP_URL = '/sitemap.xml'
+
+###
+# tagging
+###
+
+INSTALLED_APPS += ('tagging',)
+FORCE_LOWERCASE_TAGS = True
+
+###
+# TinyMCE
+###
+
+INSTALLED_APPS += ('tinymce',)
+
+###
+# django-compress
+###
+
+INSTALLED_APPS += ('compress',) # http://github.com/pelme/django-compress.git
+COMPRESS = True
+COMPRESS_URL = STATIC_URL
+COMPRESS_ROOT = STATIC_ROOT
+COMPRESS_AUTO = COMPRESS_VERSION = False
+COMPRESS_CSS_FILTERS = None
+COMPRESS_YUI_BINARY = 'java -jar /home/rad/devel/django/utils/yuicompressor-2.4.2.jar'
+COMPRESS_CSS_FILTERS = COMPRESS_JS_FILTERS = ("compress.filters.yui.YUICompressorFilter",)
+COMPRESS_CSS = {
+    'common': {
+        'source_filenames': (
+            'css/reset.css',
+            'css/basic.css',
+            'css/style.css',
+            ),
+        'output_filename': 'css/cumulative.css',
+        },
+    }
+
+COMPRESS_JS = {
+    'common': {
+        'source_filenames': (
+            'js/wysiwyg.js',
+            ),
+        'output_filename': 'js/cumulative.js',
+        },
+    }
+
+###
+# Logger
+###
+
+LOGGING_DIR = '${logging_dir}'
+
+###
+# Emergency settings for production
+# Please avoid this way if possible
+###
+
+try:
+    from settings_local import *
+except ImportError:
+    pass

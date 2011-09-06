@@ -1,0 +1,6 @@
+create database `${db_name}`;
+create database `test_${db_name}`;
+create user `${db_user}`@`${db_host}` identified by '${db_pass}';
+grant all on `${db_name}`.* to `${db_user}`@`${db_host}`;
+grant all on `test_${db_name}`.* to `${db_user}`@`${db_host}`;
+exit
