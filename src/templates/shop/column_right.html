@@ -1,4 +1,5 @@
 {% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% load shop_widgets %}
 <div id="column_right">
   <div id="module_cart" class="box">
     <div class="top"><img src="{{ STATIC_PREFIX }}pics/basket.png" alt="" />{% trans "Cart" %}</div>
@@ -109,38 +110,5 @@
     <div class="bottom">&nbsp;</div>
    </div>
 
-<div class="box">
-  <div class="top"><img src="{{ STATIC_PREFIX }}pics/featured.png" alt="" />{% trans "Good choice" %}</div>
-  <div class="middle">
-    <table cellpadding="2" cellspacing="0" style="width: 100%;">
-      <tr>
-        <td valign="top" style="width:1px"><a href="http://demo.myopencart.ru/index.php?route=product/product&amp;product_id=28"><img src="http://demo.myopencart.ru/image/cache/data/htc_touch_hd_1-38x38.jpg" alt="HTC Touch HD" /></a></td>
-        <td valign="top"><a href="http://demo.myopencart.ru/index.php?route=product/product&amp;product_id=28">HTC Touch HD</a>
-          <br />
-          <span style="font-size: 11px; color: #900;">484.44 р.</span>
-          <a class="button_add_small" href="http://demo.myopencart.ru/index.php?route=checkout/cart&amp;product_id=28" title="Добавить в корзину" >&nbsp;</a>
-        </td>
-      </tr>
-      <tr>
-        <td valign="top" style="width:1px"><a href="http://demo.myopencart.ru/index.php?route=product/product&amp;product_id=42"><img src="http://demo.myopencart.ru/image/cache/data/apple_cinema_30-38x38.jpg" alt="Apple Cinema 30&quot;" /></a></td>
-        <td valign="top"><a href="http://demo.myopencart.ru/index.php?route=product/product&amp;product_id=42">Apple Cinema 30&quot;</a>
-          <br />
-          <span style="font-size: 11px; color: #900;">100.00 р.</span>
-          <a class="button_add_small" href="http://demo.myopencart.ru/index.php?route=checkout/cart&amp;product_id=42" title="Добавить в корзину" >&nbsp;</a>
-          <br />
-          <img src="{{ STATIC_PREFIX }}pics/stars_3.png" alt="3 из 5 баллов!" />
-        </td>
-      </tr>
-      <tr>
-        <td valign="top" style="width:1px"><a href="http://demo.myopencart.ru/index.php?route=product/product&amp;product_id=43"><img src="http://demo.myopencart.ru/image/cache/data/macbook_1-38x38.jpg" alt="MacBook" /></a></td>
-        <td valign="top"><a href="http://demo.myopencart.ru/index.php?route=product/product&amp;product_id=43">MacBook</a>
-          <br />
-          <span style="font-size: 11px; color: #900;">500.00 р.</span>
-          <a class="button_add_small" href="http://demo.myopencart.ru/index.php?route=checkout/cart&amp;product_id=43" title="Добавить в корзину" >&nbsp;</a>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div class="bottom">&nbsp;</div>
-</div>
+  {% recommendation_tag %}
 </div>

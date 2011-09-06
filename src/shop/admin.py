@@ -49,12 +49,12 @@ class Item(admin.ModelAdmin):
         ('Информация',
          {'fields':(('title', 'slug'),
                     ('category', 'producer'),
-                    'color', 'price', 'is_present',
+                    'color', 'price', 'is_present', 'is_recommend',
                     )}),
         ('Подробности',
          {'fields': ('image', 'desc', 'tags')})
         )
-    list_display = ('title', 'get_thumbnail_html', 'category', 'price', 'get_color_squares', 'is_present', 'registered',)
+    list_display = ('title', 'get_thumbnail_html', 'category', 'price', 'get_color_squares', 'is_recommend', 'is_present', 'registered',)
     search_fields = ('title', 'category')
     save_as = True
 admin.site.register(models.Item, Item)

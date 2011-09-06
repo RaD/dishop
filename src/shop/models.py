@@ -94,6 +94,7 @@ class Item(models.Model):
     slug = models.SlugField(max_length=80)
     price = models.FloatField(verbose_name=_(u'Price'))
     is_present = models.BooleanField(verbose_name=_(u'Is present'))
+    is_recommend = models.BooleanField(verbose_name=_(u'Recomendation'))
     desc = models.TextField(verbose_name=_(u'Description'), null=True, blank=True)
     image = models.ImageField(verbose_name=_(u'Image'), upload_to=u'itempics')
     tags = TagField(verbose_name=_(u'Tags'))
@@ -109,6 +110,10 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return u'/item/%s/' % self.slug
+
+    def get_thumbnail(self):
+        img = self.image
+        return unicode(get_thumbnail(img, '38x38').url)
 
     def get_thumbnail_html(self):
         img = self.image

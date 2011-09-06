@@ -1,0 +1,26 @@
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+  <div class="box">
+    <div class="top"><img src="{{ STATIC_PREFIX }}pics/featured.png"
+                          alt="{% trans "Good choice" %}"
+                          title="{% trans "Good choice" %}" />{% trans "Good choice" %}</div>
+    <div class="middle">
+      <table cellpadding="2" cellspacing="0" style="width: 100%;">
+        {% for item in recommendations %}
+        <tr>
+          <td valign="top" style="width:1px">
+            <a href="{{ item.get_absolute_url }}"><img src="{{ item.get_thumbnail }}"
+                                                       alt="{{ item.title }}"
+                                                       title={{ item.title }}/></a></td>
+          <td valign="top">
+            <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+            <br />
+            <span style="font-size: 11px; color: #900;">{{ item.price|floatformat:2 }} р.</span>
+            <a class="button_add_small" href="/cart/ {{ item.pk }}" title="{% trans "Add to the cart" %}" >&nbsp;</a>
+            {# <br /><img src="{{ STATIC_PREFIX }}pics/stars_3.png" alt="3 из 5 баллов!" /> #}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <div class="bottom">&nbsp;</div>
+  </div>
