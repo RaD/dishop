@@ -4,6 +4,55 @@
 
 {% include "shop/column_left.html" %}
 
+<div id="content">
+  <div class="top">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1>{% trans "Welcome to our shop" %}</h1>
+    </div>
+  </div>
+  <div class="middle">
+    <div>
+      <p>{% trans "We glad to see you here, dude!" %}</p>
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+
+  <div class="top">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <div class="heading">{% trans "Last incoming" %}</div>
+    </div>
+  </div>
+
+  <div class="middle">
+    <div class="list">
+      {% for item in item_list %}
+      <div class="item">
+        <a href="{{ item.get_absolute_url }}"><img src="{{ item.get_thumbnail_64 }}" alt="{{ item.title }}" title="{{ item.title }}"/></a><br />
+        <a href="{{ item.get_absolute_url }}">{{ item.title }}</a><br />
+        <span style="color: #900; font-weight: bold;">{{ item.price|floatformat:2 }} р.</span>
+        <a class="button_add_small" href="/cart/ {{ item.pk }}" title="{% trans "Add to the cart" %}" >&nbsp;</a>
+        {# <br /><img src="{{ STATIC_PREFIX }}pics/stars_3.png" alt="3 из 5 баллов!" /> #}
+      </div>
+      {% empty %}
+      <p>{% trans "This is absolutely new shop!" %}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
 
 {% include "shop/column_right.html" %}
 

@@ -404,8 +404,9 @@ p {
 .list {
 	margin-bottom: 10px;
 	width: 100%;
+   float: left;
 }
-.list td {
+.list .item {
 	text-align: center;
 	vertical-align: top;
 	padding-bottom: 10px;

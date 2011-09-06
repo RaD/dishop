@@ -111,13 +111,18 @@ class Item(models.Model):
     def get_absolute_url(self):
         return u'/item/%s/' % self.slug
 
-    def get_thumbnail(self):
+    def get_thumbnail(self, size):
         img = self.image
-        return unicode(get_thumbnail(img, '38x38').url)
+        return unicode(get_thumbnail(img, '%(size)ix%(size)i' % {'size': size,}).url)
+
+    def get_thumbnail_38(self):
+        return self.get_thumbnail(38)
+
+    def get_thumbnail_64(self):
+        return self.get_thumbnail(64)
 
     def get_thumbnail_html(self):
-        img = self.image
-        img_resize_url = unicode(get_thumbnail(img, '100x100').url)
+        img_resize_url = self.get_thumbnail(100)
         html = '<a class="image-picker" href="%s"><img src="%s" alt="%s"/></a>'
         return html % (self.image.url, img_resize_url, self.title)
     get_thumbnail_html.short_description = _(u'Thumbnail')

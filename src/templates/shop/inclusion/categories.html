@@ -6,6 +6,8 @@
           {% for subitem in item.category_set.all %}
         <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/category/">{{ subitem }}</a></li>
           {% endfor %}
+        {% empty %}
+        <li>{% trans "No categories found." %}</li>
         {% endfor %}
       </ul>
     </div>
