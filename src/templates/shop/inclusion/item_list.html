@@ -1,16 +1,17 @@
 {% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
   <div class="box">
     <div class="top"><img src="{{ STATIC_PREFIX }}pics/featured.png"
-                          alt="{% trans "Good choice" %}"
-                          title="{% trans "Good choice" %}" />{% trans "Good choice" %}</div>
+                          alt="{{ widget_title }}"
+                          title="{{ widget_title }}" />{{ widget_title }}</div>
     <div class="middle">
       <table cellpadding="2" cellspacing="0" style="width: 100%;">
-        {% for item in recommendations %}
+        {% for item in item_list %}
         <tr>
           <td valign="top" style="width:1px">
             <a href="{{ item.get_absolute_url }}"><img src="{{ item.get_thumbnail }}"
                                                        alt="{{ item.title }}"
-                                                       title={{ item.title }}/></a></td>
+                                                       title="{{ item.title }}"/></a>
+          </td>
           <td valign="top">
             <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
             <br />

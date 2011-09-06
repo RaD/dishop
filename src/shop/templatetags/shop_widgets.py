@@ -3,6 +3,7 @@
 
 from django.conf import settings
 from django import template
+from django.utils.translation import ugettext_lazy as _
 
 from shop import models
 
@@ -14,8 +15,18 @@ def categories_tag():
         'categories': models.Category.objects.filter(parent__isnull=True)
     }
 
-@register.inclusion_tag('shop/inclusion/recommendation.html')
+@register.inclusion_tag('shop/inclusion/item_list.html')
 def recommendation_tag():
+    limit = getattr(settings, 'SHOP_ITEMS_RECOMMENDED', 5)
     return {
-        'recommendations': models.Item.objects.filter(is_recommend=True)
+        'widget_title': _(u'Good choice'),
+        'item_list': models.Item.objects.filter(is_recommend=True)[:limit],
+    }
+
+@register.inclusion_tag('shop/inclusion/item_list.html')
+def favorites_tag():
+    limit = getattr(settings, 'SHOP_ITEMS_FAVORITES', 10)
+    return {
+        'widget_title': _(u'Favorites'),
+        'item_list': models.Item.objects.filter(is_recommend=True)[:limit], # fixme
     }
