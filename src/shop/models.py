@@ -14,16 +14,7 @@ from tagging.utils import parse_tag_input
 
 from snippets import translit
 
-class AbstractUUID(models.Model):
-    """
-    Abstract class to inject UUID as primary key.
-    """
-    uuid = UUIDField(verbose_name=_(u'Primary key'), primary_key=True, version=4)
-
-    class Meta:
-        abstract = True
-
-class Category(AbstractUUID):
+class Category(models.Model):
     """
     Definition of categories. May link on itself to make some kind of hierarchy.
     """
@@ -34,6 +25,7 @@ class Category(AbstractUUID):
     class Meta:
         verbose_name = _(u'Category')
         verbose_name_plural = _(u'Categories')
+        ordering = ('title',)
 
     def __unicode__(self):
         return self.title
@@ -45,7 +37,7 @@ class Category(AbstractUUID):
         self.slug = translit(escape(self.title))
         super(Category, self).save()
 
-class Color(AbstractUUID):
+class Color(models.Model):
     """
     Definition of item's colors.
     """
@@ -58,8 +50,12 @@ class Color(AbstractUUID):
     class Meta:
         verbose_name = _(u'Color')
         verbose_name_plural = _(u'Colors')
+        ordering = ('title',)
 
-class Country(AbstractUUID):
+    def __unicode__(self):
+        return self.title
+
+class Country(models.Model):
     """
     Definition of countries.
     """
@@ -70,11 +66,12 @@ class Country(AbstractUUID):
     class Meta:
         verbose_name = _(u'Country')
         verbose_name_plural = _(u'Countries')
+        ordering = ('title',)
 
     def __unicode__(self):
         return self.title
 
-class Producer(AbstractUUID):
+class Producer(models.Model):
     """
     Definition of item's producers.
     """
@@ -92,7 +89,7 @@ class Producer(AbstractUUID):
     def get_absolute_url(self):
         return u'/producer/%i/' % self.slug
 
-class Item(AbstractUUID):
+class Item(models.Model):
     """
     Definition of items.
     """
@@ -101,15 +98,17 @@ class Item(AbstractUUID):
     color = models.ManyToManyField(Color, verbose_name=_(u'Color'))
     title = models.CharField(verbose_name=_(u'Title'), max_length=64)
     slug = models.SlugField(max_length=80)
+    price = models.FloatField(verbose_name=_(u'Price'))
+    is_present = models.BooleanField(verbose_name=_(u'Is present'))
     desc = models.TextField(verbose_name=_(u'Description'), null=True, blank=True)
     image = models.ImageField(verbose_name=_(u'Image'), upload_to=u'itempics')
-    is_present = models.BooleanField(verbose_name=_(u'Is present'))
-    registered = models.DateTimeField(verbose_name=_(u'Registered'), auto_now_add=True)
     tags = TagField()
+    registered = models.DateTimeField(verbose_name=_(u'Registered'), auto_now_add=True)
 
     class Meta:
         verbose_name = _(u'Item')
         verbose_name_plural = _(u'Items')
+        ordering = ('title',)
 
     def __unicode__(self):
         return self.title
@@ -121,24 +120,7 @@ class Item(AbstractUUID):
     def get_tag_list(self):
         return parse_tag_input(self.tags)
 
-class Buyer(AbstractUUID):
-    """
-    Definition of buyers.
-    """
-    lastname = models.CharField(verbose_name=_(u'Lastname'), max_length=64)
-    firstname = models.CharField(verbose_name=_(u'Firstname'), max_length=64)
-    ship_to = models.CharField(verbose_name=_(u'Shipping address'), max_length=255)
-    phone = models.CharField(verbose_name=_(u'Phone'), max_length=16)
-    registered = models.DateTimeField(verbose_name=_(u'Registered'), auto_now_add=True)
-
-    class Meta:
-        verbose_name = _(u'Buyer')
-        verbose_name_plural = _(u'Buyers')
-
-    def __unicode__(self):
-        return u'%s %s' %(self.lastname, self.firstname,)
-
-class Order(AbstractUUID):
+class Order(models.Model):
     """
     Definition of orders.
     """
@@ -151,12 +133,15 @@ class Order(AbstractUUID):
         ('6', _(u'Undo')),    # Возврат
         )
 
-    buyer = models.ForeignKey(Buyer)
+    lastname = models.CharField(verbose_name=_(u'Lastname'), max_length=64)
+    firstname = models.CharField(verbose_name=_(u'Firstname'), max_length=64)
+    phone = models.CharField(verbose_name=_(u'Phone'), max_length=16)
+    ship_to = models.CharField(verbose_name=_(u'Shipping address'), max_length=255)
+    comment = models.TextField(blank=True, default=u'')
+    totalprice = models.FloatField()
+    discount = models.FloatField(default=0.0)
     count = models.PositiveIntegerField(default=0)
     status = models.CharField(verbose_name=_(u'Status'), max_length=2, choices=STATUSES)
-    totalprice = models.FloatField()
-    discount = models.PositiveIntegerField(default=0)
-    comment = models.TextField(blank=True, default=u'')
     registered = models.DateTimeField(verbose_name=_(u'Registered'), auto_now_add=True)
 
     class Meta:
@@ -166,7 +151,7 @@ class Order(AbstractUUID):
     def __unicode__(self):
         return self.buyer.lastname
 
-class OrderDetail(AbstractUUID):
+class OrderDetail(models.Model):
     """
     Definition of order's details.
     """
