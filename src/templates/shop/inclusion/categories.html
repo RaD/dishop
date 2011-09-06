@@ -1,0 +1,11 @@
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+    <div id="category" class="middle">
+      <ul>
+        {% for item in categories %}
+        <li><a href="/category/">{{ item }}</a></li>
+          {% for subitem in item.category_set.all %}
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/category/">{{ subitem }}</a></li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>

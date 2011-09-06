@@ -1,20 +1,11 @@
 {% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% load categories_list %}
 <div id="column_left">
   <div class="box">
     <div class="top"><img src="{{ STATIC_PREFIX }}pics/category.png"
                           alt="{% trans "Categories" %}"
                           title="{% trans "Categories" %}"/>{% trans "Categories" %}</div>
-    <div id="category" class="middle">
-      <ul>
-        <li><a href="/category/">Desktops</a></li>
-        <li><a href="/category/">Laptops &amp; Notebooks</a></li>
-        <li><a href="/category/">Components</a></li>
-        <li><a href="/category/">Software</a></li>
-        <li><a href="/category/">Phones &amp; PDAs</a></li>
-        <li><a href="/category/">Cameras</a></li>
-        <li><a href="/category/">MP3 Players</a></li>
-      </ul>
-    </div>
+    {% categories_tag %}
     <div class="bottom">&nbsp;</div>
   </div>
   <div class="box">
