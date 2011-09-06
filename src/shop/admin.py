@@ -54,7 +54,7 @@ class Item(admin.ModelAdmin):
         ('Подробности',
          {'fields': ('image', 'desc', 'tags')})
         )
-    list_display = ('title', 'category', 'price', 'is_present', 'registered',)
+    list_display = ('title', 'get_thumbnail_html', 'category', 'price', 'is_present', 'registered',)
     search_fields = ('title', 'category')
     save_as = True
 admin.site.register(models.Item, Item)

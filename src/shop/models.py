@@ -8,7 +8,7 @@ from django.utils.html import escape
 
 from datetime import datetime
 
-from django_extensions.db.fields import UUIDField
+from sorl.thumbnail.shortcuts import get_thumbnail
 from tagging.fields import TagField
 from tagging.utils import parse_tag_input
 
@@ -102,7 +102,7 @@ class Item(models.Model):
     is_present = models.BooleanField(verbose_name=_(u'Is present'))
     desc = models.TextField(verbose_name=_(u'Description'), null=True, blank=True)
     image = models.ImageField(verbose_name=_(u'Image'), upload_to=u'itempics')
-    tags = TagField()
+    tags = TagField(verbose_name=_(u'Tags'))
     registered = models.DateTimeField(verbose_name=_(u'Registered'), auto_now_add=True)
 
     class Meta:
@@ -116,6 +116,13 @@ class Item(models.Model):
     def get_absolute_url(self):
         return u'/item/%s/' % self.slug
 
+    def get_thumbnail_html(self):
+        img = self.image
+        img_resize_url = unicode(get_thumbnail(img, '100x100').url)
+        html = '<a class="image-picker" href="%s"><img src="%s" alt="%s"/></a>'
+        return html % (self.image.url, img_resize_url, self.title)
+    get_thumbnail_html.short_description = _(u'Thumbnail')
+    get_thumbnail_html.allow_tags = True
 
     def get_tag_list(self):
         return parse_tag_input(self.tags)

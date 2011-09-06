@@ -180,6 +180,12 @@ FORCE_LOWERCASE_TAGS = True
 INSTALLED_APPS += ('tinymce',)
 
 ###
+# Sorl
+###
+
+INSTALLED_APPS += ('sorl.thumbnail',)
+
+###
 # django-compress
 ###
 

@@ -14,6 +14,8 @@ if settings.DEBUG:
     '',
     # разрешаем вывод документации по проекту
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     )
 
 urlpatterns += patterns(
