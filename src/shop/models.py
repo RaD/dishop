@@ -19,6 +19,8 @@ class Category(models.Model):
     parent = models.ForeignKey(u'self', verbose_name=_(u'Parent'), blank=True, null=True)
     title = models.CharField(verbose_name=_(u'Title'), max_length=64)
     slug = models.SlugField(max_length=80)
+    is_active = models.BooleanField(verbose_name=_(u'Is active'))
+    base_url = models.CharField(max_length=255)
 
     class Meta:
         verbose_name = _(u'Category')
@@ -30,6 +32,32 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return u'/category/%s/' % self.slug
+
+    def diff(self, *args, **kwargs):
+        has_diff = False
+        for key, value in kwargs.items():
+            model_value = getattr(self, key)
+            if model_value != value:
+                has_diff = True
+                break
+        return has_diff
+
+    def save(self, *args, **kwargs):
+        """
+        If model is updated with the same data, then ignore this.
+        """
+        out = None
+        if self.pk:
+            old = self.objects.get(pk=self.pk)
+            if old.title != self.title:
+                out = { 'old': old.title, 'new': self.title, }
+        super(Category, self).save(*args, **kwargs)
+        return out
+
+        # new_hash = hashlib.sha1(self.slug).hexdigest()
+        # if not (self.pk and new_hash == self.xhash
+        #     self.xhash = new_hash
+        #     super(Category, self).save(*args, **kwargs)
 
 class Color(models.Model):
     """

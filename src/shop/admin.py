@@ -10,7 +10,8 @@ from shop import models
 
 class Category(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
-    list_display = ('title', 'slug', 'parent')
+    list_display = ('title', 'slug', 'parent', 'is_active',)
+    fieldsets = ( (None, {'fields': ('parent', 'title', 'slug', 'is_active',)}), )
     search_fields = ('title',)
 admin.site.register(models.Category, Category)
 

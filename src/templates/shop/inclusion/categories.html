@@ -2,9 +2,9 @@
     <div id="category" class="middle">
       <ul>
         {% for item in categories %}
-        <li><a href="/category/">{{ item }}</a></li>
+        <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
           {% for subitem in item.category_set.all %}
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/category/">{{ subitem }}</a></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ item.get_absolute_url }}">{{ subitem }}</a></li>
           {% endfor %}
         {% empty %}
         <li>{% trans "No categories found." %}</li>
