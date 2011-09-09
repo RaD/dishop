@@ -20,12 +20,13 @@ class Category(models.Model):
     title = models.CharField(verbose_name=_(u'Title'), max_length=64)
     slug = models.SlugField(max_length=80)
     is_active = models.BooleanField(verbose_name=_(u'Is active'))
+    order = models.IntegerField(verbose_name=_(u'Order'), default=0)
     base_url = models.CharField(max_length=255)
 
     class Meta:
         verbose_name = _(u'Category')
         verbose_name_plural = _(u'Categories')
-        ordering = ('title',)
+        ordering = ('order', 'title',)
 
     def __unicode__(self):
         return self.title
@@ -33,31 +34,31 @@ class Category(models.Model):
     def get_absolute_url(self):
         return u'/category/%s/' % self.slug
 
-    def diff(self, *args, **kwargs):
+    def diff(self):
         has_diff = False
-        for key, value in kwargs.items():
-            model_value = getattr(self, key)
-            if model_value != value:
+        changed_fields = {}
+        old = self.__class__.objects.get(pk=self.pk)
+        for field in ('title',):
+            model_value = getattr(old, field)
+            new_value = getattr(self, field)
+            if model_value != new_value:
                 has_diff = True
-                break
-        return has_diff
+                changed_fields[field] = {
+                    'old': model_value,
+                    'new': new_value,
+                    }
+        return has_diff, changed_fields
 
     def save(self, *args, **kwargs):
         """
         If model is updated with the same data, then ignore this.
         """
-        out = None
+        out = []
         if self.pk:
-            old = self.objects.get(pk=self.pk)
-            if old.title != self.title:
-                out = { 'old': old.title, 'new': self.title, }
+            is_changed, changed_field = self.diff()
+            out = changed_field
         super(Category, self).save(*args, **kwargs)
         return out
-
-        # new_hash = hashlib.sha1(self.slug).hexdigest()
-        # if not (self.pk and new_hash == self.xhash
-        #     self.xhash = new_hash
-        #     super(Category, self).save(*args, **kwargs)
 
 class Color(models.Model):
     """
@@ -116,17 +117,21 @@ class Item(models.Model):
     Definition of items.
     """
     category = models.ForeignKey(Category, verbose_name=_(u'Category'))
-    producer = models.ForeignKey(Producer, verbose_name=_(u'Producer'))
-    color = models.ManyToManyField(Color, verbose_name=_(u'Color'))
+    producer = models.ForeignKey(Producer, verbose_name=_(u'Producer'), blank=True, null=True)
+    color = models.ManyToManyField(Color, verbose_name=_(u'Color'), blank=True)
     title = models.CharField(verbose_name=_(u'Title'), max_length=64)
     slug = models.SlugField(max_length=80)
     price = models.FloatField(verbose_name=_(u'Price'))
-    is_present = models.BooleanField(verbose_name=_(u'Is present'))
-    is_recommend = models.BooleanField(verbose_name=_(u'Recomendation'))
+    is_active = models.BooleanField(verbose_name=_(u'Is present'))
+    is_recommend = models.BooleanField(verbose_name=_(u'Recomendation'), default=False)
+    is_fixed = models.BooleanField(verbose_name=_(u'Don\'t allow to change automaticly'), default=False)
     desc = models.TextField(verbose_name=_(u'Description'), null=True, blank=True)
+    tech = models.TextField(verbose_name=_(u'Technical Info'), null=True, blank=True)
     image = models.ImageField(verbose_name=_(u'Image'), upload_to=u'itempics')
-    tags = TagField(verbose_name=_(u'Tags'))
+    tags = TagField(verbose_name=_(u'Tags'), blank=True)
     registered = models.DateTimeField(verbose_name=_(u'Registered'), auto_now_add=True)
+    base_url = models.CharField(max_length=255)
+    order = models.IntegerField(verbose_name=_(u'Order'), default=0)
 
     class Meta:
         verbose_name = _(u'Item')
@@ -138,6 +143,32 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return u'/item/%s/' % self.slug
+
+    def diff(self):
+        has_diff = False
+        changed_fields = {}
+        old = self.__class__.objects.get(pk=self.pk)
+        for field in ('price', 'is_active', 'desc',):
+            model_value = getattr(old, field)
+            new_value = getattr(self, field)
+            if model_value != new_value:
+                has_diff = True
+                changed_fields[field] = {
+                    'old': model_value,
+                    'new': new_value,
+                    }
+        return has_diff, changed_fields
+
+    def save(self, *args, **kwargs):
+        """
+        If model is updated with the same data, then ignore this.
+        """
+        out = {}
+        if self.pk:
+            is_changed, changed_field = self.diff()
+            out = changed_field
+        super(Item, self).save(*args, **kwargs)
+        return out
 
     def get_thumbnail(self, size):
         img = self.image
@@ -166,8 +197,34 @@ class Item(models.Model):
     get_color_squares.short_description = _(u'Color')
     get_color_squares.allow_tags = True
 
+    def fill_properties(self, data):
+        for key, value in data:
+            Property(item=self, key=key, value=value).save()
+
+    def get_properties(self):
+        return self.property_set.all()
+
+    def drop_properties(self):
+        self.get_properties().delete()
+
     def get_tag_list(self):
         return parse_tag_input(self.tags)
+
+class Property(models.Model):
+    """
+    Definition of item's property.
+    """
+    item = models.ForeignKey(Item)
+    key = models.CharField(verbose_name=_(u'Title'), max_length=64)
+    value = models.CharField(verbose_name=_(u'Value'), max_length=128)
+
+    class Meta:
+        verbose_name = _(u'Property')
+        verbose_name_plural = _(u'Properties')
+        ordering = ('key',)
+
+    def __unicode__(self):
+        return self.key
 
 class Order(models.Model):
     """

@@ -10,8 +10,8 @@ from shop import models
 
 class Category(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
-    list_display = ('title', 'slug', 'parent', 'is_active',)
-    fieldsets = ( (None, {'fields': ('parent', 'title', 'slug', 'is_active',)}), )
+    list_display = ('title', 'slug', 'parent', 'is_active', 'order',)
+    fieldsets = ( (None, {'fields': ('parent', 'title', 'slug', ('is_active', 'order'),)}), )
     search_fields = ('title',)
 admin.site.register(models.Category, Category)
 
@@ -50,15 +50,21 @@ class Item(admin.ModelAdmin):
         ('Информация',
          {'fields':(('title', 'slug'),
                     ('category', 'producer'),
-                    'color', 'price', 'is_present', 'is_recommend',
+                    'color', 'price',
+                    'is_active', 'is_recommend', 'is_fixed',
+                    'desc', 'tech',
                     )}),
         ('Подробности',
          {'fields': ('image', 'desc', 'tags')})
         )
-    list_display = ('title', 'get_thumbnail_html', 'category', 'price', 'get_color_squares', 'is_recommend', 'is_present', 'registered',)
+    list_display = ('title', 'get_thumbnail_html', 'category', 'price', 'get_color_squares', 'is_recommend', 'is_active', 'is_fixed', 'registered',)
     search_fields = ('title', 'category')
     save_as = True
 admin.site.register(models.Item, Item)
+
+class Property(admin.ModelAdmin):
+    list_display = ('item', 'key', 'value',)
+admin.site.register(models.Property, Property)
 
 class Order(admin.ModelAdmin):
     fieldsets = (

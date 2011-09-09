@@ -3,12 +3,13 @@
 
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
+from django.core.files.base import ContentFile
 from django.utils.translation import ugettext as _
 
 from lxml import etree
 from lxml.etree import tounicode
 
-import urllib2
+import urllib2, re, time, random, sys
 
 from shop import models
 
@@ -31,6 +32,14 @@ def translit(value):
         translit = translit.replace(symb_in, symb_out)
     return translit
 
+def remove_brackets(value):
+    tpl = re.compile(r'^(\s?[^\(]+).*$')
+    obj = tpl.match(value)
+    if obj:
+        return obj.groups(1)[0].strip()
+    else:
+        return None
+
 class Command(NoArgsCommand):
     help = _(u'Download data from master site and make changes in project database.')
 
@@ -42,36 +51,51 @@ class Command(NoArgsCommand):
         # disable all categories first
         models.Category.objects.all().update(is_active=False)
 
-        for base, url, title in main_page.categories():
-            print u'\n%s: %s [%s]' % ( _(u'Category'), title, url)
-            kwargs = { 'base_url': url, 'title': title, 'slug': translit(title), }
-            try:
-                obj = models.Category.objects.get(base_url=url)
-            except models.Category.DoesNotExist:
-                print '    [create]',
-                obj = models.Category(**dict(kwargs, is_active=True))
-            else:
-                print '    [update]',
-                if obj.diff(**kwargs):
-                    obj.is_active = True
-                else:
-                    continue
-            result = obj.save()
-            if result:
-                print '    %(old)s -> %(new)s' % result
+        for c_index, data in enumerate(main_page.categories(), 1):
+            base, url, title = data
+            print u'\n%s: %s [%s]' % (_(u'Category'), title, url)
+            stripped = remove_brackets(title)
+            fields = { 'base_url': url, 'title': stripped, 'slug': translit(stripped), }
+            category = self.fill(models.Category, c_index, fields)
 
-            # cat_page = DescPage(self.HOST, category.url)
-            # for desc in cat_page.short_description():
-            #     print '\n=== D ===', desc.url, desc.title
+            cat_page = DescPage(self.HOST, url)
+            for i_index, desc in enumerate(cat_page.short_description(), 1):
+                print '\n=== D ===', desc.keys()
+                #print desc
 
-            #     item_page = ItemPage(self.HOST, desc.url)
-            #     for item in item_page.full_description():
-            #         print '\n=== I ===', item.url, item.title
+                data = {'category': category,
+                        'base_url': desc.get('url'),
+                        'title': desc.get('title'),
+                        'slug': translit(desc.get('title')),
+                        'price': desc.get('price'),
+                        'is_active': desc.get('is_active'),
+                        'desc': desc.get('desc'),
+                        }
 
-            #     break
-
-
+                obj = self.fill(models.Item, i_index, data)
+                self.save_image(obj, self.HOST + desc.get('image'))
         print 'ok'
+
+    def fill(self, model, index, fields):
+        try:
+            obj = model.objects.get(base_url=fields.get('base_url'))
+            print 'update'
+        except model.DoesNotExist:
+            obj = model(**dict(fields, is_active=True, order=index*10))
+            print 'create'
+        else:
+            is_changed, changed_field = obj.diff()
+            if not is_changed:
+                return obj
+            obj.is_active = True
+        result = obj.save()
+        if result:
+            print '    %(old)s -> %(new)s' % result
+        return obj
+
+    def save_image(self, obj, full_url):
+        content = ContentFile(urllib2.urlopen(full_url).read())
+        obj.image.save(full_url, content)
 
 class BasePage(object):
 
@@ -93,18 +117,37 @@ class BasePage(object):
                     tree = etree.parse(self.retrieve_page(suffix=suffix), self.parser)
                     self.tree_list.append(tree)
 
-    def retrieve_page(self, suffix=None):
-        try:
-            if suffix:
-                page = urllib2.urlopen(self.url + suffix)
-            else:
-                page = urllib2.urlopen(self.url)
-        except urllib2.HTTPError, e:
-            print _(u'Cannot retrieve URL.\nHTTP Error Code: %s') % e.code
-        except urllib2.URLError, e:
-            print _(u'Cannot retrieve URL: %s') % e.reason[1]
+    def retrieve_page(self, url=None, suffix=None):
+        headers = {
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Charset': 'utf-8;q=0.7,*;q=0.3',
+            'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
+            'Cache-Control': 'max-age=0',
+            'Connection': 'keep-alive',
+            'Host': 'supersvyaz.ru',
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.220 Safari/535.1',
+            }
+
+        if url:
+            url = self.base + url
         else:
-            return page
+            url = self.url
+        if suffix:
+            url = url + suffix
+        print 'Retrieve %s' % url
+        while True:
+            try:
+                req = urllib2.Request(url, {}, headers)
+                page = urllib2.urlopen(req)
+                time.sleep(random.randint(20,30))
+            except urllib2.HTTPError, e:
+                print _(u'Cannot retrieve URL.\nHTTP Error Code: %s') % e.code
+            except urllib2.URLError, e:
+                print _(u'Cannot retrieve URL: %s') % e.reason[1]
+            else:
+                return page
+            print 'Reconnect after 60 seconds'
+            time.sleep(30)
 
     @property
     def url(self):
@@ -137,57 +180,35 @@ class DescPage(BasePage):
         for tree in self.tree_list:
             desc_list = tree.xpath("//div[@class='content shop-box']//tr")
             for item in desc_list:
-                #print tounicode(item)
-                url = item.xpath(".//div[@class='obj']/div[@class='left']/a/@href")[0]
-                title = item.xpath(".//div[@class='obj']/div[@class='center']/h3/a/text()")[0]
+                data = {
+                    'url': item.xpath(".//div[@class='obj']/div[@class='left']/a/@href")[0],
+                    'title': item.xpath(".//div[@class='obj']/div[@class='center']/h3/a/text()")[0],
+                    'price': item.xpath(".//div[@class='obj']//div[@class='price' or @class='price-no']/text()")[0],
+                    'is_active': 0 == len(item.xpath(".//div[@class='obj']//div[@class='price-no']")),
+                    }
+                assert len(data.get('url', '')) and len(data.get('title', ''))
+                data.update( self.full_description(data.get('url')) )
+                yield data
 
-                url = item.xpath(".//div[@class='obj']/div[@class='left']/a/@href")[0]
-                #img = item.xpath(".//div[@class='obj']/div[@class='left']/a/img/@src")[0]
-                title = item.xpath(".//div[@class='obj']/div[@class='center']/h3/a/text()")[0]
-                price = item.xpath(".//div[@class='obj']//div[@class='price' or @class='price-no']/text()")[0]
-                is_present = 0 == len(item.xpath(".//div[@class='obj']//div[@class='price-no']"))
-
-                print url, title
-                assert len(url) and len(title)
-                yield ShortDesc(self.base, url, title)
-
-class ItemPage(BasePage):
-
-    def full_description(self):
-        desc_list = self.tree_list[0].xpath("//div[@class='content shop-box']//tr")
-        print 'F', len(desc_list)
+    def full_description(self, url):
+        tree = etree.parse(self.retrieve_page(url=url), self.parser)
+        desc_list = tree.xpath("//div[@id='item-full']")
+        assert len(desc_list), _(u'No elements found.')
         for item in desc_list:
-            #print tounicode(item)
-            img = item.xpath(".//div[@class='item-pic']/a/img/@src")[0]
-            details = item.xpath(".//div[@id='item-details']/ul")[0]
-            colors = item.xpath(".//div[@id='item-details']/ul")[1]
-            params = item.xpath(".//div[@id='item-tech']//tr")[0]
 
-            print url, img, title, price, is_present
-            assert len(url) and len(title)
-            yield ShortDesc(self.base, url, title, image=img)
+            params = {}
+            property_list = item.xpath(".//div[@id='item-tech']//tr")
+            for el in property_list:
+                row = el.xpath(".//td//text()")
+                try:
+                    params[ row[0] ] = row[1]
+                except IndexError:
+                    print ' === IndexError:', row
 
-class Category(object):
-
-    def __init__(self, base, url, title):
-        self.base = base
-        self.url = url
-        self.title = title
-        return
-        self.obj, created = models.ATCCategory.objects.get_or_create(
-            code=self.code,
-            defaults={'name': self.name}
-        )
-
-class ShortDesc(object):
-
-    def __init__(self, base, url, title, *args, **kwargs):
-        self.base = base
-        self.url = url
-        self.title = title
-
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-
-        return
-
+            out =  {
+                'image': item.xpath(".//div[@class='item-pic']//img/@src")[0],
+                'desc': tounicode(item.xpath(".//div[@id='item-details']/ul")[0]),
+                'params': params,
+                }
+            #print out
+            return out
