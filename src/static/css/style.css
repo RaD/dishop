@@ -518,6 +518,9 @@ p {
 	padding-left: 12px;
 	list-style: url('/static/pics/bullet_1.png');
 }
+#category ul li {
+    margin-bottom: 4px;
+}
 #information ul {
 	margin-top: 0px;
 	margin-bottom: 0px;
