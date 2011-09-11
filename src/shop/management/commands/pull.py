@@ -109,14 +109,20 @@ class Command(NoArgsCommand):
 
     def save_image(self, obj, full_url):
         content = ContentFile(urllib2.urlopen(full_url).read())
-        old_len = len(obj.image.read())
-        new_len = len(content)
-        print 'Update image...',
-        if old_len != new_len:
+        existed_image = obj.image
+        if not existed_image:
+            print 'Update image...',
             obj.image.save(full_url, content)
             print 'done'
         else:
-            print 'skip'
+            old_len = len(obj.image.read())
+            new_len = len(content)
+            print 'Update image...',
+            if old_len != new_len:
+                obj.image.save(full_url, content)
+                print 'done'
+            else:
+                print 'skip'
 
 class BasePage(object):
 
