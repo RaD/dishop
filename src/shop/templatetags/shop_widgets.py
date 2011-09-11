@@ -15,6 +15,14 @@ def categories_tag():
         'categories': models.Category.objects.filter(parent__isnull=True, is_active=True)
     }
 
+@register.inclusion_tag('shop/inclusion/producers.html')
+def producers_tag():
+    return {
+        'manufacturers': models.Producer.objects.all(),
+    }
+
+from shop import models
+
 @register.inclusion_tag('shop/inclusion/item_list.html')
 def recommendation_tag():
     limit = getattr(settings, 'SHOP_ITEMS_RECOMMENDED', 5)

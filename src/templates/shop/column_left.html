@@ -1,27 +1,10 @@
 {% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
 {% load shop_widgets %}
 <div id="column_left">
-  <div class="box">
-    <div class="top"><img src="{{ STATIC_PREFIX }}pics/category.png"
-                          alt="{% trans "Categories" %}"
-                          title="{% trans "Categories" %}"/>{% trans "Categories" %}</div>
-    {% categories_tag %}
-    <div class="bottom">&nbsp;</div>
-  </div>
-  <div class="box">
-    <div class="top"><img src="{{ STATIC_PREFIX }}pics/brands.png"
-                          alt="{% trans "Manufacturers" %}"
-                          title="{% trans "Manufacturers" %}" />{% trans "Manufacturers" %}</div>
-    <div class="middle" style="text-align: center;">
-      <select onchange="location = this.value">
-        <option value=""> --- {% trans "Choose" %} --- </option>
-        {% for item in manufacturers %}
-        <option value="{{ item.get_absolute_url }}">{{ item.title }}</option>
-        {% endfor %}
-      </select>
-    </div>
-  <div class="bottom">&nbsp;</div>
-  </div>
+
+  {% categories_tag %}
+  {% producers_tag %}
+
   <div class="box">
     <div class="top"><img src="{{ STATIC_PREFIX }}pics/information.png"
                           alt="{% trans "Information" %}"
