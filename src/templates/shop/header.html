@@ -40,7 +40,10 @@
           <div class="left"></div>
           <div class="right"></div>
           <div class="center">
-	        <div id="breadcrumb">
+            <div id="breadcrumb">
+              {% for level in breadcrumb %}
+              <a href="{{ level.url}}">{{ level.title }}</a> {% if not forloop.last %}&gt;{% endif %}
+              {% endfor %}
             </div>
             <div class="div7">
               <form action="/" method="post" enctype="multipart/form-data" id="language_form">

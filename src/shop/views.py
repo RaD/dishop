@@ -4,6 +4,7 @@
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.simple import direct_to_template
@@ -26,8 +27,14 @@ def contact(request):
     return direct_to_template(request, 'shop/base.html')
 
 def product(request, slug):
+    product = get_object_or_404(models.Product, slug=slug)
     context = {
-        'product': get_object_or_404(models.Product, slug=slug),
+        'product': product,
+        'breadcrumb': [
+            {'url': reverse('shop:home'), 'title': _('Home')},
+            {'url': '/product/', 'title': product.category.title},
+            {'url': reverse('shop:product', args=[slug]), 'title': product.title},
+            ],
         }
     return direct_to_template(request, 'shop/product.html', context)
 
