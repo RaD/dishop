@@ -5,18 +5,18 @@
                           title="{{ widget_title }}" />{{ widget_title }}</div>
     <div class="middle">
       <table cellpadding="2" cellspacing="0" style="width: 100%;">
-        {% for item in item_list %}
+        {% for product in product_list %}
         <tr>
           <td valign="top" style="width:1px">
-            <a href="{{ item.get_absolute_url }}"><img src="{{ item.get_thumbnail_38 }}"
-                                                       alt="{{ item.title }}"
-                                                       title="{{ item.title }}"/></a>
+            <a href="{{ product.get_absolute_url }}"><img src="{{ product.get_thumbnail_38 }}"
+                                                       alt="{{ product.title }}"
+                                                       title="{{ product.title }}"/></a>
           </td>
           <td valign="top">
-            <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+            <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
             <br />
-            <span style="font-size: 11px; color: #900;">{{ item.price|floatformat:2 }} р.</span>
-            <a class="button_add_small" href="/cart/ {{ item.pk }}" title="{% trans "Add to the cart" %}" >&nbsp;</a>
+            <span style="font-size: 11px; color: #900;">{{ product.price|floatformat:2 }} р.</span>
+            <a class="button_add_small" href="/cart/ {{ product.pk }}" title="{% trans "Add to the cart" %}" >&nbsp;</a>
             {# <br /><img src="{{ STATIC_PREFIX }}pics/stars_3.png" alt="3 из 5 баллов!" /> #}
           </td>
         </tr>

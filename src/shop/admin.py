@@ -44,7 +44,7 @@ class Producer(admin.ModelAdmin):
     search_fields = ('title',)
 admin.site.register(models.Producer, Producer)
 
-class Item(admin.ModelAdmin):
+class Product(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
         (_(u'Information'),
@@ -59,10 +59,10 @@ class Item(admin.ModelAdmin):
     list_display = ('title', 'get_thumbnail_html', 'category', 'price', 'get_color_squares', 'is_recommend', 'is_active', 'is_fixed', 'registered',)
     search_fields = ('title', 'category')
     save_as = True
-admin.site.register(models.Item, Item)
+admin.site.register(models.Product, Product)
 
 class Property(admin.ModelAdmin):
-    list_display = ('item', 'key', 'value',)
+    list_display = ('product', 'key', 'value',)
 admin.site.register(models.Property, Property)
 
 class Order(admin.ModelAdmin):

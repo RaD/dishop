@@ -78,7 +78,7 @@ class Command(NoArgsCommand):
                         'tech': desc.get('tech'),
                         }
 
-                obj = self.fill(models.Item, i_index, data)
+                obj = self.fill(models.Product, i_index, data)
                 self.save_image(obj, self.HOST + desc.get('image'))
         print 'ok'
 

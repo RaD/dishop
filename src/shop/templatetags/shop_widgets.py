@@ -20,7 +20,7 @@ def recommendation_tag():
     limit = getattr(settings, 'SHOP_ITEMS_RECOMMENDED', 5)
     return {
         'widget_title': _(u'Good choice'),
-        'item_list': models.Item.objects.filter(is_recommend=True, is_active=True)[:limit],
+        'product_list': models.Product.objects.filter(is_recommend=True, is_active=True)[:limit],
     }
 
 @register.inclusion_tag('shop/inclusion/item_list.html')
@@ -28,5 +28,5 @@ def favorites_tag():
     limit = getattr(settings, 'SHOP_ITEMS_FAVORITES', 10)
     return {
         'widget_title': _(u'Favorites'),
-        'item_list': models.Item.objects.filter(is_recommend=True, is_active=True)[:limit], # fixme
+        'product_list': models.Product.objects.filter(is_recommend=True, is_active=True)[:limit], # fixme
     }

@@ -3,6 +3,7 @@
 {% block content %}
 
 {% include "shop/column_left.html" %}
+{% include "shop/column_right.html" %}
 
 <div id="content">
   <div class="top">
@@ -33,12 +34,14 @@
 
   <div class="middle">
     <div class="list">
-      {% for item in item_list %}
+      {% for product in product_list %}
       <div class="item">
-        <a href="{{ item.get_absolute_url }}"><img src="{{ item.get_thumbnail_150 }}" alt="{{ item.title }}" title="{{ item.title }}"/></a><br />
-        <a href="{{ item.get_absolute_url }}">{{ item.title }}</a><br />
-        <span style="color: #900; font-weight: bold;">{{ item.price|floatformat:2 }} р.</span>
-        <a class="button_add_small" href="/cart/ {{ item.pk }}" title="{% trans "Add to the cart" %}" >&nbsp;</a>
+        <a href="{{ product.get_absolute_url }}"><img src="{{ product.get_thumbnail_150 }}"
+                                                      alt="{{ product.title }}"
+                                                      title="{{ product.title }}"/></a><br />
+        <a href="{{ product.get_absolute_url }}">{{ product.title }}</a><br />
+        <span style="color: #900; font-weight: bold;">{{ product.price|floatformat:2 }} р.</span>
+        <a class="button_add_small" href="/cart/ {{ product.pk }}" title="{% trans "Add to the cart" %}" >&nbsp;</a>
         {# <br /><img src="{{ STATIC_PREFIX }}pics/stars_3.png" alt="3 из 5 баллов!" /> #}
       </div>
       {% empty %}
@@ -53,7 +56,5 @@
     <div class="center"></div>
   </div>
 </div>
-
-{% include "shop/column_right.html" %}
 
 {% endblock %}

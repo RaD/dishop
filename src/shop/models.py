@@ -3,6 +3,7 @@
 
 from django.db import models
 from django.contrib.admin.models import User
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import escape
 
@@ -62,7 +63,7 @@ class Category(models.Model):
 
 class Color(models.Model):
     """
-    Definition of item's colors.
+    Definition of product's colors.
     """
     title = models.CharField(verbose_name=_(u'Title'), max_length=64)
     slug = models.SlugField(max_length=80)
@@ -96,7 +97,7 @@ class Country(models.Model):
 
 class Producer(models.Model):
     """
-    Definition of item's producers.
+    Definition of product's producers.
     """
     country = models.ForeignKey(Country, verbose_name=_(u'Country'), blank=True, null=True)
     title = models.CharField(verbose_name=_(u'Title'), max_length=64)
@@ -113,9 +114,9 @@ class Producer(models.Model):
     def get_absolute_url(self):
         return u'/producer/%s/' % self.slug
 
-class Item(models.Model):
+class Product(models.Model):
     """
-    Definition of items.
+    Definition of products.
     """
     category = models.ForeignKey(Category, verbose_name=_(u'Category'))
     producer = models.ForeignKey(Producer, verbose_name=_(u'Producer'), blank=True, null=True)
@@ -135,15 +136,15 @@ class Item(models.Model):
     order = models.IntegerField(verbose_name=_(u'Order'), default=0)
 
     class Meta:
-        verbose_name = _(u'Item')
-        verbose_name_plural = _(u'Items')
+        verbose_name = _(u'Product')
+        verbose_name_plural = _(u'Products')
         ordering = ('title',)
 
     def __unicode__(self):
         return self.title
 
     def get_absolute_url(self):
-        return u'/item/%s/' % self.slug
+        return reverse('shop:product', args=[self.slug])
 
     def diff(self):
         has_diff = False
@@ -168,7 +169,7 @@ class Item(models.Model):
         if self.pk:
             is_changed, changed_field = self.diff()
             out = changed_field
-        super(Item, self).save(*args, **kwargs)
+        super(Product, self).save(*args, **kwargs)
         return out
 
     def get_thumbnail(self, size):
@@ -183,6 +184,9 @@ class Item(models.Model):
 
     def get_thumbnail_150(self):
         return self.get_thumbnail(150)
+
+    def get_thumbnail_250(self):
+        return self.get_thumbnail(250)
 
     def get_thumbnail_html(self):
         img_resize_url = self.get_thumbnail(100)
@@ -203,7 +207,7 @@ class Item(models.Model):
 
     def fill_properties(self, data):
         for key, value in data:
-            Property(item=self, key=key, value=value).save()
+            Property(product=self, key=key, value=value).save()
 
     def get_properties(self):
         return self.property_set.all()
@@ -216,9 +220,9 @@ class Item(models.Model):
 
 class Property(models.Model):
     """
-    Definition of item's property.
+    Definition of product's property.
     """
-    item = models.ForeignKey(Item)
+    product = models.ForeignKey(Product)
     key = models.CharField(verbose_name=_(u'Title'), max_length=64)
     value = models.CharField(verbose_name=_(u'Value'), max_length=128)
 
@@ -266,7 +270,7 @@ class OrderDetail(models.Model):
     Definition of order's details.
     """
     order = models.ForeignKey(Order)
-    item = models.ForeignKey(Item)
+    product = models.ForeignKey(Product)
     count = models.PositiveIntegerField(default=0)
     price = models.FloatField()
 
