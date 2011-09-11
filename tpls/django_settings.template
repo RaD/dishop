@@ -150,7 +150,10 @@ INSTALLED_APPS = (
     'shop',
 )
 
+SHOP_LAST_INCOMING = 16
 SHOP_ITEMS_PER_PAGE = 20
+SHOP_ITEMS_RECOMMENDED = 5
+SHOP_ITEMS_FAVORITES = 10
 
 ###
 # google-analytics
@@ -202,8 +205,7 @@ COMPRESS_CSS_FILTERS = COMPRESS_JS_FILTERS = ("compress.filters.yui.YUICompresso
 COMPRESS_CSS = {
     'common': {
         'source_filenames': (
-            'css/reset.css',
-            'css/basic.css',
+            'css/ie6.css',
             'css/style.css',
             ),
         'output_filename': 'css/cumulative.css',
@@ -213,7 +215,7 @@ COMPRESS_CSS = {
 COMPRESS_JS = {
     'common': {
         'source_filenames': (
-            'js/wysiwyg.js',
+            'js/jquery-1.5.2.min.js',
             ),
         'output_filename': 'js/cumulative.js',
         },

@@ -25,7 +25,7 @@ def translit(value):
         (u'у', u'u'),   (u'ф', u'f'),   (u'х', u'h'),   (u'ц', u'ts'),
         (u'ч', u'ch'),  (u'ш', u'sh'),  (u'щ', u'sch'), (u'ъ', u'_'),
         (u'ы', u'yi'),  (u'ь', u''),    (u'э', u'e'),   (u'ю', u'yu'),
-        (u'я', u'ya'),  (u' ', u'_'),
+        (u'я', u'ya'),  (u' ', u'_'),   (u'/', u'_'),   (u':', u'_'),
         )
     translit = value.lower()
     for symb_in, symb_out in TRANSTABLE:
@@ -60,16 +60,22 @@ class Command(NoArgsCommand):
 
             cat_page = DescPage(self.HOST, url)
             for i_index, desc in enumerate(cat_page.short_description(), 1):
-                print '\n=== D ===', desc.keys()
-                #print desc
+                print '\n=== D === %(title)s, price is %(price)s' % desc
+
+                item_title = desc.get('title')
+                item_slug = translit(item_title)
+                producer_title = item_title.split(' ')[0]
+                producer = self.producer_goc(producer_title)
 
                 data = {'category': category,
+                        'producer': producer,
                         'base_url': desc.get('url'),
-                        'title': desc.get('title'),
-                        'slug': translit(desc.get('title')),
+                        'title': item_title,
+                        'slug': item_slug,
                         'price': desc.get('price'),
                         'is_active': desc.get('is_active'),
                         'desc': desc.get('desc'),
+                        'tech': desc.get('tech'),
                         }
 
                 obj = self.fill(models.Item, i_index, data)
@@ -87,15 +93,30 @@ class Command(NoArgsCommand):
             is_changed, changed_field = obj.diff()
             if not is_changed:
                 return obj
-            obj.is_active = True
+        obj.is_active = True
         result = obj.save()
         if result:
             print '    %(old)s -> %(new)s' % result
         return obj
 
+    def producer_goc(self, title):
+        slug = translit(title)
+        try:
+            obj = models.Producer.objects.get(slug=slug)
+        except models.Producer.DoesNotExist:
+            obj = models.Producer(title=title, slug=slug).save()
+        return obj
+
     def save_image(self, obj, full_url):
         content = ContentFile(urllib2.urlopen(full_url).read())
-        obj.image.save(full_url, content)
+        old_len = len(obj.image.read())
+        new_len = len(content)
+        print 'Update image...',
+        if old_len != new_len:
+            obj.image.save(full_url, content)
+            print 'done'
+        else:
+            print 'skip'
 
 class BasePage(object):
 
@@ -139,14 +160,14 @@ class BasePage(object):
             try:
                 req = urllib2.Request(url, {}, headers)
                 page = urllib2.urlopen(req)
-                time.sleep(random.randint(20,30))
+                time.sleep(random.randint(5,20))
             except urllib2.HTTPError, e:
                 print _(u'Cannot retrieve URL.\nHTTP Error Code: %s') % e.code
             except urllib2.URLError, e:
                 print _(u'Cannot retrieve URL: %s') % e.reason[1]
             else:
                 return page
-            print 'Reconnect after 60 seconds'
+            print 'Reconnect after 30 seconds'
             time.sleep(30)
 
     @property
@@ -195,20 +216,12 @@ class DescPage(BasePage):
         desc_list = tree.xpath("//div[@id='item-full']")
         assert len(desc_list), _(u'No elements found.')
         for item in desc_list:
-
-            params = {}
-            property_list = item.xpath(".//div[@id='item-tech']//tr")
-            for el in property_list:
-                row = el.xpath(".//td//text()")
-                try:
-                    params[ row[0] ] = row[1]
-                except IndexError:
-                    print ' === IndexError:', row
-
-            out =  {
-                'image': item.xpath(".//div[@class='item-pic']//img/@src")[0],
-                'desc': tounicode(item.xpath(".//div[@id='item-details']/ul")[0]),
-                'params': params,
-                }
-            #print out
-            return out
+            try:
+                return {
+                    'image': item.xpath(".//div[@class='item-pic']//img/@src")[0],
+                    'desc': tounicode(item.xpath(".//div[@id='item-details']/ul")[0]),
+                    'tech': tounicode(item.xpath(".//div[@id='item-tech']//table")[0]),
+                    }
+            except IndexError:
+                with open(translit(url), 'w') as f:
+                    f.write(tounicode(tree))

@@ -19,7 +19,7 @@ from snippets import columns, paginate_by
 def home(request):
     context = {
         'manufacturers': models.Producer.objects.all(),
-        'item_list': models.Item.objects.filter(is_active=True),
+        'item_list': models.Item.objects.filter(is_active=True)[:settings.SHOP_LAST_INCOMING],
         }
     return direct_to_template(request, 'shop/home.html', context)
 

@@ -47,15 +47,14 @@ admin.site.register(models.Producer, Producer)
 class Item(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
-        ('Информация',
+        (_(u'Information'),
          {'fields':(('title', 'slug'),
                     ('category', 'producer'),
                     'color', 'price',
                     'is_active', 'is_recommend', 'is_fixed',
-                    'desc', 'tech',
                     )}),
-        ('Подробности',
-         {'fields': ('image', 'desc', 'tags')})
+        (_(u'More info'),
+         {'fields': ('image', 'desc', 'tech', 'tags')})
         )
     list_display = ('title', 'get_thumbnail_html', 'category', 'price', 'get_color_squares', 'is_recommend', 'is_active', 'is_fixed', 'registered',)
     search_fields = ('title', 'category')
@@ -68,14 +67,14 @@ admin.site.register(models.Property, Property)
 
 class Order(admin.ModelAdmin):
     fieldsets = (
-        ('О покупателе',
-         {'fields': ('lastname', 'firstname', 'phone')}),
-        ('Заказ',
+        (_(u'Customer'),
+         {'fields': ('lastname', 'phone')}),
+        (_(u'Order'),
          {'fields': ('totalprice', 'discount', 'count')}),
-        ('Доставка',
+        (_(u'Shipping'),
          {'fields': ('status', 'ship_to', 'comment')})
         )
-    list_display = ('lastname', 'firstname', 'phone', 'status', 'totalprice', 'discount', 'registered')
-    search_fields = ('lastname', 'firstname', 'status')
+    list_display = ('lastname', 'phone', 'status', 'totalprice', 'discount', 'registered')
+    search_fields = ('lastname', 'status')
 admin.site.register(models.Order, Order)
 

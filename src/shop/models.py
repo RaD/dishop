@@ -98,13 +98,14 @@ class Producer(models.Model):
     """
     Definition of item's producers.
     """
-    country = models.ForeignKey(Country, verbose_name=_(u'Country'))
+    country = models.ForeignKey(Country, verbose_name=_(u'Country'), blank=True, null=True)
     title = models.CharField(verbose_name=_(u'Title'), max_length=64)
     slug = models.SlugField(max_length=80)
 
     class Meta:
         verbose_name = _(u'Producer')
         verbose_name_plural = _(u'Producers')
+        ordering = ('title',)
 
     def __unicode__(self):
         return self.title
@@ -180,6 +181,9 @@ class Item(models.Model):
     def get_thumbnail_64(self):
         return self.get_thumbnail(64)
 
+    def get_thumbnail_150(self):
+        return self.get_thumbnail(150)
+
     def get_thumbnail_html(self):
         img_resize_url = self.get_thumbnail(100)
         html = '<a class="image-picker" href="%s"><img src="%s" alt="%s"/></a>'
@@ -237,10 +241,10 @@ class Order(models.Model):
         ('4', _(u'Cancel')),  # Отменено
         ('5', _(u'Closed')),  # Сделка завершена
         ('6', _(u'Undo')),    # Возврат
+        ('7', _(u'Shipping')),# Доставка
         )
 
-    lastname = models.CharField(verbose_name=_(u'Lastname'), max_length=64)
-    firstname = models.CharField(verbose_name=_(u'Firstname'), max_length=64)
+    lastname = models.CharField(verbose_name=_(u'Name'), max_length=80)
     phone = models.CharField(verbose_name=_(u'Phone'), max_length=16)
     ship_to = models.CharField(verbose_name=_(u'Shipping address'), max_length=255)
     comment = models.TextField(blank=True, default=u'')
