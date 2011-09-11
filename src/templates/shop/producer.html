@@ -1,0 +1,73 @@
+{% extends "shop/base.html" %}
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% block content %}
+
+{% include "shop/column_left.html" %}
+{% include "shop/column_right.html" %}
+
+<div id="content">
+  <div class="top">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1>{{ producer.title }}</h1>
+    </div>
+  </div>
+  <div class="middle">
+    <table style="padding-bottom:10px;">
+	  <tbody>
+        <tr>
+	    </tr>
+	  </tbody>
+    </table>
+
+    {% comment %}
+    <div class="sort">
+      <div class="div1">
+        <select name="sort" onchange="location = this.value">
+          <option value="/order/name/asc/" selected="selected">По-умолчанию</option>
+          <option value="/order/name/asc/">Имени от А до Я</option>
+          <option value="/order/name/desc/">Имени от Я до А</option>
+          <option value="/order/price/asc/">Ценовых: Низкие &gt; Высокие</option>
+          <option value="/order/price/desc/">Ценам: Высокие &lt; Низкие</option>
+          <option value="/order/rating/desc/">Высокому рейтингу</option>
+          <option value="/order/rating/asc/">Низкому рейтингу</option>
+          <option value="/order/model/asc/">Модель от А до Я</option>
+          <option value="/order/model/desc/">Модель от Я до А</option>
+        </select>
+      </div>
+      <div class="div2">Сортировать по:</div>
+    </div>
+    {% endcomment %}
+
+    <div class="middle">
+      <div class="list">
+        {% for product in producer.product_set.all %}
+        <div class="item">
+          <a href="{{ product.get_absolute_url }}"><img src="{{ product.get_thumbnail_150 }}"
+                                                        alt="{{ product.title }}"
+                                                        title="{{ product.title }}"/></a><br />
+          <a href="{{ product.get_absolute_url }}">{{ product.title }}</a><br />
+          <span style="color: #900; font-weight: bold;">{{ product.price|floatformat:2 }} р.</span>
+          <a class="button_add_small" href="/cart/ {{ product.pk }}" title="{% trans "Add to the cart" %}" >&nbsp;</a>
+          {# <br /><img src="{{ STATIC_PREFIX }}pics/stars_3.png" alt="3 из 5 баллов!" /> #}
+        </div>
+        {% empty %}
+        <p>{% trans "This is absolutely new shop!" %}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="pagination">
+      <div class="results">PAGINATOR HERE</div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+
+{% endblock %}

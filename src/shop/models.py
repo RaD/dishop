@@ -112,7 +112,7 @@ class Producer(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return u'/producer/%s/' % self.slug
+        return reverse('shop:producer', args=[self.slug])
 
 class Product(models.Model):
     """

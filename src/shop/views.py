@@ -37,6 +37,17 @@ def category(request, slug):
         }
     return direct_to_template(request, 'shop/category.html', context)
 
+def producer(request, slug):
+    producer = get_object_or_404(models.Producer, slug=slug)
+    context = {
+        'producer': producer,
+        'breadcrumb': [
+            {'url': reverse('shop:home'), 'title': _('Home')},
+            {'url': reverse('shop:producer', args=[slug]), 'title': producer.title},
+            ],
+        }
+    return direct_to_template(request, 'shop/producer.html', context)
+
 def product(request, slug):
     product = get_object_or_404(models.Product, slug=slug)
     context = {
