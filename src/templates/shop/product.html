@@ -1,0 +1,84 @@
+{% extends "shop/base.html" %}
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% block content %}
+
+{% include "shop/column_left.html" %}
+{% include "shop/column_right.html" %}
+
+<div id="content">
+  <div class="top">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1>{{ product.title }}</h1>
+    </div>
+  </div>
+  <div class="middle">
+    <div style="width: 100%; margin-bottom: 30px;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tbody>
+          <tr>
+            <td style="text-align: center; width: 250px; vertical-align: top;">
+              <img src="{{ product.get_thumbnail_250 }}" title="{{ product.title }}" alt="{{ product.title }}"
+                   id="image" style="margin-bottom: 3px; width: 250px; height: 250px;"></a>
+            </td>
+            <td style="padding-left: 15px; width: 296px; vertical-align: top;">
+              <table width="100%">
+                <tbody>
+                  <tr>
+                    <td><b>{% trans "Price" %}:</b></td>
+                    <td>{{ product.price|floatformat:2 }} р.</td>
+                  </tr>
+                  <tr>
+                    <td><b>{% trans "Presence" %}:</b></td>
+                    <td>{% if product.is_present %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{% trans "Model" %}:</b></td>
+                    <td>{{ product.title }}</td>
+                  </tr>
+                  {% comment %}
+                  <tr>
+                    <td><b>{% trans "Rating" %}:</b></td>
+                    <td>No data</td>
+                  </tr>
+                  {% endcomment %}
+			    </tbody>
+              </table>
+              <br/>
+              <form action="/cart/" method="post" enctype="multipart/form-data" id="product">
+                <div class="content">
+                  {% trans "Count" %}: <input type="text" name="quantity" size="3" value="1"/>
+                  <a id="add_to_cart" class="button"><span>{% trans "Add into cart" %}</span></a>
+                </div>
+                <div>
+                  <input type="hidden" name="product_id" value="30"/>
+                  <input type="hidden" name="redirect" value="/product/{{ product.pk }}/"/>
+                </div>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tabs">
+      <a tab="#tab_description" class="selected">{% trans "Description" %}</a>
+      <a tab="#tab_details" class="">{% trans "Details" %}</a>
+    </div>
+    <div id="tab_description" class="tab_page" style="display: block; ">
+      <div class="cpt_product_description ">
+        {{ product.desc|safe }}
+      </div>
+    </div>
+    <div id="tab_details" class="tab_page" style="display: none; ">
+      {{ product.tech|safe }}
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+
+{% endblock %}

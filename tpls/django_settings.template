@@ -216,6 +216,8 @@ COMPRESS_JS = {
     'common': {
         'source_filenames': (
             'js/jquery-1.5.2.min.js',
+            'js/tab.js',
+            'js/ajax_api.js',
             ),
         'output_filename': 'js/cumulative.js',
         },

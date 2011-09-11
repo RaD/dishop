@@ -19,12 +19,18 @@ from snippets import columns, paginate_by
 def home(request):
     context = {
         'manufacturers': models.Producer.objects.all(),
-        'item_list': models.Item.objects.filter(is_active=True)[:settings.SHOP_LAST_INCOMING],
+        'product_list': models.Product.objects.filter(is_active=True)[:settings.SHOP_LAST_INCOMING],
         }
     return direct_to_template(request, 'shop/home.html', context)
 
 def contact(request):
     return direct_to_template(request, 'shop/base.html')
+
+def product(request, slug):
+    context = {
+        'product': get_object_or_404(models.Product, slug=slug),
+        }
+    return direct_to_template(request, 'shop/product.html', context)
 
 def cart(request):
     return direct_to_template(request, 'shop/base.html')

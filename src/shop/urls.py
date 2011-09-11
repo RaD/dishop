@@ -7,6 +7,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('shop.views',
     url(r'^$', 'home', name='home'),
     url(r'^contact/$', 'contact', name='contact'),
+    url(r'^product/(?P<slug>[^/]+)/$', 'product', name='product'),
     url(r'^cart/$', 'cart', name='cart'),
     url(r'^shipping/$', 'shipping', name='shipping'),
 )
