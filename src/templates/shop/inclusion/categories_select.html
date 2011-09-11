@@ -1,0 +1,10 @@
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+<select id="filter_category_id">
+  <option value="0">{% trans "All categories" %}</option>
+  {% for item in categories %}
+  <option value="{{ item.pk }}">{{ item.title }}</option>
+    {% for subitem in item.category_set.all %}
+  <option value="{{ subitem.pk }}">{{ subitem.title }}</option>
+    {% endfor %}
+  {% endfor %}
+</select>

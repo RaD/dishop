@@ -9,8 +9,14 @@ from shop import models
 
 register = template.Library()
 
-@register.inclusion_tag('shop/inclusion/categories.html')
-def categories_tag():
+@register.inclusion_tag('shop/inclusion/categories_list.html')
+def categories_list_tag():
+    return {
+        'categories': models.Category.objects.filter(parent__isnull=True, is_active=True)
+    }
+
+@register.inclusion_tag('shop/inclusion/categories_select.html')
+def categories_select_tag():
     return {
         'categories': models.Category.objects.filter(parent__isnull=True, is_active=True)
     }
