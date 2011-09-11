@@ -32,7 +32,7 @@ def category(request, slug):
         'category': category,
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _('Home')},
-            {'url': reverse('shop:category', args=[slug]), 'title': category.title},
+            {'url': category.get_absolute_url(), 'title': category.title},
             ],
         }
     return direct_to_template(request, 'shop/category.html', context)
@@ -43,7 +43,7 @@ def producer(request, slug):
         'producer': producer,
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _('Home')},
-            {'url': reverse('shop:producer', args=[slug]), 'title': producer.title},
+            {'url': producer.get_absolute_url(), 'title': producer.title},
             ],
         }
     return direct_to_template(request, 'shop/producer.html', context)
@@ -54,8 +54,8 @@ def product(request, slug):
         'product': product,
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _('Home')},
-            {'url': '/product/', 'title': product.category.title},
-            {'url': reverse('shop:product', args=[slug]), 'title': product.title},
+            {'url': product.category.get_absolute_url(), 'title': product.category.title},
+            {'url': product.get_absolute_url(), 'title': product.title},
             ],
         }
     return direct_to_template(request, 'shop/product.html', context)
