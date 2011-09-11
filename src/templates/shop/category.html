@@ -1,5 +1,6 @@
 {% extends "shop/base.html" %}
 {% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% load pagination_tags %}
 {% block content %}
 
 {% include "shop/column_left.html" %}
@@ -42,7 +43,8 @@
 
     <div class="middle">
       <div class="list">
-        {% for product in category.product_set.all %}
+        {% autopaginate category.product_set.all settings.SHOP_ITEMS_PER_PAGE as object_list %}
+        {% for product in object_list %}
         <div class="item">
           <a href="{{ product.get_absolute_url }}"><img src="{{ product.get_thumbnail_150 }}"
                                                         alt="{{ product.title }}"
@@ -59,7 +61,7 @@
     </div>
 
     <div class="pagination">
-      <div class="results">PAGINATOR HERE</div>
+      <div class="results">{% paginate %}</div>
     </div>
   </div>
 
