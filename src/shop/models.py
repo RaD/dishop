@@ -33,7 +33,7 @@ class Category(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return u'/category/%s/' % self.slug
+        return reverse('shop:category', args=[self.slug])
 
     def diff(self):
         has_diff = False

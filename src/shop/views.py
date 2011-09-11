@@ -26,6 +26,17 @@ def home(request):
 def contact(request):
     return direct_to_template(request, 'shop/base.html')
 
+def category(request, slug):
+    category = get_object_or_404(models.Category, slug=slug)
+    context = {
+        'category': category,
+        'breadcrumb': [
+            {'url': reverse('shop:home'), 'title': _('Home')},
+            {'url': reverse('shop:category', args=[slug]), 'title': category.title},
+            ],
+        }
+    return direct_to_template(request, 'shop/category.html', context)
+
 def product(request, slug):
     product = get_object_or_404(models.Product, slug=slug)
     context = {
