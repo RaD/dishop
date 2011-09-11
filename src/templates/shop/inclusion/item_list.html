@@ -20,6 +20,12 @@
             {# <br /><img src="{{ STATIC_PREFIX }}pics/stars_3.png" alt="3 из 5 баллов!" /> #}
           </td>
         </tr>
+        {% empty %}
+        <tr>
+          <td>
+            <div style="text-align: center;">{% trans "No items yet" %}</div>
+          </td>
+        </tr>
         {% endfor %}
       </table>
     </div>
