@@ -20,6 +20,16 @@ class Cart(object):
         request.session['cart'] = cart
         return self.html(request)
 
+    def change(self, request, product, quantity):
+
+        if 'cart' not in request.session:
+            self.reset(request)
+
+        cart = request.session['cart']
+        cart[product.pk] = quantity
+        request.session['cart'] = cart
+        return self.html(request)
+
     def drop(self, request, pk):
         if 'cart' not in request.session:
             self.reset(request)

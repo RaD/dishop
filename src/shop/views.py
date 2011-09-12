@@ -2,7 +2,7 @@
 # (c) 2009-2011 Ruslan Popov <ruslan.popov@gmail.com>
 
 from django.conf import settings
-from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -11,7 +11,7 @@ from django.views.generic.simple import direct_to_template
 from tagging.models import Tag
 from tagging.utils import calculate_cloud
 
-from shop import models, forms
+from shop import models, forms, Cart
 from shop.forms_search import SearchForm, get_search_form as factory
 
 from snippets import ajax_processor
@@ -60,7 +60,22 @@ def product(request, slug):
     return direct_to_template(request, 'shop/product.html', context)
 
 def cart_show(request):
-    return direct_to_template(request, 'shop/base.html')
+    cart = Cart().state(request)
+    object_list = []
+    for el in cart.get('object_list'):
+        product = get_object_or_404(models.Product, pk=el.get('pk'))
+        object_list.append( dict(el,
+                                 image=product.get_thumbnail_64(),
+                                 total=el.get('price')*el.get('quantity')) )
+    cart['object_list'] = object_list
+
+    formset = forms.CartFormSet(request.POST or None, initial=object_list)
+    if formset.is_valid():
+        for form in formset:
+            form.save(request)
+        return redirect('shop:cart_show')
+
+    return direct_to_template(request, 'shop/cart_list.html', {'cart': cart, 'formset': formset})
 
 def shipping(request):
     return direct_to_template(request, 'shop/base.html')

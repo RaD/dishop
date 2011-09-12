@@ -1,0 +1,85 @@
+{% extends "shop/base.html" %}
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% block content %}
+
+{% include "shop/column_left.html" %}
+{% include "shop/column_right.html" %}
+
+<div id="content">
+  <div class="top">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1>{% trans "Cart" %}</h1>
+    </div>
+  </div>
+  <div class="middle">
+    {# <div class="warning">Товары, отмеченные *** не доступны в нужном количестве или их нет на складе!</div> #}
+    <form action="{% url shop:cart_show %}" method="post" enctype="multipart/form-data" id="cart">
+      {{ formset.management_form }}{% csrf_token %}
+      <table class="cart">
+        <tbody>
+          <tr>
+            <th align="center">{% trans "Delete" %}</th>
+            <th align="center">{% trans "Image" %}</th>
+            <th align="left">{% trans "Title" %}</th>
+            <th align="right">{% trans "Quantity" %}</th>
+          	<th align="right">{% trans "Price" %}</th>
+            <th align="right">{% trans "Total" %}</th>
+		  </tr>
+
+          {% for product in formset %}
+          {% cycle 'even' 'odd' as row_type silent %}
+          <tr class="{{ row_type }}">
+            <td align="center">
+              {{ product.DELETE }}
+              {{ product.pk }}
+            </td>
+            <td align="center">
+              <a href="{{ product.initial.url }}"><img src="{{ product.initial.image }}"
+                                               alt="{{ product.initial.title }}" title="{{ product.initial.title }}"></a>
+            </td>
+            <td align="left" valign="top">
+              <a href="{{ product.initial.url }}">{{ product.initial.title }}</a>
+              {# <span style="color: #FF0000; font-weight: bold;">***</span> #}
+              <div></div>
+            </td>
+            <td align="right" valign="top">
+              {{ product.quantity }}
+            </td>
+          	<td align="right" valign="top">{{ product.initial.price|floatformat:2 }} р.</td>
+            <td align="right" valign="top">{{ product.initial.total|floatformat:2 }} р.</td>
+		  </tr>
+          {% endfor %}
+      </tbody></table>
+	  <div style="width: 100%; display: inline-block;">
+        <table style="float: right; display: inline-block;">
+          <tbody><tr>
+              <td align="right"><b>Сумма:</b></td>
+              <td align="right">{{ cart.price|floatformat:2 }} р.</td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+	  <div class="buttons">
+        <table>
+          <tbody>
+            <tr>
+              <td align="left"><a onclick="$('#cart').submit();" class="button"><span>{% trans "Update" %}</span></a></td>
+              <td align="center"><a onclick="location = '{% url shop:home %}';" class="button"><span>{% trans "Continue Shopping" %}</span></a></td>
+              <td align="right"><a onclick="location = '/checkout/';" class="button"><span>{% trans "Checkout" %}</span></a></td>
+            </tr>
+        </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+
+{% endblock %}
