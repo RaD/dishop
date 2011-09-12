@@ -6,7 +6,6 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('shop.views',
     url(r'^$', 'home', name='home'),
-    url(r'^contact/$', 'contact', name='contact'),
     url(r'^category/(?P<slug>[^/]+)/$', 'category', name='category'),
     url(r'^producer/(?P<slug>[^/]+)/$', 'producer', name='producer'),
     url(r'^product/(?P<slug>[^/]+)/$', 'product', name='product'),
@@ -15,6 +14,7 @@ urlpatterns = patterns('shop.views',
     url(r'^cart/show/$', 'cart_show', name='cart_show'),
     url(r'^checkout/$', 'checkout', name='checkout'),
     url(r'^status/$', 'status', name='status'),
+    url(r'^.*/$', 'flatpage', name='flatpage'),
 )
 
 # обрабатка статики для devserver

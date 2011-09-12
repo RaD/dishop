@@ -4,20 +4,5 @@
 
   {% categories_list_tag %}
   {% producers_tag %}
-
-  <div class="box">
-    <div class="top"><img src="{{ STATIC_PREFIX }}pics/information.png"
-                          alt="{% trans "Information" %}"
-                          title="{% trans "Information" %}" />{% trans "Information" %}</div>
-    <div id="information" class="middle">
-      <ul>
-        <li><a href="http://demo.myopencart.ru/index.php?route=information/information&amp;information_id=4">About Us</a></li>
-        <li><a href="http://demo.myopencart.ru/index.php?route=information/information&amp;information_id=3">Privacy Policy</a></li>
-        <li><a href="http://demo.myopencart.ru/index.php?route=information/information&amp;information_id=5">Terms &amp; Conditions</a></li>
-        <li><a href="http://demo.myopencart.ru/index.php?route=information/contact">Наши контакты</a></li>
-        <li><a href="http://demo.myopencart.ru/index.php?route=information/sitemap">Карта сайта</a></li>
-      </ul>
-    </div>
-    <div class="bottom">&nbsp;</div>
-  </div>
+  {% flatpage_list_tag %}
 </div>

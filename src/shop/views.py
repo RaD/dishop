@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.simple import direct_to_template
+from django.contrib.flatpages.models import FlatPage
 
 from tagging.models import Tag
 from tagging.utils import calculate_cloud
@@ -21,9 +22,6 @@ def home(request):
         'product_list': models.Product.objects.filter(is_active=True)[:settings.SHOP_LAST_INCOMING],
         }
     return direct_to_template(request, 'shop/home.html', context)
-
-def contact(request):
-    return direct_to_template(request, 'shop/base.html')
 
 def category(request, slug):
     category = get_object_or_404(models.Category, slug=slug)
@@ -97,6 +95,17 @@ def checkout(request):
 
 def status(request):
     return direct_to_template(request, 'shop/status.html')
+
+def flatpage(request):
+    page = get_object_or_404(FlatPage, url__exact=request.path)
+    context = {
+        'breadcrumb': [
+            {'url': reverse('shop:home'), 'title': _(u'Home')},
+            {'url': page.url, 'title': page.title},
+            ],
+        'page': page,
+        }
+    return direct_to_template(request, 'shop/flatpage.html', context)
 
 
 @ajax_processor(forms.CartAdd)

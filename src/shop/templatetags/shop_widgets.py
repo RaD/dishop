@@ -4,6 +4,7 @@
 from django.conf import settings
 from django import template
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.flatpages.models import FlatPage
 
 from shop import models, Cart
 
@@ -25,6 +26,12 @@ def categories_select_tag():
 def producers_tag():
     return {
         'manufacturers': models.Producer.objects.all(),
+    }
+
+@register.inclusion_tag('shop/inclusion/flatpage_list.html')
+def flatpage_list_tag():
+    return {
+        'object_list': FlatPage.objects.all(),
     }
 
 @register.inclusion_tag('shop/inclusion/cart.html', takes_context=True)

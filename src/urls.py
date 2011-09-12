@@ -21,6 +21,7 @@ if settings.DEBUG:
 urlpatterns += patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^tinymce/', include('tinymce.urls')),
     url(r'^shop/', include('shop.urls', namespace='shop')),
     url(r'^$', 'shop.views.home'),
 )

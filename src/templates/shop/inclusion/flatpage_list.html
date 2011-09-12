@@ -1,0 +1,16 @@
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+  <div class="box">
+    <div class="top"><img src="{{ STATIC_PREFIX }}pics/information.png"
+                          alt="{% trans "Information" %}"
+                          title="{% trans "Information" %}" />{% trans "Information" %}</div>
+    <div id="information" class="middle">
+      <ul>
+        {% for item in object_list %}
+        <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+        {% empty %}
+        <li>{% trans "No information yet" %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="bottom">&nbsp;</div>
+  </div>
