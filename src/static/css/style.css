@@ -565,7 +565,7 @@ p {
 	background: url('/static/pics/ajax_load.gif') no-repeat transparent;
 	padding-right:10px;
 }
-.button_add_small, a.button_add_small:visited {
+.button_add_small {
 	margin-top: 3px;
 	background: url('/static/pics/button_add_small.png') no-repeat left center transparent;
 	padding:5px;

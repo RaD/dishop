@@ -32,5 +32,7 @@
       </table>
       {% endif %}
 	  <div style="padding-top:5px;text-align:center;clear:both;">
-        <a href="/cart/">{% trans "To list" %}</a> | <a href="/shipping/">{% trans "To order" %}</a>
+        <a href="{% url shop:cart_show %}">{% trans "To list" %}</a>
+        |
+        <a href="/shipping/">{% trans "To order" %}</a>
       </div>

@@ -25,6 +25,48 @@ $(document).ready(function () {
         }
     });
 
+    $('.button_add_small').each(function(i, element) {
+        $(element).click(function() {
+            console.debug('clicked', $(element).attr('product_id'));
+
+    		$.ajax({
+    			type: 'post',
+    			url: '/shop/cart/add/',
+    			dataType: 'html',
+			    data: 'product_id=' + $(element).attr('product_id') + '&'
+                    + 'quantity=1' + '&' + 'redirect=/',
+    			success: function (html) {
+    				$('#module_cart .middle').html(html);
+    			},
+    			complete: function () {
+                    var image = $('#image_' + $(element).attr('product_id'));
+    				var offset = $(image).offset();
+    				var cart  = $('#module_cart').offset();
+
+    				$(image).before('<img src="' + $(image).attr('src')
+                                    + '" id="temp" style="position: absolute; top: '
+                                    + offset.top + 'px; left: ' + offset.left + 'px;" />');
+
+    				params = {
+    					top : cart.top + 'px',
+    					left : cart.left + 'px',
+    					opacity : 0.0,
+    					width : $('#module_cart').width(),
+    					height : $('#module_cart').height()
+    				};
+
+    				$('#temp').animate(params, 'slow', false, function () {
+    					$('#temp').remove();
+    				});
+    			}
+    		});
+
+
+
+        });
+    });
+
+
 	$('#add_to_cart').removeAttr('onclick');
 
 	$('#add_to_cart').click(function () {
@@ -37,12 +79,13 @@ $(document).ready(function () {
 				$('#module_cart .middle').html(html);
 			},
 			complete: function () {
-				var image = $('#image').offset();
+				var image = $('#image');
+                var offset = $(image).offset();
 				var cart  = $('#module_cart').offset();
 
-				$('#image').before('<img src="' + $('#image').attr('src')
-                                                + '" id="temp" style="position: absolute; top: '
-                                                + image.top + 'px; left: ' + image.left + 'px;" />');
+				$(image).before('<img src="' + $(image).attr('src')
+                                + '" id="temp" style="position: absolute; top: '
+                                + offset.top + 'px; left: ' + offset.left + 'px;" />');
 
 				params = {
 					top : cart.top + 'px',

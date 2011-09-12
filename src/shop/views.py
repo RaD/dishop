@@ -59,7 +59,7 @@ def product(request, slug):
         }
     return direct_to_template(request, 'shop/product.html', context)
 
-def cart(request):
+def cart_show(request):
     return direct_to_template(request, 'shop/base.html')
 
 def shipping(request):

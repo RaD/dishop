@@ -12,7 +12,7 @@ urlpatterns = patterns('shop.views',
     url(r'^product/(?P<slug>[^/]+)/$', 'product', name='product'),
     url(r'^cart/add/$', 'cart_add', name='cart_add'),
     url(r'^cart/del/$', 'cart_del', name='cart_del'),
-    url(r'^cart/$', 'cart', name='cart'),
+    url(r'^cart/show/$', 'cart_show', name='cart_show'),
     url(r'^shipping/$', 'shipping', name='shipping'),
 )
 

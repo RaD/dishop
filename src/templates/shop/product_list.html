@@ -1,11 +1,11 @@
 {% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
       <div class="item" style="height: 200px; width: 170px; margin: 2px; border: 1px solid lightgray; float: left;">
-        <a href="{{ product.get_absolute_url }}"><img src="{{ product.get_thumbnail_150 }}"
+        <a href="{{ product.get_absolute_url }}"><img src="{{ product.get_thumbnail_150 }}" id="image_{{ product.pk }}"
                                                       width="150" height="150"
                                                       alt="{{ product.title }}"
                                                       title="{{ product.title }}"/></a><br />
         <a href="{{ product.get_absolute_url }}">{{ product.title }}</a><br />
         <span style="color: #900; font-weight: bold;">{{ product.price|floatformat:2 }} р.</span>
-        <a class="button_add_small" href="{{ product.get_absolute_url }}" title="{% trans "Add to the cart" %}" >&nbsp;</a>
+        <span class="button_add_small" title="{% trans "Add to the cart" %}" product_id="{{ product.pk }}">&nbsp;</span>
         {# <br /><img src="{{ STATIC_PREFIX }}pics/stars_3.png" alt="3 из 5 баллов!" /> #}
       </div>
