@@ -30,7 +30,7 @@ $(document).ready(function () {
 	$('#add_to_cart').click(function () {
 		$.ajax({
 			type: 'post',
-			url: '/shop/callback/',
+			url: '/shop/cart/add/',
 			dataType: 'html',
 			data: $('#product :input'),
 			success: function (html) {
@@ -55,6 +55,22 @@ $(document).ready(function () {
 				$('#temp').animate(params, 'slow', false, function () {
 					$('#temp').remove();
 				});
+			}
+		});
+	});
+
+	$('.cart_remove').live('click', function () {
+		if (!confirm(ARE_YOU_SURE)) {
+			return false;
+		}
+		$(this).removeClass('cart_remove').addClass('cart_remove_loading');
+		$.ajax({
+			type: 'post',
+			url: '/shop/cart/del/',
+			dataType: 'html',
+			data: 'product_id=' + this.id,
+			success: function (html) {
+				$('#module_cart .middle').html(html);
 			}
 		});
 	});

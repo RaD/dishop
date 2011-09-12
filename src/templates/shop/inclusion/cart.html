@@ -4,7 +4,7 @@
           {% for product in object_list %}
           <tr>
             <td align="left" valign="top" style="width:1px">
-              <span class="cart_remove" id="remove_{{ product.pk }}">&nbsp;</span>
+              <span class="cart_remove" id="{{ product.pk }}">&nbsp;</span>
             </td>
             <td valign="top" align="right" style="width:1px">{{ product.quantity }}&nbsp;x&nbsp;</td>
             <td align="left" valign="top">

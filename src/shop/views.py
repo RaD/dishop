@@ -67,7 +67,11 @@ def shipping(request):
 
 
 @ajax_processor(forms.CartAdd)
-def callback(request, form):
+def cart_add(request, form):
+    return form.save(request)
+
+@ajax_processor(forms.CartDel)
+def cart_del(request, form):
     return form.save(request)
 
 

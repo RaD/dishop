@@ -20,6 +20,16 @@ class Cart(object):
         request.session['cart'] = cart
         return self.html(request)
 
+    def drop(self, request, pk):
+        if 'cart' not in request.session:
+            self.reset(request)
+
+        cart = request.session['cart']
+        del(cart[pk])
+        request.session['cart'] = cart
+        return self.html(request)
+
+
     def state(self, request):
         price = 0.0
         object_list = []
