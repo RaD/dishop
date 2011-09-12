@@ -13,7 +13,8 @@ urlpatterns = patterns('shop.views',
     url(r'^cart/add/$', 'cart_add', name='cart_add'),
     url(r'^cart/del/$', 'cart_del', name='cart_del'),
     url(r'^cart/show/$', 'cart_show', name='cart_show'),
-    url(r'^shipping/$', 'shipping', name='shipping'),
+    url(r'^checkout/$', 'checkout', name='checkout'),
+    url(r'^status/$', 'status', name='status'),
 )
 
 # обрабатка статики для devserver

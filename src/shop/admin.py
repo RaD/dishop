@@ -68,13 +68,13 @@ admin.site.register(models.Property, Property)
 class Order(admin.ModelAdmin):
     fieldsets = (
         (_(u'Customer'),
-         {'fields': ('lastname', 'phone')}),
+         {'fields': ('name', 'phone')}),
         (_(u'Order'),
-         {'fields': ('totalprice', 'discount', 'count')}),
+         {'fields': ('totalprice', 'discount', )}),
         (_(u'Shipping'),
          {'fields': ('status', 'ship_to', 'comment')})
         )
-    list_display = ('lastname', 'phone', 'status', 'totalprice', 'discount', 'registered')
-    search_fields = ('lastname', 'status')
+    list_display = ('name', 'phone', 'status', 'totalprice', 'discount', 'registered')
+    search_fields = ('name', 'status')
 admin.site.register(models.Order, Order)
 

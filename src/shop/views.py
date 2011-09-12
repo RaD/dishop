@@ -75,10 +75,28 @@ def cart_show(request):
             form.save(request)
         return redirect('shop:cart_show')
 
-    return direct_to_template(request, 'shop/cart_list.html', {'cart': cart, 'formset': formset})
+    context = {
+        'breadcrumb': [
+            {'url': reverse('shop:home'), 'title': _(u'Home')},
+            {'url': reverse('shop:cart_show'), 'title': _(u'Shopping Cart')},
+            ],
+        'cart': cart,
+        'formset': formset,
+        }
+    return direct_to_template(request, 'shop/cart_list.html', context)
 
-def shipping(request):
-    return direct_to_template(request, 'shop/base.html')
+def checkout(request):
+    form = forms.Checkout(request.POST or None)
+    if form.is_valid():
+        form.save(request)
+        return redirect('shop:status')
+    context = {
+        'form': form,
+        }
+    return direct_to_template(request, 'shop/checkout.html', context)
+
+def status(request):
+    return direct_to_template(request, 'shop/status.html')
 
 
 @ajax_processor(forms.CartAdd)

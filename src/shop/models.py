@@ -248,14 +248,13 @@ class Order(models.Model):
         ('7', _(u'Shipping')),# Доставка
         )
 
-    lastname = models.CharField(verbose_name=_(u'Name'), max_length=80)
+    name = models.CharField(verbose_name=_(u'Name'), max_length=80)
     phone = models.CharField(verbose_name=_(u'Phone'), max_length=16)
     ship_to = models.CharField(verbose_name=_(u'Shipping address'), max_length=255)
     comment = models.TextField(blank=True, default=u'')
     totalprice = models.FloatField()
     discount = models.FloatField(default=0.0)
-    count = models.PositiveIntegerField(default=0)
-    status = models.CharField(verbose_name=_(u'Status'), max_length=2, choices=STATUSES)
+    status = models.CharField(verbose_name=_(u'Status'), max_length=2, default='1', choices=STATUSES)
     registered = models.DateTimeField(verbose_name=_(u'Registered'), auto_now_add=True)
 
     class Meta:
@@ -263,7 +262,7 @@ class Order(models.Model):
         verbose_name_plural = _(u'Orders')
 
     def __unicode__(self):
-        return self.buyer.lastname
+        return self.name
 
 class OrderDetail(models.Model):
     """
@@ -271,9 +270,9 @@ class OrderDetail(models.Model):
     """
     order = models.ForeignKey(Order)
     product = models.ForeignKey(Product)
-    count = models.PositiveIntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=0)
     price = models.FloatField()
 
     def __unicode__(self):
-        return self.item.title
+        return self.product.title
 

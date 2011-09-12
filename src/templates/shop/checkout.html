@@ -1,0 +1,50 @@
+{% extends "shop/base.html" %}
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% load pagination_tags %}
+{% block content %}
+
+{% include "shop/column_left.html" %}
+{% include "shop/column_right.html" %}
+
+<div id="content">
+  <div class="top">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1>{% trans "Checkout" %} </h1>
+    </div>
+  </div>
+  <div class="middle">
+    <form action="{% url shop:checkout %}" method="post" enctype="multipart/form-data" id="guest">
+      {% csrf_token %}
+      <b style="margin-bottom: 2px; display: block;">{% trans "Tell us how we can to reach you" %}</b>
+      <div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
+        <table>
+          <tbody>
+            {{ form }}
+          </tbody>
+        </table>
+      </div>
+      <div class="buttons">
+        <table>
+          <tbody>
+            <tr>
+              <td align="left">
+                <a onclick="location='{% url shop:cart_show %}';" class="button"><span>{% trans "Shopping Cart" %}</span></a>
+              </td>
+              <td align="right">
+                <a onclick="$('#guest').submit();" class="button"><span>{% trans "Confirm" %}</span></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+{% endblock %}

@@ -10,7 +10,7 @@
     <div class="left"></div>
     <div class="right"></div>
     <div class="center">
-      <h1>{% trans "Cart" %}</h1>
+      <h1>{% trans "Shopping Cart" %}</h1>
     </div>
   </div>
   <div class="middle">
@@ -55,7 +55,7 @@
 	  <div style="width: 100%; display: inline-block;">
         <table style="float: right; display: inline-block;">
           <tbody><tr>
-              <td align="right"><b>Сумма:</b></td>
+              <td align="right"><b>{% trans "Price" %}</b></td>
               <td align="right">{{ cart.price|floatformat:2 }} р.</td>
             </tr>
           </tbody>
@@ -68,7 +68,7 @@
             <tr>
               <td align="left"><a onclick="$('#cart').submit();" class="button"><span>{% trans "Update" %}</span></a></td>
               <td align="center"><a onclick="location = '{% url shop:home %}';" class="button"><span>{% trans "Continue Shopping" %}</span></a></td>
-              <td align="right"><a onclick="location = '/checkout/';" class="button"><span>{% trans "Checkout" %}</span></a></td>
+              <td align="right"><a onclick="location = '{% url shop:checkout %}';" class="button"><span>{% trans "Checkout" %}</span></a></td>
             </tr>
         </tbody>
         </table>
