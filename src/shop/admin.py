@@ -65,6 +65,10 @@ class Property(admin.ModelAdmin):
     list_display = ('product', 'key', 'value',)
 admin.site.register(models.Property, Property)
 
+class Detail(admin.TabularInline):
+    model = models.OrderDetail
+    extra = 0
+
 class Order(admin.ModelAdmin):
     fieldsets = (
         (_(u'Customer'),
@@ -76,5 +80,6 @@ class Order(admin.ModelAdmin):
         )
     list_display = ('name', 'phone', 'status', 'totalprice', 'discount', 'registered')
     search_fields = ('name', 'status')
+    inlines = [Detail]
 admin.site.register(models.Order, Order)
 
