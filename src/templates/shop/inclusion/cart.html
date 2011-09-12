@@ -1,13 +1,7 @@
 {% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
-{% load shop_widgets %}
-<div id="column_right">
-  <div id="module_cart" class="box">
-    <div class="top"><img src="{{ STATIC_PREFIX }}pics/basket.png" alt="" />{% trans "Cart" %}</div>
-
-    <div class="middle">
       <table cellpadding="2" cellspacing="0" style="width: 100%;">
         <tbody>
-          {% for product in cart.object_list %}
+          {% for product in object_list %}
           <tr>
             <td align="left" valign="top" style="width:1px">
               <span class="cart_remove" id="remove_{{ product.pk }}">&nbsp;</span>
@@ -26,13 +20,13 @@
           {% endfor %}
         </tbody>
       </table>
-      {% if cart.price > 0.00 %}
+      {% if price > 0.00 %}
       <br>
       <table cellpadding="0" cellspacing="0" align="right" style="display:inline-block;">
         <tbody>
           <tr>
             <td align="right"><span class="cart_module_total"><b>{% trans "Price" %}:</b></span></td>
-            <td align="right"><span class="cart_module_total">{{ cart.price|floatformat:2 }} р.</span></td>
+            <td align="right"><span class="cart_module_total">{{ price|floatformat:2 }} р.</span></td>
           </tr>
         </tbody>
       </table>
@@ -41,17 +35,3 @@
         <a href="/cart/">{% trans "To list" %}</a> | <a href="/shipping/">{% trans "To order" %}</a>
       </div>
     </div>
-    <div class="bottom">&nbsp;</div>
-  </div>
-
-  <div class="box">
-    <div class="top"><img src="{{ STATIC_PREFIX }}pics/brands.png" alt="" />AdSense</div>
-	<div class="middle" style="text-align: left;">
-      {% trans "Place for banners and advertisement." %}
-    </div>
-    <div class="bottom">&nbsp;</div>
-  </div>
-
-  {% favorites_tag %}
-  {% recommendation_tag %}
-</div>

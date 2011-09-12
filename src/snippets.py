@@ -3,10 +3,13 @@
 
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage
-from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.http import HttpResponse, HttpResponseBadRequest, Http404
+from django.shortcuts import get_object_or_404, render
 from django.template import RequestContext
 from django.utils import simplejson
+from django.utils.translation import ugettext_lazy as _
+
+from shop import models
 
 def trace_to(modulename, filename):
     import logging
@@ -19,80 +22,67 @@ def trace_to(modulename, filename):
         return wrapper
     return renderer
 
-def columns(param, count):
-    def cols(func):
-        def wrapper(request, *args, **kwargs):
-            context =  func(request, *args, **kwargs)
-            if param in context:
-                object_list = context.get(param, None)
-                length = len(object_list)
-
-                from math import ceil
-                per_column = int(ceil(float(length)/count))
-                column_list = []
-                for i in range(count):
-                    column_list.append(object_list[i*per_column:(i+1)*per_column])
-                context['column_list'] = column_list
-            return context
-        return wrapper
-    return cols
-
-def paginate_by(object_name, page_name='page', count=getattr(settings, 'SHOP_ITEMS_PER_PAGE', 20)):
-    def paged(func):
-        def wrapper(request, *args, **kwargs):
-            pagenum = int(kwargs.get(page_name, 1) or 1)
-            del(kwargs[page_name])
-            # получаем контекст
-            context =  func(request, *args, **kwargs)
-            if object_name in context:
-                try:
-                    objects = context.get(object_name)
-                    ipp_settings = settings.SHOP_ITEMS_PER_PAGE
-                    count = [ipp_settings, ipp_settings,
-                             int(1.5 * ipp_settings),
-                             int(2 * ipp_settings),
-                             int(3 * ipp_settings)][int(request.session.get('howmuch_id', 1))]
-                    paginator = Paginator(objects, count)
-
-                    page = paginator.page(pagenum)
-
-                    next_ten = pagenum + 10
-                    if next_ten <= paginator.num_pages:
-                        page.next_ten = next_ten
-
-                    previous_ten = pagenum - 10
-                    if previous_ten >= 1:
-                        page.previous_ten = previous_ten
-
-                    context['page'] = page
-                    context[object_name] = paginator.page(pagenum).object_list
-                except EmptyPage:
-                    context[object_name] = paginator.page(paginator.num_pages).object_list
-            return context
-        return wrapper
-    return paged
-
 def ajax_processor(form_object=None):
     def processor(func):
         def wrapper(request, *args, **kwargs):
-            if request.method == 'POST':
-                if form_object is not None:
+            if request.method == 'POST' and request.is_ajax:
+                if not form_object:
+                    result = func(request, *args, **kwargs)
+                else:
                     form = form_object(request.POST)
                     if form.is_valid():
                         result = func(request, form, *args, **kwargs)
                     else:
                         if settings.DEBUG:
-                            result = {'code': '301', 'desc': 'form is not valid : %s' % form.errors}
+                            return HttpResponseBadRequest(unicode(form.errors))
                         else:
-                            result = {'code': '301', 'desc': 'Сервис временно отключен. Приносим свои извинения.'}
-                else:
-                    result = func(request, *args, **kwargs)
+                            return HttpResponseBadRequest(_(u'Check sended data!'))
             else:
-                if settings.DEBUG:
-                    result = {'code': '401', 'desc': 'it must be POST'}
-                else:
-                    result = {'code': '401', 'desc': 'Не надо нас ломать, ну пожалуйста :)'}
-            json = simplejson.dumps(result)
-            return HttpResponse(json, mimetype="application/json")
+                return HttpResponseBadRequest(_(u'I wanna POST from AJAX!'))
+            if type(result) is dict:
+                json = simplejson.dumps(result)
+                return HttpResponse(json, mimetype="application/json")
+            else:
+                return HttpResponse(result)
         return wrapper
     return processor
+
+class Cart(object):
+
+    def reset(self, request):
+        request.session['cart'] = {}
+
+    def add(self, request, product, quantity):
+
+        if 'cart' not in request.session:
+            self.reset(request)
+
+        cart = request.session['cart']
+
+        count = cart.get(product.pk, 0)
+        cart[product.pk] = count + quantity
+        request.session['cart'] = cart
+        return self.html(request)
+
+    def state(self, request):
+        price = 0.0
+        object_list = []
+
+        if 'cart' not in request.session:
+            self.reset(request)
+
+        for pk, quantity in request.session['cart'].items():
+            product = get_object_or_404(models.Product, pk=pk)
+            object_list.append(
+                {'pk': product.pk,
+                 'title': product.title,
+                 'price': product.price,
+                 'url': product.get_absolute_url(),
+                 'quantity': quantity,}
+                )
+            price += (product.price * quantity)
+        return {'object_list': object_list, 'price': price,}
+
+    def html(self, request):
+        return render(request, 'shop/inclusion/cart.html',
+                      self.state(request))

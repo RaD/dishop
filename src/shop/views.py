@@ -5,20 +5,22 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.simple import direct_to_template
 
 from tagging.models import Tag
 from tagging.utils import calculate_cloud
 
-from shop import models
+from shop import models, forms
 from shop.forms_search import SearchForm, get_search_form as factory
 
-from snippets import columns, paginate_by
+from snippets import ajax_processor, Cart
+
+CART = Cart()
 
 def home(request):
     context = {
+        'cart': CART.state(request),
         'product_list': models.Product.objects.filter(is_active=True)[:settings.SHOP_LAST_INCOMING],
         }
     return direct_to_template(request, 'shop/home.html', context)
@@ -29,6 +31,7 @@ def contact(request):
 def category(request, slug):
     category = get_object_or_404(models.Category, slug=slug)
     context = {
+        'cart': CART.state(request),
         'category': category,
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _('Home')},
@@ -40,6 +43,7 @@ def category(request, slug):
 def producer(request, slug):
     producer = get_object_or_404(models.Producer, slug=slug)
     context = {
+        'cart': CART.state(request),
         'producer': producer,
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _('Home')},
@@ -51,6 +55,7 @@ def producer(request, slug):
 def product(request, slug):
     product = get_object_or_404(models.Product, slug=slug)
     context = {
+        'cart': CART.state(request),
         'product': product,
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _('Home')},
@@ -67,75 +72,10 @@ def shipping(request):
     return direct_to_template(request, 'shop/base.html')
 
 
-class CartItem:
-    """ Класс объекта-корзины. """
-    def __init__(self, record, count, price):
-        self.record = record
-        self.count = count
-        self.price = price
-        self.cost = count * price
+@ajax_processor(forms.CartAdd)
+def callback(request, form):
+    return form.save(request, CART)
 
-def get_all_categories():
-    return models.Category.objects.all()
-
-def get_all_tags():
-    cloud = calculate_cloud(Tag.objects.usage_for_model(models.Item, counts=True))
-    cp = {'min_pct': 75, 'max_pct': 150, 'steps': 4}
-    step_pct = int((cp['max_pct'] - cp['min_pct'])/(cp['steps'] - 1))
-    for i in cloud:
-        i.font_size = (i.font_size - 1) * step_pct + cp['min_pct']
-    return cloud
-
-def get_items_by_category(request, title):
-    class Category:
-        def __init__(self, title, slug):
-            self.title = title
-            self.slug = slug
-        def __unicode__(self):
-            return self.title
-
-    if title == 'popular':
-        category = Category(u'Популярные', u'popular')
-        items = models.Item.objects.all().order_by('-buys')
-    elif title == 'new':
-        category = Category(u'Новинки', u'new')
-        items = models.Item.objects.all().order_by('-reg_date')
-    else:
-        category = get_object_or_404(models.Category, slug__exact=title)
-        items = models.Item.objects.filter(category=category)
-    request.session['cached_items'] = items # кэшируем для paginator
-    request.session['cached_items'] = items
-    return (category, items)
-
-def get_items_by_collection(request, id):
-    collection = get_object_or_404(models.Collection, id__exact=id)
-    items = models.Item.objects.filter(collection=id)
-    request.session['cached_items'] = items # кэшируем для paginator
-    return (collection, items)
-
-def get_item_info_by_id(request, id):
-    item = get_object_or_404(models.Item, id__exact=id)
-    return get_item_info(request, item)
-
-def get_item_info_by_title(request, title):
-    item = get_object_or_404(models.Item, title__exact=title)
-    return get_item_info(request, item)
-
-def get_item_info(request, item):
-    collection = models.Item.objects.filter(collection=item.collection,
-                                            collection__isnull=False).exclude(id=item.id)
-    cached_items = request.session.get('cached_items', [])
-    # ToDo: продумать логику перехода к следующей/предыдущей моделям товара
-    previous = next = None
-    try:
-        index = list(cached_items).index(filter(lambda x: x.id==item.id, cached_items)[0])
-        if index > 0:
-            previous = cached_items[index - 1]
-        if index < len(cached_items) - 1:
-            next = cached_items[index + 1]
-    except IndexError:
-        index = 0
-    return (item, collection, previous, next)
 
 def init_cart(request, force=False):
     """ Инициализация корзины. """

@@ -47,13 +47,11 @@
               </table>
               <br/>
               <form action="/cart/" method="post" enctype="multipart/form-data" id="product">
+                <input type="hidden" name="product_id" value="{{ product.pk }}"/>
+                <input type="hidden" name="redirect" value="{{ product.get_absolute_url }}"/>
                 <div class="content">
                   {% trans "Count" %}: <input type="text" name="quantity" size="3" value="1"/>
                   <a id="add_to_cart" class="button"><span>{% trans "Add into cart" %}</span></a>
-                </div>
-                <div>
-                  <input type="hidden" name="product_id" value="30"/>
-                  <input type="hidden" name="redirect" value="/product/{{ product.pk }}/"/>
                 </div>
               </form>
             </td>

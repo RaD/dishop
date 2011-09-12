@@ -10,6 +10,7 @@ urlpatterns = patterns('shop.views',
     url(r'^category/(?P<slug>[^/]+)/$', 'category', name='category'),
     url(r'^producer/(?P<slug>[^/]+)/$', 'producer', name='producer'),
     url(r'^product/(?P<slug>[^/]+)/$', 'product', name='product'),
+    url(r'^callback/$', 'callback', name='callback'),
     url(r'^cart/$', 'cart', name='cart'),
     url(r'^shipping/$', 'shipping', name='shipping'),
 )
