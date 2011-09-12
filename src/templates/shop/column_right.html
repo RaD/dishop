@@ -5,41 +5,7 @@
     <div class="top"><img src="{{ STATIC_PREFIX }}pics/basket.png" alt="" />{% trans "Cart" %}</div>
 
     <div class="middle">
-      <table cellpadding="2" cellspacing="0" style="width: 100%;">
-        <tbody>
-          {% for product in cart.object_list %}
-          <tr>
-            <td align="left" valign="top" style="width:1px">
-              <span class="cart_remove" id="remove_{{ product.pk }}">&nbsp;</span>
-            </td>
-            <td valign="top" align="right" style="width:1px">{{ product.quantity }}&nbsp;x&nbsp;</td>
-            <td align="left" valign="top">
-              <a href="{{ product.url }}">{{ product.title }}</a>
-            </td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td>
-              <div style="text-align: center;">{% trans "No items yet" %}</div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% if cart.price > 0.00 %}
-      <br>
-      <table cellpadding="0" cellspacing="0" align="right" style="display:inline-block;">
-        <tbody>
-          <tr>
-            <td align="right"><span class="cart_module_total"><b>{% trans "Price" %}:</b></span></td>
-            <td align="right"><span class="cart_module_total">{{ cart.price|floatformat:2 }} р.</span></td>
-          </tr>
-        </tbody>
-      </table>
-      {% endif %}
-	  <div style="padding-top:5px;text-align:center;clear:both;">
-        <a href="/cart/">{% trans "To list" %}</a> | <a href="/shipping/">{% trans "To order" %}</a>
-      </div>
+      {% cart_tag %}
     </div>
     <div class="bottom">&nbsp;</div>
   </div>

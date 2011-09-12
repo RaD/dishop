@@ -4,7 +4,6 @@
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponse, HttpResponseBadRequest, Http404
-from django.shortcuts import get_object_or_404, render
 from django.template import RequestContext
 from django.utils import simplejson
 from django.utils.translation import ugettext_lazy as _
@@ -47,42 +46,3 @@ def ajax_processor(form_object=None):
         return wrapper
     return processor
 
-class Cart(object):
-
-    def reset(self, request):
-        request.session['cart'] = {}
-
-    def add(self, request, product, quantity):
-
-        if 'cart' not in request.session:
-            self.reset(request)
-
-        cart = request.session['cart']
-
-        count = cart.get(product.pk, 0)
-        cart[product.pk] = count + quantity
-        request.session['cart'] = cart
-        return self.html(request)
-
-    def state(self, request):
-        price = 0.0
-        object_list = []
-
-        if 'cart' not in request.session:
-            self.reset(request)
-
-        for pk, quantity in request.session['cart'].items():
-            product = get_object_or_404(models.Product, pk=pk)
-            object_list.append(
-                {'pk': product.pk,
-                 'title': product.title,
-                 'price': product.price,
-                 'url': product.get_absolute_url(),
-                 'quantity': quantity,}
-                )
-            price += (product.price * quantity)
-        return {'object_list': object_list, 'price': price,}
-
-    def html(self, request):
-        return render(request, 'shop/inclusion/cart.html',
-                      self.state(request))

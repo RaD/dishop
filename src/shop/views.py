@@ -14,13 +14,10 @@ from tagging.utils import calculate_cloud
 from shop import models, forms
 from shop.forms_search import SearchForm, get_search_form as factory
 
-from snippets import ajax_processor, Cart
-
-CART = Cart()
+from snippets import ajax_processor
 
 def home(request):
     context = {
-        'cart': CART.state(request),
         'product_list': models.Product.objects.filter(is_active=True)[:settings.SHOP_LAST_INCOMING],
         }
     return direct_to_template(request, 'shop/home.html', context)
@@ -31,7 +28,6 @@ def contact(request):
 def category(request, slug):
     category = get_object_or_404(models.Category, slug=slug)
     context = {
-        'cart': CART.state(request),
         'category': category,
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _('Home')},
@@ -43,7 +39,6 @@ def category(request, slug):
 def producer(request, slug):
     producer = get_object_or_404(models.Producer, slug=slug)
     context = {
-        'cart': CART.state(request),
         'producer': producer,
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _('Home')},
@@ -55,7 +50,6 @@ def producer(request, slug):
 def product(request, slug):
     product = get_object_or_404(models.Product, slug=slug)
     context = {
-        'cart': CART.state(request),
         'product': product,
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _('Home')},
@@ -74,7 +68,7 @@ def shipping(request):
 
 @ajax_processor(forms.CartAdd)
 def callback(request, form):
-    return form.save(request, CART)
+    return form.save(request)
 
 
 def init_cart(request, force=False):

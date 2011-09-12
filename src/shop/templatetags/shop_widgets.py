@@ -5,7 +5,7 @@ from django.conf import settings
 from django import template
 from django.utils.translation import ugettext_lazy as _
 
-from shop import models
+from shop import models, Cart
 
 register = template.Library()
 
@@ -26,6 +26,10 @@ def producers_tag():
     return {
         'manufacturers': models.Producer.objects.all(),
     }
+
+@register.inclusion_tag('shop/inclusion/cart.html', takes_context=True)
+def cart_tag(context):
+    return Cart().state(context['request'])
 
 @register.inclusion_tag('shop/inclusion/item_list.html')
 def recommendation_tag():
