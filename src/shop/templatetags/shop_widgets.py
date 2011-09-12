@@ -27,8 +27,6 @@ def producers_tag():
         'manufacturers': models.Producer.objects.all(),
     }
 
-from shop import models
-
 @register.inclusion_tag('shop/inclusion/item_list.html')
 def recommendation_tag():
     limit = getattr(settings, 'SHOP_ITEMS_RECOMMENDED', 5)
