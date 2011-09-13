@@ -37,18 +37,10 @@
               {% endfor %}
             </div>
             <div class="div7">
-              <form action="/" method="post" enctype="multipart/form-data" id="language_form">
-                <div class="switcher">
-                  <div class="selected"><a><img src="{{ STATIC_PREFIX }}pics/flags/ru.png" alt="Russian" />&nbsp;&nbsp;Russian</a></div>
-                  <div class="option">
-                    <a onclick="$('input[name=\'language_code\']').attr('value', 'ru'); $('#language_form').submit();"><img src="{{ STATIC_PREFIX }}pics/flags/ru.png" alt="Russian" />&nbsp;&nbsp;Russian</a>
-                  </div>
-                </div>
-                <div>
-                  <input type="hidden" name="language_code" value="" />
-                  <input type="hidden" name="redirect" value="/" />
-                </div>
-              </form>
+              <select name="language" onchange="document.location=$(this).val();">
+                <option value="{% url shop:lang code='ru' %}" {% if "ru" == lang_code %}selected="true"{% endif %}>Русский</option>
+                <option value="{% url shop:lang code='en' %}" {% if "en" == lang_code %}selected="true"{% endif %}>English</option>
+              </select>
             </div>
           </div>
         </div>

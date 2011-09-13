@@ -127,3 +127,8 @@ def lookup(request):
     if form.is_valid():
         context['object_list'] = [p.object for p in form.search()]
     return direct_to_template(request, 'shop/lookup.html', context)
+
+def lang(request, code):
+    referer = request.META['HTTP_REFERER']
+    request.session['django_language'] = code
+    return redirect(referer)

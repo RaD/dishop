@@ -15,6 +15,7 @@ urlpatterns = patterns('shop.views',
     url(r'^checkout/$', 'checkout', name='checkout'),
     url(r'^status/$', 'status', name='status'),
     url(r'^lookup/$', 'lookup', name='lookup'),
+    url(r'^lang/(?P<code>[a-z]{2})/$', 'lang', name='lang'),
     url(r'^.*/$', 'flatpage', name='flatpage'),
 )
 
