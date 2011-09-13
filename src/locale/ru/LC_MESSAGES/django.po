@@ -1,0 +1,468 @@
+# Dishop.
+# Copyright (C) 2011 Ruslan Popov
+# This file is distributed under the same license as the DISHOP package.
+# Ruslan Popov <ruslan.popov@gmail.com>, 2011.
+# FULL NAME <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-09-14 02:23+0400\n"
+"PO-Revision-Date: 2011-09-14 02:24+0400\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: context_templates.py:19
+msgid "CB and GSM devices"
+msgstr "CB и GSM устройства"
+
+#: settings.py:48
+msgid "English"
+msgstr "English"
+
+#: settings.py:49
+msgid "Russian"
+msgstr "Russian"
+
+#: snippets.py:38
+msgid "Check sended data!"
+msgstr "Проверьте отправленные данные!"
+
+#: snippets.py:40
+msgid "I wanna POST from AJAX!"
+msgstr "Я хочу POST от AJAX!"
+
+#: shop/admin.py:27 shop/models.py:70 shop/models.py:75 shop/models.py:123
+#: shop/models.py:205
+msgid "Color"
+msgstr "Цвет"
+
+#: shop/admin.py:51 templates/shop/inclusion/flatpage_list.html:4
+#: templates/shop/inclusion/flatpage_list.html:5
+msgid "Information"
+msgstr "Информация"
+
+#: shop/admin.py:57
+msgid "More info"
+msgstr "Подробнее"
+
+#: shop/admin.py:75
+msgid "Customer"
+msgstr "Клиент"
+
+#: shop/admin.py:77 shop/models.py:24 shop/models.py:136 shop/models.py:261
+msgid "Order"
+msgstr "Заказ"
+
+#: shop/admin.py:79 shop/models.py:248
+msgid "Shipping"
+msgstr "Доставка"
+
+#: shop/forms.py:15 shop/forms.py:26 shop/forms.py:33
+msgid "Product ID"
+msgstr "Номер товара"
+
+#: shop/forms.py:16
+msgid "Product Count"
+msgstr "Количество товаров"
+
+#: shop/forms.py:17
+msgid "Redirect URL"
+msgstr "URL перенаправления"
+
+#: shop/forms.py:34
+msgid "Image URL"
+msgstr "URL изображения"
+
+#: shop/forms.py:35 shop/models.py:21 shop/models.py:68 shop/models.py:86
+#: shop/models.py:103 shop/models.py:124 shop/models.py:226
+#: templates/shop/cart_list.html:25
+msgid "Title"
+msgstr "Заголовок"
+
+#: shop/forms.py:36 templates/shop/cart_list.html:26
+msgid "Quantity"
+msgstr "Количество"
+
+#: shop/forms.py:37 shop/models.py:126 templates/shop/cart_list.html:27
+#: templates/shop/cart_list.html.py:58 templates/shop/product.html:29
+#: templates/shop/inclusion/cart.html:28
+msgid "Price"
+msgstr "Цена"
+
+#: shop/forms.py:38 templates/shop/cart_list.html:28
+msgid "Total"
+msgstr "Всего"
+
+#: shop/forms.py:83 templates/shop/inclusion/categories_select.html:3
+msgid "All categories"
+msgstr "Все категории"
+
+#: shop/models.py:20
+msgid "Parent"
+msgstr "Предок"
+
+#: shop/models.py:23
+msgid "Is active"
+msgstr "Активна"
+
+#: shop/models.py:28 shop/models.py:121 shop/management/commands/pull.py:80
+msgid "Category"
+msgstr "Категория"
+
+#: shop/models.py:29 templates/shop/inclusion/categories_list.html:4
+#: templates/shop/inclusion/categories_list.html:5
+msgid "Categories"
+msgstr "Категории"
+
+#: shop/models.py:72
+msgid "HEX color, as #RRGGBB"
+msgstr "HEX цвет, вида #RRGGBB"
+
+#: shop/models.py:76
+msgid "Colors"
+msgstr "Цвета"
+
+#: shop/models.py:91 shop/models.py:102
+msgid "Country"
+msgstr "Страна"
+
+#: shop/models.py:92
+msgid "Countries"
+msgstr "Страны"
+
+#: shop/models.py:107 shop/models.py:122
+msgid "Producer"
+msgstr "Производитель"
+
+#: shop/models.py:108
+msgid "Producers"
+msgstr "Производители"
+
+#: shop/models.py:127
+msgid "Is present"
+msgstr "В наличии"
+
+#: shop/models.py:128
+msgid "Recomendation"
+msgstr "Рекомендация"
+
+#: shop/models.py:129
+msgid "Don't allow to change automaticly"
+msgstr "Не позволять автоматическое изменение"
+
+#: shop/models.py:130 templates/shop/product.html:64
+msgid "Description"
+msgstr "Описание"
+
+#: shop/models.py:131
+msgid "Technical Info"
+msgstr "Техническая информация"
+
+#: shop/models.py:132 templates/shop/cart_list.html:24
+msgid "Image"
+msgstr "Изображение"
+
+#: shop/models.py:133
+msgid "Tags"
+msgstr "Таги"
+
+#: shop/models.py:134 shop/models.py:258
+msgid "Registered"
+msgstr "Зарегистрировано"
+
+#: shop/models.py:139
+msgid "Product"
+msgstr "Товар"
+
+#: shop/models.py:140
+msgid "Products"
+msgstr "Товары"
+
+#: shop/models.py:195
+msgid "Thumbnail"
+msgstr "Миниатюра"
+
+#: shop/models.py:227
+msgid "Value"
+msgstr "Значение"
+
+#: shop/models.py:230
+msgid "Property"
+msgstr "Свойство"
+
+#: shop/models.py:231
+msgid "Properties"
+msgstr "Свойства"
+
+#: shop/models.py:242
+msgid "Wait"
+msgstr "Ожидание"
+
+#: shop/models.py:243
+msgid "Process"
+msgstr "Обработка"
+
+#: shop/models.py:244
+msgid "Sent"
+msgstr "Отправлено"
+
+#: shop/models.py:245
+msgid "Cancel"
+msgstr "Отменено"
+
+#: shop/models.py:246
+msgid "Closed"
+msgstr "Сделка завершена"
+
+#: shop/models.py:247
+msgid "Undo"
+msgstr "Возврат"
+
+#: shop/models.py:251
+msgid "Name"
+msgstr "Имя"
+
+#: shop/models.py:252
+msgid "Phone"
+msgstr "Телефон"
+
+#: shop/models.py:253
+msgid "Shipping address"
+msgstr "Адрес доставки"
+
+#: shop/models.py:254
+msgid "Shipping comment"
+msgstr "Особенности доставки"
+
+#: shop/models.py:257 templates/shop/status.html:14
+msgid "Status"
+msgstr "Состояние"
+
+#: shop/models.py:262
+msgid "Orders"
+msgstr "Заказы"
+
+#: shop/views.py:30 shop/views.py:41 shop/views.py:52 shop/views.py:77
+#: shop/views.py:102 shop/views.py:123 templates/shop/header.html:18
+msgid "Home"
+msgstr "Начало"
+
+#: shop/views.py:78 templates/shop/cart_list.html:13
+#: templates/shop/checkout.html:33
+msgid "Shopping Cart"
+msgstr "Корзина"
+
+#: shop/views.py:124 templates/shop/lookup.html:14
+msgid "Search Results"
+msgstr "Результаты поиска"
+
+#: shop/widgets.py:28
+msgid "Palette"
+msgstr "Палитра"
+
+#: shop/management/commands/pull.py:55
+#, python-format
+msgid ""
+"Cannot retrieve URL.\n"
+"HTTP Error Code: %s"
+msgstr ""
+"Не могу загрузить URL.\n"
+"Код ошибки HTTP: %s"
+
+#: shop/management/commands/pull.py:57
+#, python-format
+msgid "Cannot retrieve URL: %s"
+msgstr "Не могу загрузить URL: %s"
+
+#: shop/management/commands/pull.py:71
+msgid "Download data from master site and make changes in project database."
+msgstr "Загрузка данных с главного сайта и применение их к базе проекта."
+
+#: shop/management/commands/pull.py:228
+msgid "No elements found."
+msgstr "Элементы не найдены."
+
+#: shop/templatetags/shop_widgets.py:45
+msgid "Good choice"
+msgstr "Рекомендуем"
+
+#: shop/templatetags/shop_widgets.py:53
+msgid "Favorites"
+msgstr "Хиты продаж"
+
+#: templates/shop/base.html:26
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: templates/shop/cart_list.html:23
+msgid "Delete"
+msgstr "Удалить"
+
+#: templates/shop/cart_list.html:69
+msgid "Update"
+msgstr "Обновить"
+
+#: templates/shop/cart_list.html:70
+msgid "Continue Shopping"
+msgstr "Продолжить покупку"
+
+#: templates/shop/cart_list.html:71 templates/shop/checkout.html:14
+#: templates/shop/header.html:20 templates/shop/inclusion/cart.html:37
+msgid "Checkout"
+msgstr "Заказать"
+
+#: templates/shop/category.html:49 templates/shop/lookup.html:48
+msgid "No items, sorry!"
+msgstr "Нет данных, сожалеем!"
+
+#: templates/shop/checkout.html:20
+msgid "Tell us how we can to reach you"
+msgstr "Расскажите нам куда мы можем произвести доставку"
+
+#: templates/shop/checkout.html:36
+msgid "Confirm"
+msgstr "Заказать"
+
+#: templates/shop/column_right.html:5 templates/shop/header.html:19
+msgid "Cart"
+msgstr "Корзина"
+
+#: templates/shop/column_right.html:16
+msgid "Place for banners and advertisement."
+msgstr "Место для баннеров и рекламы."
+
+#: templates/shop/footer.html:7
+msgid "Powered by"
+msgstr "Работает благодаря"
+
+#: templates/shop/footer.html:8
+msgid "and"
+msgstr "и"
+
+#: templates/shop/footer.html:8
+msgid "Django in russian"
+msgstr "Django по-русски"
+
+#: templates/shop/footer.html:9
+msgid "Based on"
+msgstr "Основано на"
+
+#: templates/shop/header.html:13
+msgid "Bookmark"
+msgstr "В избранное"
+
+#: templates/shop/header.html:14
+msgid "Contact"
+msgstr "Контакты"
+
+#: templates/shop/home.html:13
+msgid "Welcome to our shop"
+msgstr "Добро пожаловать в наш магазин"
+
+#: templates/shop/home.html:18
+msgid "We glad to see you here, dude!"
+msgstr "Мы рады видеть вас здесь!"
+
+#: templates/shop/home.html:31
+msgid "Last incoming"
+msgstr "Новые поступления"
+
+#: templates/shop/home.html:40
+msgid "This is absolutely new shop!"
+msgstr "Это абсолютно новый магазин!"
+
+#: templates/shop/producer.html:49
+msgid "No item, sorry!"
+msgstr "Нет данных, сожалеем!"
+
+#: templates/shop/product.html:33
+msgid "Presence"
+msgstr "Наличие"
+
+#: templates/shop/product.html:34
+msgid "Yes"
+msgstr "Да"
+
+#: templates/shop/product.html:34
+msgid "No"
+msgstr "Нет"
+
+#: templates/shop/product.html:37
+msgid "Model"
+msgstr "Модель"
+
+#: templates/shop/product.html:54
+msgid "Count"
+msgstr "Количество"
+
+#: templates/shop/product.html:55
+msgid "Add into cart"
+msgstr "Добавить в корзину"
+
+#: templates/shop/product.html:65
+msgid "Details"
+msgstr "Подробности"
+
+#: templates/shop/product_list.html:9
+#: templates/shop/inclusion/item_list.html:19
+msgid "Add to the cart"
+msgstr "Добавить в корзину"
+
+#: templates/shop/status.html:26
+msgid ""
+"\n"
+"      Thank you for your order!\n"
+"      "
+msgstr ""
+"\n"
+"      Спасибо за ваш заказ!\n"
+"      "
+
+#: templates/shop/status.html:31
+msgid ""
+"\n"
+"      A manager will call you soon to discuss the order's shipping details.\n"
+"      "
+msgstr ""
+"\n"
+"      Менеджер перезвонит вам в ближайшее время для обсуждения особенностей "
+"доставки вашего заказа.\n"
+"      "
+
+#: templates/shop/inclusion/cart.html:17
+#: templates/shop/inclusion/item_list.html:26
+msgid "No items yet"
+msgstr "Данных пока нет"
+
+#: templates/shop/inclusion/cart.html:35
+msgid "Show Items"
+msgstr "Показать содержимое"
+
+#: templates/shop/inclusion/categories_list.html:14
+msgid "No categories found."
+msgstr "Категории не найдены."
+
+#: templates/shop/inclusion/flatpage_list.html:11
+msgid "No information yet"
+msgstr "Информации пока нет"
+
+#: templates/shop/inclusion/producers.html:4
+#: templates/shop/inclusion/producers.html:5
+msgid "Manufacturers"
+msgstr "Производители"
+
+#: templates/shop/inclusion/producers.html:8
+msgid "Choose"
+msgstr "Выберите"
+
+#: templates/shop/inclusion/search.html:8
+msgid "Find"
+msgstr "Поиск"

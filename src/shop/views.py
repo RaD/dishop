@@ -13,7 +13,6 @@ from tagging.models import Tag
 from tagging.utils import calculate_cloud
 
 from shop import models, forms, Cart
-from shop.forms_search import SearchForm, get_search_form as factory
 
 from snippets import ajax_processor
 

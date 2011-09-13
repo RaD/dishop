@@ -251,7 +251,7 @@ class Order(models.Model):
     name = models.CharField(verbose_name=_(u'Name'), max_length=80)
     phone = models.CharField(verbose_name=_(u'Phone'), max_length=16)
     ship_to = models.CharField(verbose_name=_(u'Shipping address'), max_length=255)
-    comment = models.TextField(blank=True, default=u'')
+    comment = models.TextField(verbose_name=_(u'Shipping comment'), blank=True, default=u'')
     totalprice = models.FloatField()
     discount = models.FloatField(default=0.0)
     status = models.CharField(verbose_name=_(u'Status'), max_length=2, default='1', choices=STATUSES)

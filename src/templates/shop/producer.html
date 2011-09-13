@@ -26,18 +26,16 @@
     <div class="sort">
       <div class="div1">
         <select name="sort" onchange="location = this.value">
-          <option value="/order/name/asc/" selected="selected">По-умолчанию</option>
-          <option value="/order/name/asc/">Имени от А до Я</option>
-          <option value="/order/name/desc/">Имени от Я до А</option>
-          <option value="/order/price/asc/">Ценовых: Низкие &gt; Высокие</option>
-          <option value="/order/price/desc/">Ценам: Высокие &lt; Низкие</option>
-          <option value="/order/rating/desc/">Высокому рейтингу</option>
-          <option value="/order/rating/asc/">Низкому рейтингу</option>
-          <option value="/order/model/asc/">Модель от А до Я</option>
-          <option value="/order/model/desc/">Модель от Я до А</option>
+          <option value="/order/name/asc/" selected="selected">{% trans "Default" %}</option>
+          <option value="/order/name/asc/">{% trans "By name (A-Z)" %}</option>
+          <option value="/order/name/desc/">{% trans "By name (Z-A)" %}</option>
+          <option value="/order/price/asc/">{% trans "By price (Low-High)" %}</option>
+          <option value="/order/price/desc/">{% trans "By price (High-Low)" %}</option>
+          <option value="/order/rating/desc/">{% trans "Rating (High-Low)" %}</option>
+          <option value="/order/rating/asc/">{% trans "Rating (Low-High)" %}</option>
         </select>
       </div>
-      <div class="div2">Сортировать по:</div>
+      <div class="div2">{% trans "Sort" %}:</div>
     </div>
     {% endcomment %}
 
