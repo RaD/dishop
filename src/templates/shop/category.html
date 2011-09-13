@@ -47,7 +47,7 @@
         {% for product in object_list %}
         {% include "shop/product_list.html" %}
         {% empty %}
-        <p>{% trans "This is absolutely new shop!" %}</p>
+        <p>{% trans "No items, sorry!" %}</p>
         {% endfor %}
       </div>
     </div>
