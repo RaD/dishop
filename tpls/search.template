@@ -1,0 +1,7 @@
+#!/usr/local/bin/bash
+
+source ~/env/${project_name}/bin/activate
+
+cd ~/sites/${project_name}/src && python manage.pyc update_index && exit 0
+
+exit 1

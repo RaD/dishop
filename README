@@ -14,4 +14,25 @@ Fill the schema of a database:
 
 ==== External dependency ====
 
-yuicompressor-2.4.2.jar - http://yuilibrary.com/downloads/#yuicompressor
+  * yuicompressor-2.4.2.jar - http://yuilibrary.com/downloads/#yuicompressor
+
+  * xapian-1.2
+
+        cd sites
+        . ./env_activate.sh dishop
+
+        cd ~/tmp
+
+        wget http://oligarchy.co.uk/xapian/1.2.7/xapian-core-1.2.7.tar.gz
+        tar xzf xapian-core-1.2.7.tar.gz
+        cd xapian-core-1.2.7
+        ./configure --prefix=${HOME}/env/dishop/ && make && make install
+        cd -
+
+        wget http://oligarchy.co.uk/xapian/1.2.7/xapian-bindings-1.2.7.tar.gz
+        tar xzf xapian-bindings-1.2.7.tar.gz
+        cd xapian-bindings-1.2.7
+        ./configure --prefix=${HOME}/env/dishop/ --with-python \
+            --without-php --without-ruby --without-tcl --without-csharp \
+            --without-java --without-perl --without-lua && make && make install
+        cd -
