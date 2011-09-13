@@ -1,5 +1,5 @@
 {% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
-      <div class="item" style="height: 200px; width: 170px; margin: 2px; border: 1px solid lightgray; float: left;">
+      <div class="item" style="height: 200px; width: 170px; margin: 2px; text-align: center; border: 1px solid lightgray; float: left;">
         <a href="{{ product.get_absolute_url }}"><img src="{{ product.get_thumbnail_150 }}" id="image_{{ product.pk }}"
                                                       width="150" height="150"
                                                       alt="{{ product.title }}"
