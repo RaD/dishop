@@ -32,6 +32,33 @@ def translit(value):
         translit = translit.replace(symb_in, symb_out)
     return translit
 
+def retrieve(url, suffix=None):
+    headers = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Charset': 'utf-8;q=0.7,*;q=0.3',
+        'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
+        'Cache-Control': 'max-age=0',
+        'Connection': 'keep-alive',
+        'Host': 'supersvyaz.ru',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.220 Safari/535.1',
+        }
+
+    if suffix:
+        url = url + suffix
+    print 'Retrieve %s' % url
+    while True:
+        try:
+            time.sleep(random.randint(5,20))
+            #req = urllib2.Request(url, {}, headers)
+            page = urllib2.urlopen(url)
+        except urllib2.HTTPError, e:
+            print _(u'Cannot retrieve URL.\nHTTP Error Code: %s') % e.code
+        except urllib2.URLError, e:
+            print _(u'Cannot retrieve URL: %s') % e.reason[1]
+        else:
+            return page
+        print 'Try again after pause'
+
 def remove_brackets(value):
     tpl = re.compile(r'^(\s?[^\(]+).*$')
     obj = tpl.match(value)
@@ -48,9 +75,6 @@ class Command(NoArgsCommand):
     def handle_noargs(self, *args, **options):
         main_page = MainPage(self.HOST, '/')
 
-        # disable all categories first
-        models.Category.objects.all().update(is_active=False)
-
         for c_index, data in enumerate(main_page.categories(), 1):
             base, url, title = data
             print u'\n%s: %s [%s]' % (_(u'Category'), title, url)
@@ -60,7 +84,7 @@ class Command(NoArgsCommand):
 
             cat_page = DescPage(self.HOST, url)
             for i_index, desc in enumerate(cat_page.short_description(), 1):
-                print '\n=== D === %(title)s, price is %(price)s' % desc
+                print '>>> %(title)s, price is %(price)s' % desc
 
                 item_title = desc.get('title')
                 item_slug = translit(item_title)
@@ -69,17 +93,20 @@ class Command(NoArgsCommand):
 
                 data = {'category': category,
                         'producer': producer,
-                        'base_url': desc.get('url'),
-                        'title': item_title,
-                        'slug': item_slug,
+                        'base_url': unicode(desc.get('url')),
+                        'title': unicode(item_title),
+                        'slug': unicode(item_slug),
                         'price': desc.get('price'),
                         'is_active': desc.get('is_active'),
-                        'desc': desc.get('desc'),
-                        'tech': desc.get('tech'),
+                        'desc': unicode(desc.get('desc')),
+                        'tech': unicode(desc.get('tech')),
                         }
 
                 obj = self.fill(models.Product, i_index, data)
-                self.save_image(obj, self.HOST + desc.get('image'))
+                image = desc.get('image')
+                if image:
+                    self.save_image(obj, self.HOST + image)
+                print
         print 'ok'
 
     def fill(self, model, index, fields):
@@ -108,7 +135,7 @@ class Command(NoArgsCommand):
         return obj
 
     def save_image(self, obj, full_url):
-        content = ContentFile(urllib2.urlopen(full_url).read())
+        content = ContentFile(retrieve(full_url).read())
         existed_image = obj.image
         if not existed_image:
             print 'Update image...',
@@ -134,47 +161,16 @@ class BasePage(object):
         self.page_urls = []
         self.tree_list = []
 
-        tree = etree.parse(self.retrieve_page(), self.parser)
+        page = retrieve(self.url)
+        tree = etree.parse(page, self.parser)
         self.tree_list.append(tree)
 
         if hasattr(self, 'paginator'):
             paginator = getattr(self, 'paginator', None)
             if paginator:
                 for suffix in paginator():
-                    tree = etree.parse(self.retrieve_page(suffix=suffix), self.parser)
+                    tree = etree.parse(retrieve(self.url, suffix=suffix), self.parser)
                     self.tree_list.append(tree)
-
-    def retrieve_page(self, url=None, suffix=None):
-        headers = {
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Charset': 'utf-8;q=0.7,*;q=0.3',
-            'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
-            'Cache-Control': 'max-age=0',
-            'Connection': 'keep-alive',
-            'Host': 'supersvyaz.ru',
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.220 Safari/535.1',
-            }
-
-        if url:
-            url = self.base + url
-        else:
-            url = self.url
-        if suffix:
-            url = url + suffix
-        print 'Retrieve %s' % url
-        while True:
-            try:
-                req = urllib2.Request(url, {}, headers)
-                page = urllib2.urlopen(req)
-                time.sleep(random.randint(5,20))
-            except urllib2.HTTPError, e:
-                print _(u'Cannot retrieve URL.\nHTTP Error Code: %s') % e.code
-            except urllib2.URLError, e:
-                print _(u'Cannot retrieve URL: %s') % e.reason[1]
-            else:
-                return page
-            print 'Reconnect after 30 seconds'
-            time.sleep(30)
 
     @property
     def url(self):
@@ -193,6 +189,10 @@ class MainPage(BasePage):
             yield (self.base, url, title,)
 
 class DescPage(BasePage):
+
+    def __init__(self, *args, **kwargs):
+        super(DescPage, self).__init__(*args, **kwargs)
+        self.SKIP = True
 
     def paginator(self):
         if len(self.tree_list) > 1:
@@ -213,21 +213,26 @@ class DescPage(BasePage):
                     'price': item.xpath(".//div[@class='obj']//div[@class='price' or @class='price-no']/text()")[0],
                     'is_active': 0 == len(item.xpath(".//div[@class='obj']//div[@class='price-no']")),
                     }
+                if data.get('url') == '/shop/fax/fax_21.html':
+                    self.SKIP = False
+                if self.SKIP:
+                    continue
+
                 assert len(data.get('url', '')) and len(data.get('title', ''))
-                data.update( self.full_description(data.get('url')) )
+                data.update( self.full_description(self.base + data.get('url')) )
                 yield data
 
     def full_description(self, url):
-        tree = etree.parse(self.retrieve_page(url=url), self.parser)
+        tree = etree.parse(retrieve(url=url), self.parser)
         desc_list = tree.xpath("//div[@id='item-full']")
         assert len(desc_list), _(u'No elements found.')
         for item in desc_list:
             try:
                 return {
                     'image': item.xpath(".//div[@class='item-pic']//img/@src")[0],
-                    'desc': tounicode(item.xpath(".//div[@id='item-details']/ul")[0]),
-                    'tech': tounicode(item.xpath(".//div[@id='item-tech']//table")[0]),
+                    'desc': tounicode(item.xpath(".//div[@id='item-details']/node()")[0]),
+                    'tech': tounicode(item.xpath(".//div[@id='item-tech']/node()")[0]),
                     }
             except IndexError:
-                with open(translit(url), 'w') as f:
-                    f.write(tounicode(tree))
+                print 'Bad structure in %s !' % url
+                return {}
