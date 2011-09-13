@@ -23,15 +23,7 @@
             <div class="left"></div>
             <div class="right"></div>
             <div class="center">
-              <div id="search">
-                <div class="div8">{% trans "Search" %}:&nbsp;</div>
-                <div class="div9">
-                  <input type="text" value="{% trans "I'm looking for..." %}" id="filter_keyword" onclick="this.value = '';" onkeydown="this.style.color = '#000000'" style="color: #999;" />
-                  {% categories_select_tag %}
-                </div>
-                <div class="div10">&nbsp;&nbsp;<a onclick="moduleSearch();" class="button"><span>{% trans "Find" %}</span></a>
-                  {#<a href="http://demo.myopencart.ru/index.php?route=product/search">Расширенный поиск</a></div>#}
-              </div>
+              {% search_widget_tag %}
             </div>
           </div>
         </div>

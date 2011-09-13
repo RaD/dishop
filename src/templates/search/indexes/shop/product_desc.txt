@@ -1,0 +1,7 @@
+{{ object.title }}
+{{ object.title }}
+{{ object.title }}
+{{ object.title }}
+{{ object.title }}
+
+{{ object.summary }}

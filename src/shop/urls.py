@@ -14,6 +14,7 @@ urlpatterns = patterns('shop.views',
     url(r'^cart/show/$', 'cart_show', name='cart_show'),
     url(r'^checkout/$', 'checkout', name='checkout'),
     url(r'^status/$', 'status', name='status'),
+    url(r'^lookup/$', 'lookup', name='lookup'),
     url(r'^.*/$', 'flatpage', name='flatpage'),
 )
 

@@ -116,96 +116,15 @@ def cart_add(request, form):
 def cart_del(request, form):
     return form.save(request)
 
-
-def init_cart(request, force=False):
-    """ Инициализация корзины. """
-    if force or 'cart_items' not in request.session:
-        request.session['cart_items'] = {}
-        request.session['cart_count'] = 0
-        request.session['cart_price'] = 0.00
-
-def tag_search(request, tag):
-    """ Функция для результатов поиска по тегу. """
-    items = models.Item.objects.filter(Q(tags__search='%s' % tag))
-    request.session['searchquery'] = tag
-    request.session['cached_items'] = items # кэшируем для paginator
-    return items
-
-def get_search_forms(request):
+def lookup(request):
+    form = forms.Search(request.POST)
     context = {
-        'searchform': SearchForm(request.POST or None),
-        'mainsearchform': factory('MainSearchForm', request.POST or None, initial={'is_present': True}),
-        'sizesearchform': factory('SizeSearchForm', request.POST or None),
+        'form': form,
+        'breadcrumb': [
+            {'url': reverse('shop:home'), 'title': _(u'Home')},
+            {'url': 'javascript:false;', 'title': _(u'Search Results')},
+            ],
         }
-    return context
-
-def filter_items(request, model_name, items):
-    """ Вспомогательная функция для получения более уточнённой выборки. """
-    form = factory(model_name, data=request.POST)
     if form.is_valid():
-        subset = form.search()
-        # для inline моделей фильтр создаётся немного по другому, т.к. у них item.id
-        if model_name == 'MainSearchForm':
-            id_array = [i.id for i in subset]
-        else:
-            id_array = [i.item.id for i in subset]
-        return (form, items.filter(id__in=id_array))
-    else:
-        return None
-
-def get_search_results(request):
-    if request.method == 'POST':
-        full_search = 'simple' in request.POST and request.POST['simple'] == 'False'
-
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            clean = form.cleaned_data
-            # поиск по тексту
-            if clean['userinput'] == u'':
-                items = models.Item.objects.all()
-            else:
-                items = models.Item.objects.filter(Q(title__search=u'*"%s"*' % clean['userinput']) |
-                                                   Q(desc__search=u'*"%s"*' % clean['userinput']) |
-                                                   Q(tags__search=u'*"%s"*' % clean['userinput']))
-
-            if full_search:
-                model_name = None
-                for key in ['MainSearchForm', 'SizeSearchForm']:
-                    result = filter_items(request, key, items)
-                    if not result: # форма не прошла проверка
-                        return None
-                    (form, items) = result
-                    if key == 'MainSearchForm':
-                        obj = form.cleaned_data['item_type']
-                        if obj:
-                            model_name = obj.model_name
-                if model_name:
-                    result = filter_items(request, model_name, items)
-                    if not result: # форма не прошла проверка
-                        return None
-                    (form, items) = result
-
-            request.session['searchquery'] = clean['userinput']
-            request.session['howmuch_id'] = clean['howmuch']
-            request.session['cached_items'] = items # кэшируем для paginator
-            models.SearchStatQuery(request=request).save() # сохраняем запрос для статистики
-        else:
-            request.session['error'] = ('simple', request.POST,
-                                        u'Ошибка во введённых данных. Проверьте их правильность.')
-            return None
-    else: # обращение через paginator
-        items = request.session.get('cached_items', None)
-    return items
-
-def get_cart_items(request):
-    """ Возвращаем содержимое корзины. """
-    cart = request.session.get('cart_items', {})
-    if len(cart) == 0:
-        items = None
-    else:
-        items = []
-        for i in cart:
-            record = models.Item.objects.get(id=i)
-            items.append(CartItem(record, cart[i]['count'], cart[i]['price']))
-    return items
-
+        context['object_list'] = [p.object for p in form.search()]
+    return direct_to_template(request, 'shop/lookup.html', context)

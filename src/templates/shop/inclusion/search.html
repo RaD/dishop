@@ -1,0 +1,10 @@
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+              <div id="search">
+                <form action="{% url shop:lookup %}" method="post" enctype="multipart/form-data" id="search_form">
+                  {% csrf_token %}
+                  <div class="div9">
+                    {{ basic_search }}
+                  </div>
+                  <div class="div10">&nbsp;&nbsp;<a onclick="$('#search_form').submit();" class="button"><span>{% trans "Find" %}</span></a></div>
+                </form>
+              </div>

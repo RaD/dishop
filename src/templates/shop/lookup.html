@@ -1,0 +1,63 @@
+{% extends "shop/base.html" %}
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% load pagination_tags %}
+{% block content %}
+
+{% include "shop/column_left.html" %}
+{% include "shop/column_right.html" %}
+
+<div id="content">
+  <div class="top">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1>{% trans "Search Results" %}</h1>
+    </div>
+  </div>
+  <div class="middle">
+    <table style="padding-bottom:10px;">
+	  <tbody>
+        <tr>
+	    </tr>
+	  </tbody>
+    </table>
+
+    {% comment %}
+    <div class="sort">
+      <div class="div1">
+        <select name="sort" onchange="location = this.value">
+          <option value="/order/name/asc/" selected="selected">По-умолчанию</option>
+          <option value="/order/name/asc/">Имени от А до Я</option>
+          <option value="/order/name/desc/">Имени от Я до А</option>
+          <option value="/order/price/asc/">Ценовых: Низкие &gt; Высокие</option>
+          <option value="/order/price/desc/">Ценам: Высокие &lt; Низкие</option>
+          <option value="/order/rating/desc/">Высокому рейтингу</option>
+          <option value="/order/rating/asc/">Низкому рейтингу</option>
+          <option value="/order/model/asc/">Модель от А до Я</option>
+          <option value="/order/model/desc/">Модель от Я до А</option>
+        </select>
+      </div>
+      <div class="div2">Сортировать по:</div>
+    </div>
+    {% endcomment %}
+
+    <div class="middle">
+      <div class="list">
+        {% for product in object_list %}
+        {% include "shop/product_list.html" %}
+        {% empty %}
+        <p>{% trans "No items, sorry!" %}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+
+{% endblock %}

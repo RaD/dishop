@@ -168,6 +168,9 @@ p {
 	border: 1px solid #0A5391;
 	padding: 2px;
 }
+#search label[for=id_category] {
+   display: none;
+}
 #breadcrumb {
 	float: left;
 	padding-top: 7px;

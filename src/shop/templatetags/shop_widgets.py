@@ -6,7 +6,7 @@ from django import template
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.flatpages.models import FlatPage
 
-from shop import models, Cart
+from shop import models, forms, Cart
 
 register = template.Library()
 
@@ -53,3 +53,10 @@ def favorites_tag():
         'widget_title': _(u'Favorites'),
         'product_list': models.Product.objects.filter(is_recommend=True, is_active=True)[:limit], # fixme
     }
+
+@register.inclusion_tag('shop/inclusion/search.html')
+def search_widget_tag():
+    return {
+        'basic_search': forms.Search(),
+    }
+

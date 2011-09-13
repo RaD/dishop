@@ -198,6 +198,15 @@ INSTALLED_APPS += ('pagination',)
 MIDDLEWARE_CLASSES += ('pagination.middleware.PaginationMiddleware',)
 
 ###
+# haystack
+###
+
+INSTALLED_APPS += ('haystack',)
+HAYSTACK_SEARCH_ENGINE = 'xapian'
+HAYSTACK_SITECONF = 'haystack_init'
+HAYSTACK_XAPIAN_PATH = rel('haystack_index')
+
+###
 # django-compress
 ###
 
