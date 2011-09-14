@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-14 02:23+0400\n"
-"PO-Revision-Date: 2011-09-14 02:24+0400\n"
+"POT-Creation-Date: 2011-09-14 13:26+0400\n"
+"PO-Revision-Date: 2011-09-14 13:27+0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -297,6 +297,16 @@ msgstr "Рекомендуем"
 #: shop/templatetags/shop_widgets.py:53
 msgid "Favorites"
 msgstr "Хиты продаж"
+
+#: templates/pagination/pagination.html:5
+#: templates/pagination/pagination.html:7
+msgid "previous"
+msgstr "предыдущая"
+
+#: templates/pagination/pagination.html:21
+#: templates/pagination/pagination.html:23
+msgid "next"
+msgstr "следующая"
 
 #: templates/shop/base.html:26
 msgid "Are you sure?"
