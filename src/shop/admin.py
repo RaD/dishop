@@ -9,6 +9,28 @@ from django.contrib.flatpages import admin as fp_admin, models as fp_models
 
 from shop import models
 
+class WysiwygAdmin(admin.ModelAdmin):
+
+    class Meta:
+        wysiwyg_fields = ()
+
+    class Media:
+        js = ('%stiny_mce/tiny_mce.js' % settings.STATIC_URL,
+              '%sjs/wysiwyg.js' % settings.STATIC_URL,)
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        field = super(WysiwygAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in self.Meta.wysiwyg_fields:
+            field.widget.attrs['class'] = 'wysiwyg %s' % field.widget.attrs.get('class', '')
+        return field
+
+class WysiwygFlatPageAdmin(fp_admin.FlatPageAdmin, WysiwygAdmin):
+    class Meta:
+        wysiwyg_fields = ('content')
+
+admin.site.unregister(fp_models.FlatPage)
+admin.site.register(fp_models.FlatPage, WysiwygFlatPageAdmin)
+
 class Category(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_display = ('title', 'slug', 'parent', 'is_active', 'order',)
@@ -45,7 +67,7 @@ class Producer(admin.ModelAdmin):
     search_fields = ('title',)
 admin.site.register(models.Producer, Producer)
 
-class Product(admin.ModelAdmin):
+class Product(WysiwygAdmin):
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
         (_(u'Information'),
@@ -60,6 +82,10 @@ class Product(admin.ModelAdmin):
     list_display = ('title', 'get_thumbnail_html', 'category', 'price', 'get_color_squares', 'is_recommend', 'is_active', 'is_fixed', 'registered',)
     search_fields = ('title', 'category')
     save_as = True
+
+    class Meta:
+        wysiwyg_fields = ('tech', 'desc',)
+
 admin.site.register(models.Product, Product)
 
 class Property(admin.ModelAdmin):
@@ -83,25 +109,3 @@ class Order(admin.ModelAdmin):
     search_fields = ('name', 'status')
     inlines = [Detail]
 admin.site.register(models.Order, Order)
-
-class WysiwygAdmin(admin.ModelAdmin):
-
-    class Meta:
-        wysiwyg_fields = ()
-
-    class Media:
-        js = ('%stiny_mce/tiny_mce.js' % settings.STATIC_URL,
-              '%sjs/wysiwyg.js' % settings.STATIC_URL,)
-
-    def formfield_for_dbfield(self, db_field, **kwargs):
-        field = super(WysiwygAdmin, self).formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name in self.Meta.wysiwyg_fields:
-            field.widget.attrs['class'] = 'wysiwyg %s' % field.widget.attrs.get('class', '')
-        return field
-
-class WysiwygFlatPageAdmin(fp_admin.FlatPageAdmin, WysiwygAdmin):
-    class Meta:
-        wysiwyg_fields = ('content')
-
-admin.site.unregister(fp_models.FlatPage)
-admin.site.register(fp_models.FlatPage, WysiwygFlatPageAdmin)
