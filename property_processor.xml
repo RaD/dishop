@@ -27,6 +27,12 @@
         <entry key="email_use_tls" value="${email_use_tls}"/>
         <entry key="email_reply_to" value="${email_reply_to}"/>
 
+        <entry key="email_order_from_name" value="${email_order_from_name}"/>
+        <entry key="email_order_from_address" value="${email_order_from_address}"/>
+        <entry key="email_order_manager_name" value="${email_order_manager_name}"/>
+        <entry key="email_order_manager_address" value="${email_order_manager_address}"/>
+        <entry key="email_order_subject" value="${email_order_subject}"/>
+
         <entry key="hosting_site_dir" value="${hosting_site_dir}"/>
         <entry key="hosting_code_dir" value="${hosting_code_dir}"/>
         <entry key="hosting_dump_dir" value="${hosting_dump_dir}"/>

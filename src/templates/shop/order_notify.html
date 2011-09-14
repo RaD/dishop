@@ -1,0 +1,38 @@
+{% load i18n %}
+<h1>
+  {% blocktrans %}
+  Hello, {{ manager }}.
+  {% endblocktrans %}
+</h1>
+
+<p>
+  {% blocktrans %}
+  The customer, {{ customer }}, phone {{ phone }}, has ordered the following products:
+  {% endblocktrans %}
+  <ul>
+    {% for product in object_list %}
+    <li>
+      {{ product.title }}, {{ product.quantity }} * {{ product.price }}
+      {% if forloop.last %}.{% else %};{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</p>
+
+<p>
+  {% blocktrans %}
+  Total price is {{ price }}.
+  {% endblocktrans %}
+</p>
+
+<p>
+  {% blocktrans %}
+  Shipping address: {{ ship_to }}
+  {% endblocktrans %}
+</p>
+
+<p>
+  {% blocktrans %}
+  Comment: {{ comment }}
+  {% endblocktrans %}
+</p>

@@ -26,6 +26,11 @@ EMAIL_PORT = ${email_port}
 EMAIL_HOST_USER = ${email_host_user}
 EMAIL_HOST_PASSWORD = ${email_host_password}
 EMAIL_USE_TLS = ${email_use_tls}
+EMAIL_ORDER_FROM_NAME = ${email_order_from_name}
+EMAIL_ORDER_FROM_ADDRESS = ${email_order_from_address}
+EMAIL_ORDER_MANAGER_NAME = ${email_order_manager_name}
+EMAIL_ORDER_MANAGER_ADDRESS = ${email_order_manager_address}
+EMAIL_ORDER_SUBJECT = ${email_order_subject}
 
 DATABASES = {
     'default': {

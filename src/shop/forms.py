@@ -3,6 +3,7 @@
 
 from django import forms
 from django.conf import settings
+from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.forms.formsets import formset_factory
@@ -62,8 +63,9 @@ class Checkout(forms.ModelForm):
     def save(self, request):
         interface = Cart()
         cart = interface.state(request)
+        totalprice = cart.get('price', 0.00)
 
-        order = models.Order(**dict(self.cleaned_data, totalprice=cart.get('price', 0.00)))
+        order = models.Order(**dict(self.cleaned_data, totalprice=totalprice))
         order.save()
 
         for item in cart.get('object_list'):
@@ -74,6 +76,28 @@ class Checkout(forms.ModelForm):
             details.save()
 
         interface.reset(request)
+
+        mail_from = u'"%s" <%s>' % (settings.EMAIL_ORDER_FROM_NAME, settings.EMAIL_ORDER_FROM_ADDRESS)
+        mail_to = u'"%s" <%s>' % (settings.EMAIL_ORDER_MANAGER_NAME, settings.EMAIL_ORDER_MANAGER_ADDRESS)
+        subject = u'%s: %s' % (settings.EMAIL_ORDER_SUBJECT % order.pk, totalprice)
+        context = {
+            'manager': settings.EMAIL_ORDER_MANAGER_NAME,
+            'customer': self.cleaned_data.get('name'),
+            'phone': self.cleaned_data.get('phone'),
+            'object_list': cart.get('object_list'),
+            'price': totalprice,
+            'ship_to': self.cleaned_data.get('ship_to'),
+            'comment': self.cleaned_data.get('comment'),
+            }
+        body = self.prepare_body('shop/order_notify.html', context)
+        email = EmailMessage(subject, body, mail_from, [mail_to])
+        email.content_subtype = 'html'
+        email.send(fail_silently=True)
+
+    def prepare_body(self, template_filename, context={}):
+        from django.template import Context, loader
+        template = loader.get_template(template_filename)
+        return template.render(Context(context))
 
 class Search(SearchForm):
 
