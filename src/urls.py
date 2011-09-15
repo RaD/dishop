@@ -32,6 +32,7 @@ urlpatterns += patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    url(r'^robots.txt$', include('robots.urls')),
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^search/', include('haystack.urls')),
     url(r'^shop/', include('shop.urls', namespace='shop')),
