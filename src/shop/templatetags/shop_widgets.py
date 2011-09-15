@@ -13,19 +13,19 @@ register = template.Library()
 @register.inclusion_tag('shop/inclusion/categories_list.html')
 def categories_list_tag():
     return {
-        'categories': models.Category.objects.filter(parent__isnull=True, is_active=True)
+        'categories': models.Category.objects.filter(parent__isnull=True, is_active=True).exclude(product__isnull=True)
     }
 
 @register.inclusion_tag('shop/inclusion/categories_select.html')
 def categories_select_tag():
     return {
-        'categories': models.Category.objects.filter(parent__isnull=True, is_active=True)
+        'categories': models.Category.objects.filter(parent__isnull=True, is_active=True).exclude(product__isnull=True)
     }
 
 @register.inclusion_tag('shop/inclusion/producers.html')
 def producers_tag():
     return {
-        'manufacturers': models.Producer.objects.all(),
+        'manufacturers': models.Producer.objects.exclude(product__isnull=True),
     }
 
 @register.inclusion_tag('shop/inclusion/flatpage_list.html')
@@ -59,4 +59,3 @@ def search_widget_tag():
     return {
         'basic_search': forms.Search(),
     }
-
