@@ -92,6 +92,21 @@ p {
 	padding-bottom: 10px;
 	z-index: 3;
 }
+#header .div4 #phone_number {
+   margin-left: 48px;
+   padding: 0px 0px 0px 36px;
+   float: left;
+   height:32px;
+   font-size: 14px;
+   font-weight: bold;
+   vertical-align: middle;
+   background-image: url('/static/pics/mobile_phone.png');
+   background-repeat: no-repeat;
+   background-position: left center;
+}
+#header .div4 #phone_number div{
+   padding-top: 10px;
+}
 #header .div5 {
 	clear: both;
 }

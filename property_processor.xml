@@ -33,6 +33,8 @@
         <entry key="email_order_manager_address" value="${email_order_manager_address}"/>
         <entry key="email_order_subject" value="${email_order_subject}"/>
 
+        <entry key="manager_phone" value="${manager_phone}"/>
+
         <entry key="hosting_site_dir" value="${hosting_site_dir}"/>
         <entry key="hosting_code_dir" value="${hosting_code_dir}"/>
         <entry key="hosting_dump_dir" value="${hosting_dump_dir}"/>
