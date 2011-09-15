@@ -17,5 +17,5 @@ def common_vars(request):
         'django_version': get_version(),
         'site': Site.objects.get_current(),
         'site_title': _(u'CB and GSM devices'),
-        'lang_code': request.LANGUAGE_CODE,
+        'lang_code': getattr(request, 'LANGUAGE_CODE', settings.LANGUAGE_CODE),
         }
