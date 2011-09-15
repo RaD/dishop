@@ -603,6 +603,5 @@ p {
 select.icon-menu option {
    background-repeat:no-repeat;
    background-position:bottom left;
-   background-image: url(/static/pics/flags/ru.png);
    padding-left:30px;
 }
