@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-14 13:26+0400\n"
-"PO-Revision-Date: 2011-09-14 13:27+0400\n"
+"POT-Creation-Date: 2011-09-15 14:33+0400\n"
+"PO-Revision-Date: 2011-09-15 14:34+0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -23,11 +23,11 @@ msgstr ""
 msgid "CB and GSM devices"
 msgstr "CB и GSM устройства"
 
-#: settings.py:48
+#: settings.py:54
 msgid "English"
 msgstr "English"
 
-#: settings.py:49
+#: settings.py:55
 msgid "Russian"
 msgstr "Russian"
 
@@ -39,69 +39,69 @@ msgstr "Проверьте отправленные данные!"
 msgid "I wanna POST from AJAX!"
 msgstr "Я хочу POST от AJAX!"
 
-#: shop/admin.py:27 shop/models.py:70 shop/models.py:75 shop/models.py:123
+#: shop/admin.py:49 shop/models.py:70 shop/models.py:75 shop/models.py:123
 #: shop/models.py:205
 msgid "Color"
 msgstr "Цвет"
 
-#: shop/admin.py:51 templates/shop/inclusion/flatpage_list.html:4
+#: shop/admin.py:73 templates/shop/inclusion/flatpage_list.html:4
 #: templates/shop/inclusion/flatpage_list.html:5
 msgid "Information"
 msgstr "Информация"
 
-#: shop/admin.py:57
+#: shop/admin.py:79
 msgid "More info"
 msgstr "Подробнее"
 
-#: shop/admin.py:75
+#: shop/admin.py:101
 msgid "Customer"
 msgstr "Клиент"
 
-#: shop/admin.py:77 shop/models.py:24 shop/models.py:136 shop/models.py:261
+#: shop/admin.py:103 shop/models.py:24 shop/models.py:136 shop/models.py:261
 msgid "Order"
 msgstr "Заказ"
 
-#: shop/admin.py:79 shop/models.py:248
+#: shop/admin.py:105 shop/models.py:248
 msgid "Shipping"
 msgstr "Доставка"
 
-#: shop/forms.py:15 shop/forms.py:26 shop/forms.py:33
+#: shop/forms.py:16 shop/forms.py:27 shop/forms.py:34
 msgid "Product ID"
 msgstr "Номер товара"
 
-#: shop/forms.py:16
+#: shop/forms.py:17
 msgid "Product Count"
 msgstr "Количество товаров"
 
-#: shop/forms.py:17
+#: shop/forms.py:18
 msgid "Redirect URL"
 msgstr "URL перенаправления"
 
-#: shop/forms.py:34
+#: shop/forms.py:35
 msgid "Image URL"
 msgstr "URL изображения"
 
-#: shop/forms.py:35 shop/models.py:21 shop/models.py:68 shop/models.py:86
+#: shop/forms.py:36 shop/models.py:21 shop/models.py:68 shop/models.py:86
 #: shop/models.py:103 shop/models.py:124 shop/models.py:226
 #: templates/shop/cart_list.html:25
 msgid "Title"
 msgstr "Заголовок"
 
-#: shop/forms.py:36 templates/shop/cart_list.html:26
+#: shop/forms.py:37 templates/shop/cart_list.html:26
 msgid "Quantity"
 msgstr "Количество"
 
-#: shop/forms.py:37 shop/models.py:126 templates/shop/cart_list.html:27
+#: shop/forms.py:38 shop/models.py:126 templates/shop/cart_list.html:27
 #: templates/shop/cart_list.html.py:58 templates/shop/product.html:29
 #: templates/shop/inclusion/cart.html:28
 msgid "Price"
 msgstr "Цена"
 
-#: shop/forms.py:38 templates/shop/cart_list.html:28
+#: shop/forms.py:39 templates/shop/cart_list.html:28
 msgid "Total"
 msgstr "Всего"
 
-#: shop/forms.py:83 templates/shop/inclusion/categories_select.html:3
+#: shop/forms.py:107 templates/shop/inclusion/categories_select.html:3
 msgid "All categories"
 msgstr "Все категории"
 
@@ -250,17 +250,17 @@ msgstr "Состояние"
 msgid "Orders"
 msgstr "Заказы"
 
-#: shop/views.py:30 shop/views.py:41 shop/views.py:52 shop/views.py:77
-#: shop/views.py:102 shop/views.py:123 templates/shop/header.html:18
+#: shop/views.py:29 shop/views.py:40 shop/views.py:51 shop/views.py:76
+#: shop/views.py:101 shop/views.py:122 templates/shop/header.html:18
 msgid "Home"
 msgstr "Начало"
 
-#: shop/views.py:78 templates/shop/cart_list.html:13
+#: shop/views.py:77 templates/shop/cart_list.html:13
 #: templates/shop/checkout.html:33
 msgid "Shopping Cart"
 msgstr "Корзина"
 
-#: shop/views.py:124 templates/shop/lookup.html:14
+#: shop/views.py:123 templates/shop/lookup.html:14
 msgid "Search Results"
 msgstr "Результаты поиска"
 
@@ -290,13 +290,33 @@ msgstr "Загрузка данных с главного сайта и прим
 msgid "No elements found."
 msgstr "Элементы не найдены."
 
-#: shop/templatetags/shop_widgets.py:45
+#: shop/templatetags/shop_widgets.py:46
 msgid "Good choice"
 msgstr "Рекомендуем"
 
-#: shop/templatetags/shop_widgets.py:53
+#: shop/templatetags/shop_widgets.py:58
 msgid "Favorites"
 msgstr "Хиты продаж"
+
+#: templates/404.html:13
+msgid "Error 404"
+msgstr "Ошибка 404"
+
+#: templates/404.html:18
+msgid ""
+"You have lost the track! Please, check URL in browser's address line or go "
+"back to previous page."
+msgstr ""
+"Вы потерялись! Пожалуйста, проверьте URL в адресной строке браузера или "
+"вернитесь на предыдущую страницу."
+
+#: templates/404.html:31 templates/shop/home.html:31
+msgid "Last incoming"
+msgstr "Новые поступления"
+
+#: templates/404.html:40 templates/shop/home.html:40
+msgid "This is absolutely new shop!"
+msgstr "Это абсолютно новый магазин!"
 
 #: templates/pagination/pagination.html:5
 #: templates/pagination/pagination.html:7
@@ -381,13 +401,61 @@ msgstr "Добро пожаловать в наш магазин"
 msgid "We glad to see you here, dude!"
 msgstr "Мы рады видеть вас здесь!"
 
-#: templates/shop/home.html:31
-msgid "Last incoming"
-msgstr "Новые поступления"
+#: templates/shop/order_notify.html:3
+#, python-format
+msgid ""
+"\n"
+"  Hello, %(manager)s.\n"
+"  "
+msgstr ""
+"\n"
+"  Привет, %(manager)s.\n"
+"  "
 
-#: templates/shop/home.html:40
-msgid "This is absolutely new shop!"
-msgstr "Это абсолютно новый магазин!"
+#: templates/shop/order_notify.html:9
+#, python-format
+msgid ""
+"\n"
+"  The customer, %(customer)s, phone %(phone)s, has ordered the following "
+"products:\n"
+"  "
+msgstr ""
+"\n"
+"  Клиент, %(customer)s, телефон %(phone)s, заказал следующие товары:\n"
+"  "
+
+#: templates/shop/order_notify.html:23
+#, python-format
+msgid ""
+"\n"
+"  Total price is %(price)s.\n"
+"  "
+msgstr ""
+"\n"
+"  Итоговая сумма %(price)s.\n"
+"  "
+
+#: templates/shop/order_notify.html:29
+#, python-format
+msgid ""
+"\n"
+"  Shipping address: %(ship_to)s\n"
+"  "
+msgstr ""
+"\n"
+"  Адрес доставки: %(ship_to)s\n"
+"  "
+
+#: templates/shop/order_notify.html:35
+#, python-format
+msgid ""
+"\n"
+"  Comment: %(comment)s\n"
+"  "
+msgstr ""
+"\n"
+"  Комментарий: %(comment)s\n"
+"  "
 
 #: templates/shop/producer.html:49
 msgid "No item, sorry!"

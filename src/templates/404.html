@@ -1,0 +1,28 @@
+{% extends "shop/base.html" %}
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% block content %}
+
+{% include "shop/column_left.html" %}
+{% include "shop/column_right.html" %}
+
+<div id="content">
+  <div class="top">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1>{% trans "Error 404" %}</h1>
+    </div>
+  </div>
+  <div class="middle">
+    <div>
+      <p>{% trans "You have lost the track! Please, check URL in browser's address line or go back to previous page." %}</p>
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+
+{% endblock %}
