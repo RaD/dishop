@@ -38,9 +38,11 @@
               {% endfor %}
             </div>
             <div class="div7">
-              <select name="language" onchange="document.location=$(this).val();">
-                <option value="{% url shop:lang code='ru' %}" {% if "ru" == lang_code %}selected="true"{% endif %}>Русский</option>
-                <option value="{% url shop:lang code='en' %}" {% if "en" == lang_code %}selected="true"{% endif %}>English</option>
+              <select name="language" class="icon-menu" onchange="document.location=$(this).val();">
+                <option value="{% url shop:lang code='ru' %}" {% if "ru" == lang_code %}selected="true"{% endif %}
+                        style="background-image: url({{ STATIC_PREFIX }}pics/flags/ru.png);">Русский</option>
+                <option value="{% url shop:lang code='en' %}" {% if "en" == lang_code %}selected="true"{% endif %}
+                        style="background-image: url({{ STATIC_PREFIX }}pics/flags/us.png);">English</option>
               </select>
             </div>
           </div>
