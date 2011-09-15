@@ -5,6 +5,7 @@ from django.conf import settings
 from django import template
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.flatpages.models import FlatPage
+from django.db.models import Q, F, Avg, Count
 
 from shop import models, forms, Cart
 
@@ -49,9 +50,13 @@ def recommendation_tag():
 @register.inclusion_tag('shop/inclusion/item_list.html')
 def favorites_tag():
     limit = getattr(settings, 'SHOP_ITEMS_FAVORITES', 10)
+    qs_dict = models.OrderDetail.objects.values('product').annotate(count=Count('product')).order_by('-count')
+    pk_list = [i.get('product') for i in qs_dict]
+    product_qs = models.Product.objects.filter(pk__in=pk_list, is_active=True)
+    favorites_list = [product_qs.get(pk=pk) for pk in pk_list]
     return {
         'widget_title': _(u'Favorites'),
-        'product_list': models.Product.objects.filter(is_recommend=True, is_active=True)[:limit], # fixme
+        'product_list': favorites_list[:limit],
     }
 
 @register.inclusion_tag('shop/inclusion/search.html')
