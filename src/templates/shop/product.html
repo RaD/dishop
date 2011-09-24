@@ -13,29 +13,29 @@
       <h1>{{ product.title }}</h1>
     </div>
   </div>
-  <div class="middle">
+  <div class="middle hproduct">
     <div style="width: 100%; margin-bottom: 30px;">
       <table style="width: 100%; border-collapse: collapse;">
         <tbody>
           <tr>
             <td style="text-align: center; width: 250px; vertical-align: top;">
               <img src="{{ product.get_thumbnail_250 }}" title="{{ product.title }}" alt="{{ product.title }}"
-                   id="image" style="margin-bottom: 3px; width: 250px; height: 250px;"></a>
+                   id="image" class="photo" style="margin-bottom: 3px; width: 250px; height: 250px;"></a>
             </td>
             <td style="padding-left: 15px; width: 296px; vertical-align: top;">
               <table width="100%">
                 <tbody>
                   <tr>
+                    <td><b>{% trans "Model" %}:</b></td>
+                    <td class="fn">{{ product.title }}</td>
+                  </tr>
+                  <tr>
                     <td><b>{% trans "Price" %}:</b></td>
-                    <td>{{ product.price|floatformat:2 }} р.</td>
+                    <td class="price">{{ product.price|floatformat:2 }}&nbsp;р.</td>
                   </tr>
                   <tr>
                     <td><b>{% trans "Presence" %}:</b></td>
                     <td>{% if product.is_active %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
-                  </tr>
-                  <tr>
-                    <td><b>{% trans "Model" %}:</b></td>
-                    <td>{{ product.title }}</td>
                   </tr>
                   {% comment %}
                   <tr>
@@ -64,7 +64,7 @@
       <a tab="#tab_details" class="">{% trans "Details" %}</a>
     </div>
     <div id="tab_description" class="tab_page" style="display: block; ">
-      <div class="cpt_product_description ">
+      <div class="cpt_product_description description">
         {{ product.desc|safe }}
       </div>
     </div>

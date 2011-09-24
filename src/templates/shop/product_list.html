@@ -5,7 +5,7 @@
                                                       alt="{{ product.title }}"
                                                       title="{{ product.title }}"/></a><br />
         <a href="{{ product.get_absolute_url }}">{{ product.title }}</a><br />
-        <span style="color: #900; font-weight: bold;">{{ product.price|floatformat:2 }} р.</span>
+        <span style="color: #900; font-weight: bold;">{{ product.price|floatformat:2 }}&nbsp;р.</span>
         <span class="button_add_small" title="{% trans "Add to the cart" %}" product_id="{{ product.pk }}">&nbsp;</span>
         {# <br /><img src="{{ STATIC_PREFIX }}pics/stars_3.png" alt="3 из 5 баллов!" /> #}
       </div>
