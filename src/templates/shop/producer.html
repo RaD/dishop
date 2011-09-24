@@ -39,7 +39,7 @@
     </div>
     {% endcomment %}
 
-    <div class="middle">
+    <div>
       <div class="list">
         {% autopaginate producer.product_set.all settings.SHOP_ITEMS_PER_PAGE as object_list %}
         {% for product in object_list %}

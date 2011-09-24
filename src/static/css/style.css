@@ -283,12 +283,14 @@ p {
 	margin: 0px;
 }
 #content .middle {
-	border-left: 1px solid #DDDDDD;
-	border-right: 1px solid #DDDDDD;
-	background: #FFFFFF;
-	padding: 10px 10px 1px 10px;
-	min-height: 30px;
+        background: white;
+        border-left: 1px solid #DDD;
+        border-right: 1px solid #DDD;
+        padding: 10px 25px 15px;
+        min-height: 30px;
+        overflow: hidden;
 }
+
 #content .bottom .left {
 	background: url('/static/pics/content_bottom_left.png') no-repeat;
 	width: 5px;
