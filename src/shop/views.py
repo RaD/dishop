@@ -2,6 +2,7 @@
 # (c) 2009-2011 Ruslan Popov <ruslan.popov@gmail.com>
 
 from django.conf import settings
+from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -128,6 +129,10 @@ def lookup(request):
     return direct_to_template(request, 'shop/lookup.html', context)
 
 def lang(request, code):
-    referer = request.META['HTTP_REFERER']
-    request.session['django_language'] = code
-    return redirect(referer)
+    try:
+        referer = request.META['HTTP_REFERER']
+    except KeyError:
+        raise Http404
+    else:
+        request.session['django_language'] = code
+        return redirect(referer)
