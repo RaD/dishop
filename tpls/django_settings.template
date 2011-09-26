@@ -155,6 +155,7 @@ INSTALLED_APPS = (
     # applications
     'shop',
     'hcard',
+    'blog',
 )
 
 SHOP_LAST_INCOMING = 9
@@ -162,6 +163,8 @@ SHOP_ITEMS_PER_PAGE = 12
 SHOP_ITEMS_RECOMMENDED = 5
 SHOP_ITEMS_FAVORITES = 5
 SHOP_PHONE_NUMBER = ${manager_phone}
+
+BLOG_ITEMS_PER_PAGE = 10
 
 ###
 # google-analytics

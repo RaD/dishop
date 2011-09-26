@@ -1,0 +1,28 @@
+{% extends "shop/base.html" %}
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% load pagination_tags %}
+{% block content %}
+
+{% include "shop/column_left.html" %}
+{% include "shop/column_right.html" %}
+
+<div id="content">
+  <div class="top">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center">
+      <h1>{% block page_title %}{% endblock %}</h1>
+    </div>
+  </div>
+  <div class="middle">
+    {% block page_content %}{% endblock %}
+  </div>
+
+  <div class="bottom">
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="center"></div>
+  </div>
+</div>
+
+{% endblock %}

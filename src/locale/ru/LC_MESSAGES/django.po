@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-15 14:33+0400\n"
-"PO-Revision-Date: 2011-09-15 14:34+0400\n"
+"POT-Creation-Date: 2011-09-26 13:56+0400\n"
+"PO-Revision-Date: 2011-09-26 13:58+0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -23,11 +23,11 @@ msgstr ""
 msgid "CB and GSM devices"
 msgstr "CB и GSM устройства"
 
-#: settings.py:54
+#: settings.py:53
 msgid "English"
 msgstr "English"
 
-#: settings.py:55
+#: settings.py:54
 msgid "Russian"
 msgstr "Russian"
 
@@ -38,6 +38,69 @@ msgstr "Проверьте отправленные данные!"
 #: snippets.py:40
 msgid "I wanna POST from AJAX!"
 msgstr "Я хочу POST от AJAX!"
+
+#: blog/models.py:10 shop/models.py:134 shop/models.py:258
+msgid "Registered"
+msgstr "Зарегистрировано"
+
+#: blog/models.py:13
+msgid "Entry"
+msgstr "Запись"
+
+#: blog/models.py:14
+msgid "Entries"
+msgstr "Записи"
+
+#: blog/views.py:16 blog/views.py:29 shop/views.py:30 shop/views.py:41
+#: shop/views.py:52 shop/views.py:77 shop/views.py:102 shop/views.py:123
+#: templates/shop/header.html:18
+msgid "Home"
+msgstr "Начало"
+
+#: blog/views.py:17 blog/views.py:30 templates/shop/header.html:19
+msgid "Blog"
+msgstr "Блог"
+
+#: hcard/models.py:8
+msgid "Postal Code"
+msgstr "Почтовый индекс"
+
+#: hcard/models.py:9
+msgid "Country Name"
+msgstr "Страна"
+
+#: hcard/models.py:10
+msgid "Region"
+msgstr "Регион"
+
+#: hcard/models.py:11
+msgid "Locality"
+msgstr "Город"
+
+#: hcard/models.py:12
+msgid "Street Address"
+msgstr "Адрес"
+
+#: hcard/models.py:13
+msgid "Extended Address"
+msgstr "Расширенный адрес"
+
+#: hcard/models.py:14
+msgid "Post Office Box"
+msgstr "Абонентский ящик"
+
+#: hcard/models.py:17
+msgid "Address"
+msgstr "Адрес"
+
+#: hcard/models.py:18
+msgid "Addresses"
+msgstr "Адреса"
+
+#: hcard/models.py:22
+#, python-format
+msgid "%(street)s, %(locality)s, %(country)s"
+msgstr "%(country)s, %(locality)s, %(street)s"
 
 #: shop/admin.py:49 shop/models.py:70 shop/models.py:75 shop/models.py:123
 #: shop/models.py:205
@@ -92,7 +155,7 @@ msgid "Quantity"
 msgstr "Количество"
 
 #: shop/forms.py:38 shop/models.py:126 templates/shop/cart_list.html:27
-#: templates/shop/cart_list.html.py:58 templates/shop/product.html:29
+#: templates/shop/cart_list.html.py:58 templates/shop/product.html:33
 #: templates/shop/inclusion/cart.html:28
 msgid "Price"
 msgstr "Цена"
@@ -174,10 +237,6 @@ msgstr "Изображение"
 msgid "Tags"
 msgstr "Таги"
 
-#: shop/models.py:134 shop/models.py:258
-msgid "Registered"
-msgstr "Зарегистрировано"
-
 #: shop/models.py:139
 msgid "Product"
 msgstr "Товар"
@@ -250,17 +309,12 @@ msgstr "Состояние"
 msgid "Orders"
 msgstr "Заказы"
 
-#: shop/views.py:29 shop/views.py:40 shop/views.py:51 shop/views.py:76
-#: shop/views.py:101 shop/views.py:122 templates/shop/header.html:18
-msgid "Home"
-msgstr "Начало"
-
-#: shop/views.py:77 templates/shop/cart_list.html:13
+#: shop/views.py:78 templates/shop/cart_list.html:13
 #: templates/shop/checkout.html:33
 msgid "Shopping Cart"
 msgstr "Корзина"
 
-#: shop/views.py:123 templates/shop/lookup.html:14
+#: shop/views.py:124 templates/shop/lookup.html:14
 msgid "Search Results"
 msgstr "Результаты поиска"
 
@@ -310,13 +364,17 @@ msgstr ""
 "Вы потерялись! Пожалуйста, проверьте URL в адресной строке браузера или "
 "вернитесь на предыдущую страницу."
 
-#: templates/404.html:31 templates/shop/home.html:31
-msgid "Last incoming"
-msgstr "Новые поступления"
+#: templates/blog/object_list.html:5
+msgid "Blog Entries"
+msgstr "Записи блога"
 
-#: templates/404.html:40 templates/shop/home.html:40
-msgid "This is absolutely new shop!"
-msgstr "Это абсолютно новый магазин!"
+#: templates/blog/object_list.html:27
+msgid "Read More"
+msgstr "Читать далее"
+
+#: templates/blog/object_list.html:32
+msgid "No entries yet."
+msgstr "Записей пока нет."
 
 #: templates/pagination/pagination.html:5
 #: templates/pagination/pagination.html:7
@@ -345,7 +403,7 @@ msgid "Continue Shopping"
 msgstr "Продолжить покупку"
 
 #: templates/shop/cart_list.html:71 templates/shop/checkout.html:14
-#: templates/shop/header.html:20 templates/shop/inclusion/cart.html:37
+#: templates/shop/header.html:21 templates/shop/inclusion/cart.html:37
 msgid "Checkout"
 msgstr "Заказать"
 
@@ -361,7 +419,7 @@ msgstr "Расскажите нам куда мы можем произвест�
 msgid "Confirm"
 msgstr "Заказать"
 
-#: templates/shop/column_right.html:5 templates/shop/header.html:19
+#: templates/shop/column_right.html:5 templates/shop/header.html:20
 msgid "Cart"
 msgstr "Корзина"
 
@@ -400,6 +458,14 @@ msgstr "Добро пожаловать в наш магазин"
 #: templates/shop/home.html:18
 msgid "We glad to see you here, dude!"
 msgstr "Мы рады видеть вас здесь!"
+
+#: templates/shop/home.html:31
+msgid "Last incoming"
+msgstr "Новые поступления"
+
+#: templates/shop/home.html:40
+msgid "This is absolutely new shop!"
+msgstr "Это абсолютно новый магазин!"
 
 #: templates/shop/order_notify.html:3
 #, python-format
@@ -461,21 +527,21 @@ msgstr ""
 msgid "No item, sorry!"
 msgstr "Нет данных, сожалеем!"
 
-#: templates/shop/product.html:33
+#: templates/shop/product.html:29
+msgid "Model"
+msgstr "Модель"
+
+#: templates/shop/product.html:37
 msgid "Presence"
 msgstr "Наличие"
 
-#: templates/shop/product.html:34
+#: templates/shop/product.html:38
 msgid "Yes"
 msgstr "Да"
 
-#: templates/shop/product.html:34
+#: templates/shop/product.html:38
 msgid "No"
 msgstr "Нет"
-
-#: templates/shop/product.html:37
-msgid "Model"
-msgstr "Модель"
 
 #: templates/shop/product.html:54
 msgid "Count"

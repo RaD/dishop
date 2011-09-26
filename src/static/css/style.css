@@ -308,6 +308,35 @@ p {
 	height: 5px;
 	margin: 0 5px 10px 5px;
 }
+#blog_list.header, #blog_entry.header {
+   padding: 8px 0px;
+}
+#blog_list.header.title, #blog_entry.header.title {
+   float: left;
+   width: 410px;
+   font-size: 12px;
+   font-family: Arial, Helvetica, sans-serif;
+   font-weight: bold;
+   text-transform: uppercase;
+   margin: 0px;
+}
+#blog_list.header.title a,#blog_entry.header.title a {
+	color: #000000;
+	text-decoration: none;
+}
+#blog_list.header.date, #blog_entry.header.date {
+   float: right;
+   width: 110px;
+   text-align: right;
+   font-size: 12px;
+   font-family: Arial, Helvetica, sans-serif;
+   font-weight: bold;
+   text-transform: uppercase;
+}
+#blog_list.entry, #blog_entry.entry {
+   clear: both;
+   padding: 4px 10px 2px 20px;
+}
 .box {
 	margin-bottom: 10px;
 	background: url('/static/pics/box_top.png') no-repeat;

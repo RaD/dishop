@@ -1,0 +1,21 @@
+{% extends "shop/common_page.html" %}
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% load pagination_tags %}
+
+{% block page_title %}{{ entry.title }}{% endblock %}
+
+{% block page_content %}
+  <div id="blog_entry">
+    <div class="header">
+      <div class="title">
+        {{ entry.title }}
+      </div>
+      <div class="date">
+        {{ entry.registered|date:"Y/m/d H:i" }}
+      </div>
+    </div>
+    <div class="entry">
+      {{ entry.content|safe|truncatewords:20 }}
+    </div>
+  </div>
+{% endblock %}

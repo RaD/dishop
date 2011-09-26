@@ -1,0 +1,35 @@
+{% extends "shop/common_page.html" %}
+{% load i18n static %}{% get_static_prefix as STATIC_PREFIX %}
+{% load pagination_tags %}
+
+{% block page_title %}{% trans "Blog Entries" %}{% endblock %}
+
+{% block page_content %}
+  <div id="blog_list">
+  {% autopaginate entries settings.BLOG_ITEMS_PER_PAGE as object_list %}
+  {% for entry in object_list %}
+  <div class="header">
+    <div class="title">
+      <a href="{{ entry.get_absolute_url }}">
+        {{ entry.title }}
+      </a>
+    </div>
+    <div class="date">
+      {{ entry.registered|date:"Y/m/d H:i" }}
+    </div>
+  </div>
+  <div class="entry">
+    {{ entry.content|safe|truncatewords:20 }}
+  </div>
+  <div>
+    <span>
+      <a href="{{ entry.get_absolute_url }}">
+        {% trans "Read More" %}
+      </a>
+    </span>
+  </div>
+  {% empty %}
+    <h2>{% trans "No entries yet." %}</h2>
+  {% endfor %}
+  </div>
+{% endblock %}
