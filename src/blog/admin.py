@@ -4,7 +4,6 @@
 from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.flatpages import admin as fp_admin
 
 from blog import models
 
@@ -23,8 +22,13 @@ class WysiwygAdmin(admin.ModelAdmin):
             field.widget.attrs['class'] = 'wysiwyg %s' % field.widget.attrs.get('class', '')
         return field
 
-class WysiwygFlatPageAdmin(fp_admin.FlatPageAdmin, WysiwygAdmin):
+class Entry(WysiwygAdmin):
+    prepopulated_fields = {'slug': ('title',)}
+    list_display = ('title', 'is_active', 'allow_comments', 'registered',)
+    fieldsets = ( (None, {'fields': ('title', 'slug', ('is_active', 'allow_comments'), 'content',)}), )
+    search_fields = ('title',)
+
     class Meta:
         wysiwyg_fields = ('content')
 
-admin.site.register(models.Entry, WysiwygFlatPageAdmin)
+admin.site.register(models.Entry, Entry)

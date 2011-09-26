@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('blog.views',
-    url(r'^(?P<url>.+)/$', 'entry', name='entry'),
+    url(r'^(?P<slug>.+)/$', 'entry', name='entry'),
     url(r'^$', 'home', name='home'),
 )
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-26 13:56+0400\n"
-"PO-Revision-Date: 2011-09-26 13:58+0400\n"
+"POT-Creation-Date: 2011-09-26 16:41+0400\n"
+"PO-Revision-Date: 2011-09-26 16:42+0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -39,25 +39,43 @@ msgstr "Проверьте отправленные данные!"
 msgid "I wanna POST from AJAX!"
 msgstr "Я хочу POST от AJAX!"
 
-#: blog/models.py:10 shop/models.py:134 shop/models.py:258
+#: blog/models.py:12 shop/forms.py:36 shop/models.py:21 shop/models.py:68
+#: shop/models.py:86 shop/models.py:103 shop/models.py:124 shop/models.py:226
+#: templates/shop/cart_list.html:25
+msgid "Title"
+msgstr "Заголовок"
+
+#: blog/models.py:14
+msgid "Content"
+msgstr "Содержимое"
+
+#: blog/models.py:15 shop/models.py:23
+msgid "Is active"
+msgstr "Активна"
+
+#: blog/models.py:16
+msgid "Allow comments"
+msgstr "Разрешить комментирование"
+
+#: blog/models.py:17 shop/models.py:134 shop/models.py:258
 msgid "Registered"
 msgstr "Зарегистрировано"
 
-#: blog/models.py:13
+#: blog/models.py:20
 msgid "Entry"
 msgstr "Запись"
 
-#: blog/models.py:14
+#: blog/models.py:21
 msgid "Entries"
 msgstr "Записи"
 
-#: blog/views.py:16 blog/views.py:29 shop/views.py:30 shop/views.py:41
+#: blog/views.py:16 blog/views.py:28 shop/views.py:30 shop/views.py:41
 #: shop/views.py:52 shop/views.py:77 shop/views.py:102 shop/views.py:123
 #: templates/shop/header.html:18
 msgid "Home"
 msgstr "Начало"
 
-#: blog/views.py:17 blog/views.py:30 templates/shop/header.html:19
+#: blog/views.py:17 blog/views.py:29 templates/shop/header.html:19
 msgid "Blog"
 msgstr "Блог"
 
@@ -144,12 +162,6 @@ msgstr "URL перенаправления"
 msgid "Image URL"
 msgstr "URL изображения"
 
-#: shop/forms.py:36 shop/models.py:21 shop/models.py:68 shop/models.py:86
-#: shop/models.py:103 shop/models.py:124 shop/models.py:226
-#: templates/shop/cart_list.html:25
-msgid "Title"
-msgstr "Заголовок"
-
 #: shop/forms.py:37 templates/shop/cart_list.html:26
 msgid "Quantity"
 msgstr "Количество"
@@ -171,10 +183,6 @@ msgstr "Все категории"
 #: shop/models.py:20
 msgid "Parent"
 msgstr "Предок"
-
-#: shop/models.py:23
-msgid "Is active"
-msgstr "Активна"
 
 #: shop/models.py:28 shop/models.py:121 shop/management/commands/pull.py:80
 msgid "Category"

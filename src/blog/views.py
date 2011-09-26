@@ -21,9 +21,8 @@ def home(request):
     return direct_to_template(request, 'blog/object_list.html', context)
 
 
-def entry(request, url):
-    print url
-    entry = get_object_or_404(models.Entry, url=url)
+def entry(request, slug):
+    entry = get_object_or_404(models.Entry, slug=slug)
     context = {
         'breadcrumb': [
             {'url': reverse('shop:home'), 'title': _(u'Home')},
