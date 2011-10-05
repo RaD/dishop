@@ -66,9 +66,19 @@
         <table>
           <tbody>
             <tr>
-              <td align="left"><a onclick="$('#cart').submit();" class="button"><span>{% trans "Update" %}</span></a></td>
-              <td align="center"><a onclick="location = '{% url shop:home %}';" class="button"><span>{% trans "Continue Shopping" %}</span></a></td>
-              <td align="right"><a onclick="location = '{% url shop:checkout %}';" class="button"><span>{% trans "Checkout" %}</span></a></td>
+              <td align="left" width="30%">
+                {% if formset %}
+                <a onclick="$('#cart').submit();" class="button"><span>{% trans "Update" %}</span></a>
+                {% endif %}
+              </td>
+              <td align="center" width="40%">
+                <a onclick="location = '{% url shop:home %}';" class="button"><span>{% trans "Continue Shopping" %}</span></a>
+              </td>
+              <td align="right" width="30%">
+                {% if formset %}
+                <a onclick="location = '{% url shop:checkout %}';" class="button"><span>{% trans "Checkout" %}</span></a>
+                {% endif %}
+              </td>
             </tr>
         </tbody>
         </table>
