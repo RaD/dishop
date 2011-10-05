@@ -218,39 +218,6 @@ HAYSTACK_SITECONF = 'haystack_init'
 HAYSTACK_XAPIAN_PATH = rel('haystack_index')
 
 ###
-# django-compress
-###
-
-INSTALLED_APPS += ('compress',) # http://github.com/pelme/django-compress.git
-COMPRESS = True
-COMPRESS_URL = STATIC_URL
-COMPRESS_ROOT = STATIC_ROOT
-COMPRESS_AUTO = COMPRESS_VERSION = False
-COMPRESS_CSS_FILTERS = None
-COMPRESS_YUI_BINARY = 'java -jar /home/rad/devel/django/utils/yuicompressor-2.4.2.jar'
-COMPRESS_CSS_FILTERS = COMPRESS_JS_FILTERS = ("compress.filters.yui.YUICompressorFilter",)
-COMPRESS_CSS = {
-    'common': {
-        'source_filenames': (
-            'css/ie6.css',
-            'css/style.css',
-            ),
-        'output_filename': 'css/cumulative.css',
-        },
-    }
-
-COMPRESS_JS = {
-    'common': {
-        'source_filenames': (
-            'js/jquery-1.5.2.min.js',
-            'js/tab.js',
-            'js/ajax_api.js',
-            ),
-        'output_filename': 'js/cumulative.js',
-        },
-    }
-
-###
 # Logger
 ###
 

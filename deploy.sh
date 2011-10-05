@@ -10,8 +10,6 @@ ant configure
 cd src
 echo "Collect static files"
 python manage.py collectstatic --verbosity=0 --noinput
-echo "Compress JS/CSS"
-python manage.py synccompress
 cd -
 
 rm -f ./project.user.properties && \

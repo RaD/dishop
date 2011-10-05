@@ -278,13 +278,6 @@
         <exclude name="src/**/*.bat"/>
         <exclude name="src/**/*.po"/>
         <exclude name="src/**/*.pyc"/>
-        <include name="src/static_root/css/cumulative.css"/>
-        <exclude name="src/static_root/css/ie6.css"/>
-        <exclude name="src/static_root/css/style.css"/>
-        <include name="src/static_root/js/cumulative.js"/>
-        <exclude name="src/static_root/js/jquery-1.5.2.min.js"/>
-        <exclude name="src/static_root/js/tab.js"/>
-        <exclude name="src/static_root/js/ajax_api.js"/>
         <include name="DEPLOY*"/>
         <include name="deps.txt"/>
       </fileset>

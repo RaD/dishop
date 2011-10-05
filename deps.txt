@@ -12,4 +12,3 @@ sorl-thumbnail
 
 -e git+http://github.com/clintecker/django-google-analytics.git/#egg=django-google_analytics
 -e git+http://github.com/RaD/django-tinymce.git/#egg=django-tinymce
--e git+http://github.com/RaD/django-compress.git/#egg=django-compress
