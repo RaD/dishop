@@ -7,6 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.flatpages.models import FlatPage
 from django.db.models import Q, F, Avg, Count
 
+from itertools import chain
+
 from shop import models, forms, Cart
 
 register = template.Library()
@@ -42,21 +44,39 @@ def cart_tag(context):
 @register.inclusion_tag('shop/inclusion/item_list.html')
 def recommendation_tag():
     limit = getattr(settings, 'SHOP_ITEMS_RECOMMENDED', 5)
+    products = models.Product.objects.filter(is_recommend=True, is_active=True)[:limit]
+    if 0 == len(products):
+        # if no products were recommended then show random products there
+        products = models.Product.objects.order_by('?').filter(is_active=True)[:limit]
+    elif limit > len(products):
+        # if we recommend lower that 'limit' products then add some random products there
+        rest = limit - len(products)
+        random_products = models.Product.objects.order_by('?').filter(is_active=True)[:rest]
+        products = list(chain(products, random_products))
     return {
         'widget_title': _(u'Good choice'),
-        'product_list': models.Product.objects.filter(is_recommend=True, is_active=True)[:limit],
+        'product_list': products,
     }
+
 
 @register.inclusion_tag('shop/inclusion/item_list.html')
 def favorites_tag():
     limit = getattr(settings, 'SHOP_ITEMS_FAVORITES', 10)
-    qs_dict = models.OrderDetail.objects.values('product').annotate(count=Count('product')).order_by('-count')
-    pk_list = [i.get('product') for i in qs_dict]
-    product_qs = models.Product.objects.filter(pk__in=pk_list, is_active=True)
-    favorites_list = [product_qs.get(pk=pk) for pk in pk_list]
+    annotated_products = models.OrderDetail.objects.values('product').annotate(count=Count('product')).order_by('-count')[:limit]
+    if 0 == len(annotated_products):
+        # if no products were buyed then show random products there
+        products = models.Product.objects.order_by('?').filter(is_active=True)[:limit]
+    else:
+        pk_list = [i.get('product') for i in annotated_products]
+        products = models.Product.objects.filter(pk__in=pk_list, is_active=True)
+        if limit > len(products):
+            # if we recommend lower that 'limit' products then add some random products there
+            rest = limit - len(products)
+            random_products = models.Product.objects.order_by('?').filter(is_active=True)[:rest]
+            products = list(chain(products, random_products))
     return {
         'widget_title': _(u'Favorites'),
-        'product_list': favorites_list[:limit],
+        'product_list': products,
     }
 
 @register.inclusion_tag('shop/inclusion/search.html')
