@@ -83,6 +83,11 @@ def cart_show(request):
     return direct_to_template(request, 'shop/cart_list.html', context)
 
 def checkout(request):
+    # empty cart causes redirection to home page
+    cart = Cart().state(request)
+    if len(cart.get('object_list')) == 0:
+        return redirect('shop:home')
+    # form processing
     form = forms.Checkout(request.POST or None)
     if form.is_valid():
         form.save(request)
